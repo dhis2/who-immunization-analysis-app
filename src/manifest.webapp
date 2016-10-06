@@ -1,0 +1,24 @@
+{
+    "version": "0.1.0",
+    "name": "WHO EPI App",
+    "description": "WHO EPI App",
+    "icons": {
+            "48": "img/icons/export.png"
+    },
+    "developer": {
+        "url": "http://who.int",
+        "name": "Olav Poppe",
+        "company": "WHO",
+        "email": "poppeo@who.int"
+    },
+    "activities": {
+        "dhis": {
+            "href": "*",
+            "namespace": "epiApp"
+        }
+    },
+    "launchUrl": null,
+    "launch_path": "index.html",
+    "installs_allowed_from": null,
+    "default_locale": "en"
+}
