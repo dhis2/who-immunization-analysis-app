@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       		},
 			content: {
 				cwd: 'src',
-				src: [ 'module*/*.html', 'app*/*.html', 'img/icons/*', 'data/**', 'fonts/**'],
+				src: [ 'report*/*.html', 'app*/*.html', 'img/icons/*', 'data/**', 'fonts/**'],
 				dest: 'build',
 				expand: true
 			},
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 							'app.js': 'build/core/app.js',
 							'commons.js': 'build/core/commons.js',
 							'services.js': 'build/core/services.js',
-							'dashboard.js': 'build/moduleDashboard/dashboard.js'
+							'report.js': 'build/report/report.js'
 						}
 					],
 					replacement: 'md5'

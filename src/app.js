@@ -2,7 +2,7 @@
 (function(){
 	var app = angular.module('epiApp',
 	['ngAnimate', 'ngSanitize', 'ngRoute', 'ui.bootstrap', 'ui.select', 'nvd3', 'd2HeaderBar', 'angularBootstrapNavTree', 'd2',
-		'dashboard']);
+		'report']);
 	
 	/**Bootstrap*/
 	angular.element(document).ready( 
@@ -18,7 +18,8 @@
 			);
 		}
 	);
-	 
+
+
 	/**Config*/
 	app.config(['uiSelectConfig', function(uiSelectConfig) {
 		uiSelectConfig.theme = 'bootstrap';
@@ -28,13 +29,13 @@
 	app.config(['$routeProvider',
 		function($routeProvider) {
 			$routeProvider.
-				when('/dashboard', {
-					templateUrl: 'moduleCumulative/dashboard.html',
-					controller: 'DashboardController',
-					controllerAs: 'dashCtrl'
+				when('/report', {
+					templateUrl: 'report/report.html',
+					controller: 'ReportController',
+					controllerAs: 'rCtrl'
 				}).
 				otherwise({
-					redirectTo: '/dashboard'
+					redirectTo: '/report'
 				});
 		}]
 	);

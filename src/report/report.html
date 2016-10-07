@@ -1,0 +1,44 @@
+<a class="navOpen" style="text-decoration: none;" ng-click="rCtrl.showLeftMenu();">&rightarrow;</a>
+
+
+<div id="leftNav" class="leftNav">
+
+	<a class="navClose" style="text-decoration: none;" ng-click="rCtrl.hideLeftMenu();">&leftarrow;</a>
+
+	<div class="navItem">
+		<h4>Report type</h4>
+		<d2-select options="rCtrl.reportTypes" ng-model="rCtrl.selectedReport"></d2-select>
+	</div>
+
+	<hr/>
+
+	<div class="navItem">
+		<h4>Data</h4>
+		<d2-select placeholder="Select vaccines..."></d2-select>
+	</div>
+
+	<hr/>
+
+	<div class="navItem">
+		<h4>Period</h4>
+		<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.aggregationType='cumulative';">
+			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'cumulative'" uncheckable>Cumulative</label>
+			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'monthly'" uncheckable>Monthly</label>
+		</div>
+		<d2-select placeholder="Select year..."></d2-select>
+	</div>
+
+	<hr/>
+
+	<div class="navItem">
+		<h4>Organisation unit</h4>
+		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit" hide-group="true"></d2-select-orgunit>
+	</div>
+
+</div>
+
+
+<div id="content" class="reportContent">
+	Report goes here...
+</div>
+
