@@ -1,7 +1,7 @@
 
 (function(){
 	var app = angular.module('epiApp',
-	['ngAnimate', 'ngSanitize', 'ngRoute', 'ui.bootstrap', 'ui.select', 'nvd3', 'd2HeaderBar', 'angularBootstrapNavTree', 'd2',
+	['smart-table', 'ngAnimate', 'ngSanitize', 'ngRoute', 'ui.bootstrap', 'ui.select', 'd2HeaderBar', 'angularBootstrapNavTree', 'd2',
 		'report']);
 	
 	/**Bootstrap*/

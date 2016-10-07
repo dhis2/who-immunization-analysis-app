@@ -13,7 +13,8 @@
 					arraySortByProperty: arraySortByProperty,
 					arrayFromKeys: arrayFromKeys,
 					arrayProperties: arrayProperties,
-					idsFromIndicatorFormula: idsFromIndicatorFormula
+					idsFromIndicatorFormula: idsFromIndicatorFormula,
+					round: round
 				};
 
 
@@ -114,6 +115,14 @@
 
 					return arrayRemoveDuplicates(matches);
 				}
+
+				function round(value, decimals) {
+					if (!value) return value;
+
+					var factor = Math.pow(10,decimals);
+					return Math.round(value*factor)/factor;
+
+				};
 
 				return utils;
 

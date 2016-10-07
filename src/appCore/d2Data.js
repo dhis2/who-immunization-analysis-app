@@ -82,12 +82,6 @@
 				function dataValue(de, pe, ou, co, at) {
 					if (co === undefined) co = null;
 
-					//Make it possible to work with both de and co separately, and in . format
-					if (de.length === 23) {
-						co = de.substr(12,11);
-						de = de.substr(0,11);
-					}
-
 					var header = mergedData.headers;
 					var dataValues = mergedData.rows;
 
@@ -167,15 +161,7 @@
 				 */
 				function name(id) {
 					var names = mergedData.metaData.names;
-					var name;
-					//data element operand
-					if (id.length === 23) {
-						name = names[id.substr(0,11)] + ' ' + names[id.substr(12,11)];
-					}
-					else {
-						name = names[id];
-					}
-					return name;
+					return names[id];
 				}
 
 
@@ -197,58 +183,26 @@
 				 * @param aggregationType Aggregation type for the request. Null = default
 				 * @returns {Array}		Array of requests
 				 */
-				function makeRequestURLs(dxAll, pe, ouBoundary, ouLevel, ouGroup, aggregationType) {
-
-					var dx = [];
-					var dxCo = [];
-					for (var i = 0; i < dxAll.length; i++) {
-
-						var dataID = dxAll[i];
-						if (!dataID) {
-							continue;
-						}
-						else if (dataID.length === 23) {
-							dxCo.push(dataID.substr(0, 11));
-						}
-						else {
-							dx.push(dataID);
-						}
-					}
+				function makeRequestURLs(dx, pe, ouBoundary, ouLevel, ouGroup, aggregationType) {
 
 					var ouDisaggregation = '';
 					if (ouLevel) ouDisaggregation += ';LEVEL-' + ouLevel;
 					else if (ouGroup) ouDisaggregation += ';OU_GROUP-' + ouGroup;
 
 					var requestURLs = [];
-					if (dx.length > 0) {
-
-						var requestURL = '/api/analytics.json';
-						requestURL += '?dimension=dx:' + dx.join(';');
-						requestURL += '&dimension=ou:' + ouBoundary.join(';');
-						requestURL += ouDisaggregation;
-						requestURL += '&dimension=pe:' + pe.join(';');
-						requestURL + '&displayProperty=NAME';
-						if (aggregationType) {
-							requestURL += '&aggregationType=' + aggregationType;
-							console.log(requestURL);
-						}
-
-
-						requestURLs.push(requestURL);
+					var requestURL = '/api/analytics.json';
+					requestURL += '?dimension=dx:' + dx.join(';');
+					requestURL += '&dimension=ou:' + ouBoundary.join(';');
+					requestURL += ouDisaggregation;
+					requestURL += '&dimension=pe:' + pe.join(';');
+					requestURL += '&displayProperty=NAME';
+					requestURL += '&hierarchyMeta=true'; //TODO - should be option
+					if (aggregationType) {
+						requestURL += '&aggregationType=' + aggregationType;
+						console.log(requestURL);
 					}
 
-					if (dxCo.length > 0) {
-						var requestURL = '/api/analytics.json';
-						requestURL += '?dimension=dx:' + dxCo.join(';');
-						requestURL += '&dimension=co';
-						requestURL += '&dimension=ou:' + ouBoundary.join(';');
-						requestURL += ouDisaggregation;
-						requestURL += '&dimension=pe:' + pe.join(';');
-						requestURL + '&displayProperty=NAME';
-						if (aggregationType) requestURL += '&aggregationType=' + aggregationType;
-
-						requestURLs.push(requestURL);
-					}
+					requestURLs.push(requestURL);
 
 					return requestURLs;
 				}
@@ -327,6 +281,7 @@
 								co: [],
 								dx: [],
 								names: {},
+								ouHierarchy: {},
 								ou: [],
 								pe: []
 							};
@@ -343,6 +298,12 @@
 						for (key in metaData.names) {
 							if (metaData.names.hasOwnProperty(key)) {
 								meta.names[key] = metaData.names[key];
+							}
+
+						}
+						for (key in metaData.ouHierarchy) {
+							if (metaData.ouHierarchy.hasOwnProperty(key)) {
+								meta.ouHierarchy[key] = metaData.ouHierarchy[key];
 							}
 
 						}
@@ -385,6 +346,7 @@
 								dx: [],
 								names: {},
 								ou: [],
+								ouHierarchy: {},
 								pe: []
 							},
 							rows: []
@@ -429,6 +391,12 @@
 						for (key in metaData.names) {
 							if (metaData.names.hasOwnProperty(key)) {
 								mergedData.metaData.names[key] = metaData.names[key];
+							}
+
+						}
+						for (key in metaData.ouHierarchy) {
+							if (metaData.ouHierarchy.hasOwnProperty(key)) {
+								mergedData.metaData.ouHierarchy[key] = metaData.ouHierarchy[key];
 							}
 
 						}

@@ -5,6 +5,21 @@
 		margin-left: 350px;
 	}
 
+
+
+	/* Table */
+	.numeric {
+		text-align: right;
+	}
+
+	.st-sort-ascent:before{
+		content: '\25B2';
+	}
+
+	.st-sort-descent:before{
+		content: '\25BC';
+	}
+
 	/* The side navigation menu */
 	.leftNav {
 		height: 100%;
@@ -22,7 +37,7 @@
 	.navItem {
 		margin-left: 5px;
 		margin-right: 5px;
-		overflow: auto;
+		overflow: visible;
 	}
 
 	.navClose {

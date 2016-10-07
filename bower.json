@@ -4,7 +4,6 @@
   "dependencies": {
     "angular": "~1.5.5",
     "angular-bootstrap": "~1.3.3",
-    "angular-nvd3": "~1.0.7",
     "angular-animate": "~1.5.5",
     "angular-route": "~1.5.5",
     "angular-sanitize": "~1.5.5",
@@ -15,9 +14,9 @@
     "font-awesome": "~4.3.0",
     "jquery": "~2.1.4",
     "moment": "~2.10.3",
-    "nvd3": "1.8.2",
     "regression-js": "~1.3.0",
-    "angular-bootstrap-nav-tree": "*"
+    "angular-bootstrap-nav-tree": "*",
+    "angular-smart-table": "^2.1.8"
   },
   "private": true
 }
