@@ -1,0 +1,54 @@
+{
+	"metaDataVersion": 0.1,
+	"indicators": [
+		{
+			"code": "I1",
+			"displayName": "BCG",
+			"vaccineAll": "WSy7zOZx1Wl",
+			"vaccineTarget": "WSy7zOZx1Wl.JKuWbG5bWAu",
+			"denominator": "aBpJPej3lyE.DkXxskAdwfa"
+		},
+		{
+			"code": "I2",
+			"displayName": "DPT-HepB-Hib 1",
+			"vaccineAll": "hJJlOnVOkV2",
+			"vaccineTarget": "hJJlOnVOkV2.JKuWbG5bWAu",
+			"denominator": "aBpJPej3lyE.DkXxskAdwfa"
+		},
+		{
+			"code": "I3",
+			"displayName": "DPT-HepB-Hib 2",
+			"vaccineAll": "lHnact7BRVU",
+			"vaccineTarget": "lHnact7BRVU.JKuWbG5bWAu",
+			"denominator": "aBpJPej3lyE.DkXxskAdwfa"
+		},
+		{
+			"code": "I4",
+			"displayName": "DPT-HepB-Hib 3",
+			"vaccineAll": "TWWbtMMWD51",
+			"vaccineTarget": "TWWbtMMWD51.JKuWbG5bWAu",
+			"denominator": "aBpJPej3lyE.DkXxskAdwfa"
+		},
+		{
+			"code": "I5",
+			"displayName": "MR 1",
+			"vaccineAll": "kGrnHR9zV2G",
+			"vaccineTarget": "kGrnHR9zV2G.JKuWbG5bWAu",
+			"denominator": "aBpJPej3lyE.DkXxskAdwfa"
+		}
+	],
+	"dropout": [
+		{
+			"code": "D1",
+			"displayName": "DPT 1 to 3",
+			"vaccineFrom": "I2",
+			"vaccineTo": "I4"
+		},
+		{
+			"code": "D2",
+			"displayName": "BCG to MR 1",
+			"vaccineFrom": "I1",
+			"vaccineTo": "I5"
+		}
+	]
+}
