@@ -26,11 +26,12 @@
 		width: 350px;
 		position: fixed;
 		z-index: 1;
-		top: 48;
+		top: 0;
 		left: 0;
 		background-color: #F2F2F2;
-		padding-top: 10px;
-		overflow: scroll;
+		padding-top: 58px;
+		padding-bottom: 20px;
+		overflow: auto;
 		transition: 0.2s;
 	}
 
@@ -43,7 +44,7 @@
 	.navClose {
 		color: #276696;
 		position: absolute;
-		top: -18px;
+		top: 40px;
 		right: 15px;
 		font-size: 36px;
 	}
@@ -51,7 +52,7 @@
 	.navOpen {
 		color: #276696;
 		position: absolute;
-		top: 30px;
+		top: 40px;
 		left: 5px;
 		font-size: 36px;
 	}
