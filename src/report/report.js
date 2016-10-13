@@ -348,6 +348,8 @@
 			self.current.dataHeaderData = columnsData;
 
 			performanceSetCategory();
+			performanceChart();
+
 			self.current.dataTable = angular.copy(self.current.data);
 
 			self.hideLeftMenu();
@@ -459,21 +461,75 @@
 
 
 		function performanceChart() {
-			/*$(function () {
-				$('#chart').highcharts({
+
+			var xMax = 100, yMax = 30;
+			var datapoints = [];
+
+			//Find the latest period with data, which we use for the chart
+			var hasData = false, period;
+			for (var i = 0; i < self.current.data.length; i++) {
+				for (var j = self.current.periods.length; j > 0 && !hasData; j--) {
+					period = self.current.periods[j-1];
+					var value = self.current.data[i][period];
+
+					hasData = value.coverage && value.dropout;
+				}
+			}
+
+			for (var i = 0; i < self.current.data.length; i++) {
+				var value = self.current.data[i][period];
+
+				if (value.coverage && value.dropout) {
+					datapoints.push({
+						"x": value.coverage,
+						"y": value.dropout,
+						"name": self.current.data[i].ou
+					});
+				}
+
+				xMax = value.coverage > xMax ? value.coverage : xMax;
+				yMax = value.dropout > yMax ? value.dropout : yMax;
+
+			}
+
+			var title = self.current.cumulative ? ' (cumulative)' : '';
+			title = d2Data.name(period) + title;
+
+			yMax = Math.ceil(yMax/10)*10;
+			xMax = Math.ceil(xMax/10)*10;
+
+			$('#chart').highcharts({
 					xAxis: {
-						min: 0
+						min: 0,
+						max: xMax,
+						title: {
+							enabled: true,
+							text: 'Coverage (%)'
+						}
 					},
 					yAxis: {
-						min: 0
+						min: 0,
+						max: yMax,
+						title: {
+							enabled: true,
+							text: 'Dropout rate (%)'
+						}
 					},
 					title: {
-						text: 'Scatter plot with regression line'
+						text: title
+					},
+					tooltip: {
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b><br/>' +
+								'Coverage: ' + this.point.x +
+									'% <br/>Dropout rate: ' +
+									this.point.y + '%'
+						}
 					},
 					series: [{
 						type: 'line',
-						name: 'Coverage 90%',
-						data: [[90, 0], [90, 25]],
+						name: 'Coverage = 90%',
+						data: [[90, 0], [90, yMax]],
 						marker: {
 							enabled: false
 						},
@@ -485,8 +541,8 @@
 						enableMouseTracking: false
 					},{
 						type: 'line',
-						name: 'Dropout rate 10%',
-						data: [[0, 10], [100, 10]],
+						name: 'Dropout rate = 10%',
+						data: [[0, 10], [xMax, 10]],
 						marker: {
 							enabled: false
 						},
@@ -498,14 +554,18 @@
 						enableMouseTracking: false
 					}, {
 						type: 'scatter',
-						name: 'Observations',
-						data: [[100,10], [85,5], [95,15], [80,20]],
+						name: 'Orgunits',
+						data: datapoints,
 						marker: {
-							radius: 4
+							radius: 2
 						}
 					}]
-				});
-			});*/
+			});
+
+			setTimeout(function(){ $('#chart').highcharts().reflow(); }, 10);
+
+
+
 		}
 
 		/** NAVIGATION **/
