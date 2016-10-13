@@ -50,5 +50,13 @@
 			"vaccineFrom": "I1",
 			"vaccineTo": "I5"
 		}
+	],
+	"performance": [
+		{
+			"code": "P1",
+			"indicator": "I2",
+			"dropout": "D1"
+		}
 	]
+
 }

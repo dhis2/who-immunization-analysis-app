@@ -12,9 +12,9 @@
 	</div>
 
 
-	<hr/>
+	<hr ng-if="rCtrl.selectedReport.id != 'perf'"/>
 
-	<div class="navItem">
+	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'perf'">
 		<h4>Data</h4>
 		<d2-select
 				options="rCtrl.vaccines"
@@ -47,7 +47,12 @@
 
 	<div class="navItem">
 		<h4>Organisation unit</h4>
-		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit" hide-group="true" hide-level="rCtrl.selectedVaccineReport.id === 'allVac'"></d2-select-orgunit>
+		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit"
+						   default-level="1"
+						   hide-group="true"
+						   hide-level="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac')">
+
+		</d2-select-orgunit>
 	</div>
 
 	<div class="navItem" style="float:right;">
@@ -58,7 +63,7 @@
 </div>
 
 
-<div id="content" class="reportContent" style="margin: 10px 10px 10px 10px;">
+<div id="content" ng-if="rCtrl.current.type === 'vac'" class="reportContent" style="margin: 10px 10px 10px 10px;">
 	<h3>{{rCtrl.current.title}}</h3>
 	<h4>{{rCtrl.current.subtitle}}</h4>
 
@@ -90,3 +95,113 @@
 	</table>
 </div>
 
+
+<div id="content" ng-if="rCtrl.current.type === 'perf'"  class="reportContent" style="margin: 10px 10px 10px 10px;">
+	<h3>{{rCtrl.current.title}}</h3>
+	<h4>{{rCtrl.current.subtitle}}</h4>
+
+	<table id="performanceLegend" class="table table-bordered no-footer">
+		<tr>
+			<td class="success">
+				<table>
+					<tr>
+						<th rowspan=2 style="padding-right: 10px">
+							Category A</th>
+						<td>Coverage >= 90%</td>
+					</tr>
+					<tr>
+						<td>Dropout rate <= 10%</td>
+					</tr>
+				</table>
+			</td>
+			<td class="info">
+				<table>
+					<tr>
+						<th rowspan=2 style="padding-right: 10px">
+							Category B</th>
+						<td>Coverage >= 90%</td>
+					</tr>
+					<tr>
+						<td>Dropout rate > 10%</td>
+					</tr>
+				</table>
+			</td>
+			<td class="warning">
+				<table>
+					<tr>
+						<th rowspan=2 style="padding-right: 10px">
+							Category C</th>
+						<td>Coverage < 90%</td>
+					</tr>
+					<tr>
+						<td>Dropout rate < 10%</td>
+					</tr>
+				</table>
+			</td>
+			<td class="danger">
+				<table>
+					<tr>
+						<th rowspan=2 style="padding-right: 10px">
+							Category D</th>
+						<td>Coverage < 90%</td>
+					</tr>
+					<tr>
+						<td>Dropout rate >= 10%</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	<table id="dataTable"
+		   class="table table-striped table-bordered dataTable no-footer"
+		   style="margin-top: 20px;"
+		   st-table="rCtrl.current.dataTable"
+		   st-safe-src="rCtrl.current.data"
+		   ng-if="rCtrl.current.data">
+		<thead>
+		<tr>
+			<th ng-repeat="header in rCtrl.current.dataHeader"
+				id="{{header.id}}"
+				st-sort="{{header.id}}">
+				{{header.title}}
+			</th>
+			<th ng-repeat="header in rCtrl.current.dataHeaderData"
+				id="{{header.id}}"
+				st-sort="{{header.id}}">
+				{{header.title}}
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr></tr>
+		<tr ng-repeat="row in rCtrl.current.dataTable track by $index">
+			<td ng-repeat="header in rCtrl.current.dataHeader">
+				{{row[header.id]}}
+			</td>
+			<td ng-repeat="header in rCtrl.current.dataHeaderData"
+				ng-class="{success:row[header.id].category === 'A',
+				info:row[header.id].category === 'B',
+				warning:row[header.id].category === 'C',
+				danger:row[header.id].category === 'D'}">
+				<table ng-if="row[header.id].category">
+					<tr>
+						<th rowspan=2 style="padding-right: 5px">
+							{{row[header.id].category}}</th>
+						<td>{{row[header.id].coverage}}%</td>
+					</tr>
+					<tr>
+						<td>{{row[header.id].dropout}}%</td>
+					</tr>
+				</table>
+
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<div id="chart">
+
+</div>

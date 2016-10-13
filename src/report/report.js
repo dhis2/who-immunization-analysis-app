@@ -17,12 +17,15 @@
 
 			self.current = {
 				"type": self.selectedReport.id,
-				"ouFilter": self.selectedVaccineReport.id === 'allVac'
+				"ouFilter": self.selectedReport.id === 'vac' && self.selectedVaccineReport.id === 'allVac'
 			};
 
 			switch (self.selectedReport.id) {
 				case 'vac':
-					self.vaccineReport();
+					vaccineReport();
+					break;
+				case 'perf':
+					performanceReport();
 					break;
 				default:
 					console.log("Not implemented");
@@ -33,7 +36,7 @@
 
 
 		/** VACCINE REPORT **/
-		self.vaccineReport = function() {
+		function vaccineReport() {
 			console.log("Making vaccine report");
 
 			//Save misc parameters for report we are making
@@ -193,7 +196,7 @@
 
 				if (self.current.dataType === 'cov') {
 					if (!currentNum || !currentDen) dataSeries.push(null);
-					else dataSeries.push(d2Utils.round(100*num/den, 1));
+					else dataSeries.push(d2Utils.round(100*currentNum/currentDen, 1));
 				}
 				else {
 					if (!currentNum) dataSeries.push(null);
@@ -233,7 +236,277 @@
 		}
 
 
+		/** PERFORMANCE REPORT **/
+		function performanceReport() {
+			console.log("Making performance report");
 
+			//Save misc parameters for report we are making
+			self.current.cumulative = self.aggregationType === 'cumulative';
+			self.current.hieararchy = self.selectedOrgunit.boundary.level > 2 ||
+				(self.selectedOrgunit.level && self.selectedOrgunit.level.level > 2);
+
+			//Data
+			var perf = d2Map.performance("P1");
+			self.current.performance = perf;
+			self.current.indicator = d2Map.indicators(perf.indicator);
+			self.current.dropout = d2Map.dropouts(perf.dropout);
+
+			self.current.dataIds = performanceReportDataIds();
+
+			console.log(self.current.dataIds);
+
+			//Period
+			self.current.periods = monthsInYear(self.selectedPeriod.id);
+
+			//Orgunit
+			self.current.orgunits = self.selectedOrgunit;
+
+			var pe = self.current.periods;
+			var dx = self.current.dataIds;
+
+			//see if orgunit level should be used
+			var level = self.current.ouFilter ? null :
+				self.selectedOrgunit.level ? self.selectedOrgunit.level.level : null;
+
+			//data
+			d2Data.addRequest(dx, pe, self.selectedOrgunit.boundary.id, level, null);
+			d2Data.fetch().then(
+				function(data) {
+					self.current.d2meta = data;
+					performanceReportProcessData();
+				}
+			);
+		}
+
+
+		function performanceReportProcessData() {
+			//Iterate over periods / orgunits / data
+			self.current.data = [];
+
+			var periods = self.current.d2meta.pe;
+			var orgunits = self.current.d2meta.ou;
+			var hieararchy = self.current.d2meta.ouHierarchy;
+			var cumulative = self.current.cumulative;
+
+			var orgunit, indicator, values, row;
+			for (var i = 0; i < orgunits.length; i++) {
+				orgunit = orgunits[i];
+
+				values = performanceReportValue(periods, orgunit);
+
+				row = {
+					'vaccine': "vac",
+					'vaccineCode': "vacCode",
+					'ou': d2Data.name(orgunit),
+					'ouId': orgunit
+				};
+
+				if (self.current.hieararchy) {
+					var parentIds = hieararchy[orgunit].split('/').splice(2);
+					var parentNames = [];
+					for (var k = 0; k < parentIds.length; k++) {
+						parentNames.push(d2Data.name(parentIds[k]));
+					}
+
+					row.parentIds = parentIds.join('/')
+					row.parents = parentNames.join(' - ');
+				}
+
+				for (var k = 0; k < periods.length; k++) {
+					row[periods[k]] = values[k];
+				}
+
+				self.current.data.push(row);
+
+			}
+
+			var columns = [];
+			var columnsData = [];
+
+			//Add column headers
+			columns.push({ id: 'ou', title: "Organisation unit" });
+			d2Utils.arraySortByProperty(self.current.data, 'ou', false, false);
+			if (self.current.hieararchy) {
+				d2Utils.arraySortByProperty(self.current.data, 'parents', false, false);
+				columns.unshift({ id: 'parents', title: "Hierarchy" });
+				d2Utils.arraySortByProperty(self.current.data, 'parents', false, false);
+			}
+
+
+			//Add title
+			self.current.title = "Performance report"; //self.current.indicators[0].displayName;
+			self.current.subtitle = periods[0].substr(0,4);
+
+
+			for (var i = 0; i < periods.length; i++) {
+				columnsData.push({
+					id: periods[i], title: d2Data.name(periods[i]).split(' ')[0]
+				});
+			}
+
+			self.current.dataHeader = columns;
+			self.current.dataHeaderData = columnsData;
+
+			performanceSetCategory();
+			self.current.dataTable = angular.copy(self.current.data);
+
+			self.hideLeftMenu();
+		}
+
+
+		function performanceReportValue(periods, orgunit) {
+
+			var covNumId = self.current.indicator.vaccineTarget;
+			var covDenId = self.current.indicator.denominator;
+            var dropFromId = d2Map.indicators(self.current.dropout.vaccineFrom).vaccineTarget;
+			var dropToId = d2Map.indicators(self.current.dropout.vaccineTo).vaccineTarget;
+
+			var cumulated = {
+				"covNum": 0,
+				"covDen": 0,
+				"dropFrom": 0,
+				"dropTo": 0
+			};
+
+			var covNum, covDen, dropFrom, dropTo, currentCovNum, currentCovDen, currentDropFrom, currentDropTo;
+			var dataSeries = [];
+			for (var i = 0; i < periods.length; i++) {
+
+				//Get data for current month
+				covNum = d2Data.value(covNumId, periods[i], orgunit, null, null);
+				covDen = d2Data.value(covDenId, periods[i], orgunit, null, null);
+				dropFrom = d2Data.value(dropFromId, periods[i], orgunit, null, null);
+				dropTo = d2Data.value(dropToId, periods[i], orgunit, null, null);
+
+				//TODO: should check is annualized indicator
+				covDen = covDen/12;
+
+
+				if (self.current.cumulative) {
+					cumulated.covNum += !covNum ? 0 : covNum;
+					cumulated.covDen += !covDen ? 0 : covDen;
+					cumulated.dropFrom += !dropFrom ? 0 : dropFrom;
+					cumulated.dropTo += !dropTo ? 0 : dropTo;
+
+					currentCovNum = cumulated.covNum;
+					currentCovDen = cumulated.covDen;
+					currentDropFrom = cumulated.dropFrom;
+					currentDropTo = cumulated.dropTo;
+				}
+				else {
+					currentCovNum = covNum;
+					currentCovDen = covDen;
+					currentDropFrom = dropFrom;
+					currentDropTo = dropTo;
+				}
+
+				var coverage, dropout;
+				if (!currentCovNum || !currentCovDen) coverage = null;
+				else coverage = d2Utils.round(100*currentCovNum/currentCovDen, 1);
+				if (!currentDropFrom || !currentDropTo) dropout = null;
+				else dropout = d2Utils.round(100*(currentDropFrom-currentDropTo)/currentDropFrom, 1);
+
+				dataSeries.push({'coverage': coverage, 'dropout': dropout, 'category': null});
+
+			}
+
+			return dataSeries;
+		}
+
+
+		function performanceSetCategory() {
+			var coverageLimit = 90;
+			var dropoutLimit = 10;
+
+			for (var i = 0; i < self.current.data.length; i++) {
+				for (var j = 0; j < self.current.periods.length; j++) {
+					var value = self.current.data[i][self.current.periods[j]];
+
+					if (!value.coverage || !value.dropout) {
+						self.current.data[i][self.current.periods[j]].category = false;
+					}
+					else if (value.coverage >= coverageLimit && value.dropout <= dropoutLimit) {
+						self.current.data[i][self.current.periods[j]].category = 'A';
+					}
+					else if (value.coverage >= coverageLimit && value.dropout > dropoutLimit) {
+						self.current.data[i][self.current.periods[j]].category = 'B';
+					}
+					else if (value.coverage < coverageLimit && value.dropout <= dropoutLimit) {
+						self.current.data[i][self.current.periods[j]].category = 'C';
+					}
+					else if (value.coverage < coverageLimit && value.dropout > dropoutLimit) {
+						self.current.data[i][self.current.periods[j]].category = 'D';
+					}
+					else {
+						self.current.data[i][self.current.periods[j]].category = false;
+					}
+				}
+			}
+		}
+
+
+		function performanceReportDataIds() {
+
+			var dataIds = [];
+			dataIds.push(self.current.indicator.vaccineTarget);
+			dataIds.push(self.current.indicator.denominator);
+
+			dataIds.push(d2Map.indicators(self.current.dropout.vaccineFrom).vaccineTarget);
+			dataIds.push(d2Map.indicators(self.current.dropout.vaccineTo).vaccineTarget);
+
+			return dataIds;
+		}
+
+
+		function performanceChart() {
+			/*$(function () {
+				$('#chart').highcharts({
+					xAxis: {
+						min: 0
+					},
+					yAxis: {
+						min: 0
+					},
+					title: {
+						text: 'Scatter plot with regression line'
+					},
+					series: [{
+						type: 'line',
+						name: 'Coverage 90%',
+						data: [[90, 0], [90, 25]],
+						marker: {
+							enabled: false
+						},
+						states: {
+							hover: {
+								lineWidth: 0
+							}
+						},
+						enableMouseTracking: false
+					},{
+						type: 'line',
+						name: 'Dropout rate 10%',
+						data: [[0, 10], [100, 10]],
+						marker: {
+							enabled: false
+						},
+						states: {
+							hover: {
+								lineWidth: 0
+							}
+						},
+						enableMouseTracking: false
+					}, {
+						type: 'scatter',
+						name: 'Observations',
+						data: [[100,10], [85,5], [95,15], [80,20]],
+						marker: {
+							radius: 4
+						}
+					}]
+				});
+			});*/
+		}
 
 		/** NAVIGATION **/
 		self.showLeftMenu = function () {
@@ -244,10 +517,11 @@
 
 		self.hideLeftMenu = function () {
 			document.getElementById("leftNav").style.width = "0px";
-			document.getElementById("content").style.marginLeft = "0px";
+			document.getElementById("content").style.marginLeft = "10px";
 		}
 
 
+		/** INIT **/
 		function init() {
 
 			//Report type
@@ -265,7 +539,7 @@
 					"id": "mon"
 				}
 			];
-			self.selectedReport = self.reportTypes[0];
+			self.selectedReport = self.reportTypes[1];
 
 
 			//Report subtype

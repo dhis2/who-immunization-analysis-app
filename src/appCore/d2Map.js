@@ -18,6 +18,9 @@
 					dropouts: dropout,
 					dropoutAddEdit: dropoutAddEdit,
 					dropoutDelete: dropoutDelete,
+					performance: performance,
+					performanceAddEdit: performanceAddEdit,
+					performanceDelete: performanceDelete,
 					d2NameFromID: d2NameFromID
 				};
 
@@ -44,11 +47,12 @@
 					requestService.getSingle('/api/dataStore/epiApp/settings').then(
 						function(response) {
 							_map = response.data;
+							console.log("Loaded map");
 							if (_map && _map != '') {
 								d2CoreMeta().then(
 									function (data) {
-										_ready = true;
 										editMap();
+										_ready = true;
 										deferred.resolve(true);
 
 									}
@@ -89,7 +93,18 @@
 
 
 				function editMap() {
-					
+					var currentVersion = 0.2;
+					if (_map.metaDataVersion != currentVersion) {
+
+						_map.performance = [{
+							"code": "P1",
+							"indicator": "I2",
+							"dropout": "D1"
+						}];
+
+						_map.metaDataVersion = currentVersion;
+						return save();
+					}
 
 				}
 
@@ -101,7 +116,7 @@
 					var previousIDs = _dataIDs.join('');
 					if (currentIDs != previousIDs) d2CoreMeta();
 					//requestService.post('/api/systemSettings', {'dq': angular.toJson(_map)});
-					return requestService.put('/api/dataStore/dataQualityTool/settings', angular.toJson(_map));
+					return requestService.put('/api/dataStore/epiApp/settings', angular.toJson(_map));
 				}
 
 
@@ -333,13 +348,13 @@
 						}
 					}
 					else {
-						_map.dropout.push(indicator);
+						_map.dropout.push(dropout);
 					}
 
 					//Save
 					save();
 
-					return indicator.code;
+					return dropout.code;
 				}
 
 
@@ -374,6 +389,85 @@
 
 						for (var j = 0; j < _map.dropout.length; j++) {
 							if (_map.dropout[j].code === current) existing = true;
+						}
+
+						if (!existing) return current;
+					}
+				}
+
+
+				/** PERFORMANCE **/
+				function performance(code) {
+					if (code) {
+						var performance = [];
+						for (var i = 0; i < _map.performance.length; i++) {
+							if (_map.performance[i].code === code) {
+								return _map.performance[i];
+							}
+						}
+					}
+					else {
+						return _map.performance;
+					}
+				}
+
+
+				function performanceAddEdit(indicatorCode, dropoutCode, code) {
+					if (!indicatorCode || !dropoutCode) return false;
+
+					var performance;
+					if (code) {
+						performance = performance(code);
+					}
+					else {
+						performance = {
+							'code': newPerformanceCode()
+						}
+					}
+
+					performance.indicator = indicatorCode;
+					performance.dropout = dropoutCode;
+
+					//Add to map
+					if (code) {
+						for (var i = 0; i < _map.performance.length; i++) {
+							if (_map.performance[i].code === performance.code) {
+								_map.performance[i] = performance;
+								break;
+							}
+						}
+					}
+					else {
+						_map.performance.push(performance);
+					}
+
+					//Save
+					save();
+
+					return performance.code;
+				}
+
+
+				function performanceDelete(code) {
+					for (var i = 0; i < _map.performance.length; i++) {
+						if (_map.performance[i].code === code) {
+							_map.performance.splice(i, 1);
+						}
+					}
+
+					return save();
+				}
+
+
+				function newPerformanceCode() {
+					var current, found;
+					for (var i = 0; i <= _map.performance.length; i++) {
+
+						current = "P" + parseInt(i+1);
+						existing = false;
+
+						for (var j = 0; j < _map.performance.length; j++) {
+							if (_map.performance[j].code === current) existing = true;
 						}
 
 						if (!existing) return current;
