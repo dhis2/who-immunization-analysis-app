@@ -17,7 +17,8 @@
 
 			self.current = {
 				"type": self.selectedReport.id,
-				"ouFilter": self.selectedReport.id === 'vac' && self.selectedVaccineReport.id === 'allVac'
+				"ouFilter": ((self.selectedReport.id === 'vac' && self.selectedVaccineReport.id === 'allVac') ||
+							self.selectedReport.id === 'mon')
 			};
 
 			switch (self.selectedReport.id) {
@@ -26,6 +27,9 @@
 					break;
 				case 'perf':
 					performanceReport();
+					break;
+				case 'mon':
+					monitoringReport();
 					break;
 				default:
 					console.log("Not implemented");
@@ -42,8 +46,7 @@
 			//Save misc parameters for report we are making
 			self.current.dataType = self.dataType === 'cov' ? 'cov' : self.dataGroup === 'target' ? 'target' : 'all';
 			self.current.cumulative = self.aggregationType === 'cumulative';
-			self.current.hieararchy = self.selectedOrgunit.boundary.level > 2 ||
-				(self.selectedOrgunit.level && self.selectedOrgunit.level.level > 2);
+			self.current.hieararchy = self.selectedOrgunit.boundary.level > 2 && !self.current.ouFilter;
 
 			//Data
 			self.current.indicators = d2Utils.toArray(self.selectedVaccines);
@@ -152,6 +155,8 @@
 
 			self.current.dataHeader = columns;
 			self.current.dataTable = angular.copy(self.current.data);
+
+			self.hideLeftMenu();
 		}
 
 
@@ -225,15 +230,6 @@
 			return dataIds;
 		}
 
-
-		function monthsInYear(year) {
-			var periods = [];
-			var months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-			for (var i = 0; i < months.length; i++) {
-				periods.push(year + months[i]);
-			}
-			return periods;
-		}
 
 
 		/** PERFORMANCE REPORT **/
@@ -334,7 +330,7 @@
 
 
 			//Add title
-			self.current.title = "Performance report"; //self.current.indicators[0].displayName;
+			self.current.title = self.current.performance.name;
 			self.current.subtitle = periods[0].substr(0,4);
 
 
@@ -498,7 +494,7 @@
 			yMax = Math.ceil(yMax/10)*10;
 			xMax = Math.ceil(xMax/10)*10;
 
-			$('#chart').highcharts({
+			$('#performanceChart').highcharts({
 					xAxis: {
 						min: 0,
 						max: xMax,
@@ -528,6 +524,7 @@
 					},
 					series: [{
 						type: 'line',
+						color: '#000000',
 						name: 'Coverage = 90%',
 						data: [[90, 0], [90, yMax]],
 						marker: {
@@ -541,6 +538,7 @@
 						enableMouseTracking: false
 					},{
 						type: 'line',
+						color: '#000000',
 						name: 'Dropout rate = 10%',
 						data: [[0, 10], [xMax, 10]],
 						marker: {
@@ -553,31 +551,268 @@
 						},
 						enableMouseTracking: false
 					}, {
+						color: '#FF0000',
 						type: 'scatter',
 						name: 'Orgunits',
 						data: datapoints,
 						marker: {
-							radius: 2
+							radius: 3
 						}
 					}]
 			});
 
-			setTimeout(function(){ $('#chart').highcharts().reflow(); }, 10);
+			setTimeout(function(){ $('#performanceChart').highcharts().reflow(); }, 10);
+		}
 
 
+		/** MONITORING **/
+		function monitoringReport() {
+			console.log("Making monitoring report");
+
+			//Save misc parameters for report we are making
+			self.current.cumulative = true;
+			self.current.dataType = self.selectedMonitoringReport.id;
+
+			//Data
+			self.current.indicators = self.selectedVaccines;
+			self.current.target = self.selectedMonitoringReport.id === 'allVac' ? self.selectedTarget.id : self.current.indicators.denominator;
+
+			self.current.dataIds = monitoringReportDataIds();
+
+			//Period
+			self.current.timeSeries = timeSeries();
+
+			//Orgunit
+			self.current.orgunits = self.selectedOrgunit;
+
+			var dx = self.current.dataIds;
+
+			//fetch data - one year at the time
+			for (var i = 0; i < self.current.timeSeries.length; i++) {
+				d2Data.addRequest(dx, self.current.timeSeries[i].periods, self.selectedOrgunit.boundary.id, null, null);
+			}
+
+			d2Data.fetch().then(
+				function(data) {
+					self.current.d2meta = data;
+					monitoringReportProcessData();
+				}
+			);
+		}
+
+
+		function monitoringReportProcessData() {
+			//Iterate over periods / orgunits / data
+			self.current.data = [];
+
+			var ou = self.current.orgunits.boundary.id;
+
+			var chartSeries = [];
+
+			//multiple vaccines for one year
+			if (self.current.dataType === 'allVac') {
+				var periods = self.current.timeSeries[0].periods;
+
+				chartSeries.push({
+					'name': 'Target',
+					'data': monitoringReportValue(periods, ou, self.current.target, true)
+				});
+
+				var indicators = d2Utils.toArray(self.current.indicators);
+				for (var i = 0; i < indicators.length; i++) {
+					chartSeries.push({
+						'name': indicators[i].displayName,
+						'data': monitoringReportValue(periods, ou, indicators[i].vaccineTarget, false)
+					});
+				}
+
+				self.current.title = self.current.timeSeries[0].year;
+
+			}
+			//one vaccine for multiple years
+			else {
+				var dataId = self.current.indicators.vaccineTarget;
+
+				chartSeries.push({
+					'name': 'Target (' + self.current.timeSeries[0].year + ')',
+					'data': monitoringReportValue(self.current.timeSeries[0].periods, ou, self.current.target, true)
+				});
+
+
+				for (var i = 0; i < self.current.timeSeries.length; i++) {
+					var timeSeries = self.current.timeSeries[i];
+					chartSeries.push({
+						'name': timeSeries.year,
+						'data': monitoringReportValue(timeSeries.periods, ou, dataId, false)
+					});
+				}
+
+				self.current.title = self.current.indicators.displayName;
+				self.current.subtitle = d2Data.name(self.current.indicators.vaccineTarget);
+			}
+
+			monitoringChart(chartSeries);
+
+			self.hideLeftMenu();
+		}
+
+
+		function monitoringReportValue(periods, orgunit, dataId, annualize) {
+
+			var value, cumulatedValue = 0;
+			var dataSeries = [];
+			for (var i = 0; i < periods.length; i++) {
+
+				//Get data for current month
+				value = d2Data.value(dataId, periods[i], orgunit, null, null);
+
+				//TODO: should check is annualized indicator
+				if (annualize) value = Math.round(value/12);
+
+				cumulatedValue += !value ? 0 : value;
+				dataSeries.push(cumulatedValue);
+			}
+
+			return dataSeries;
+		}
+
+
+		function monitoringReportDataIds() {
+			var dataIds = [];
+
+			var indicators = d2Utils.toArray(self.current.indicators);
+			for (var i = 0; i < indicators.length; i++) {
+				dataIds.push(indicators[i].vaccineTarget);
+			}
+
+			//Denominator to use (for all)
+			dataIds.push(self.current.target);
+
+
+			return dataIds;
+		}
+
+
+		function monitoringChart(series) {
+
+			$('#monitoringChart').highcharts({
+				title: {
+					text: ''
+				},
+				xAxis: {
+					title: {
+						text: 'Month'
+					},
+					categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+						'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+				},
+				yAxis: {
+					title: {
+						text: 'Doses administered'
+					},
+					plotLines: [{
+						value: 0,
+						width: 1,
+						color: '#808080'
+					}]
+				},
+				legend: {
+					layout: 'vertical',
+					align: 'right',
+					verticalAlign: 'middle',
+					borderWidth: 0
+				},
+				series: series
+			});
+
+			setTimeout(function(){ $('#monitoringChart').highcharts().reflow(); }, 1000);
+		}
+
+
+		self.monitoringTargetOptions = function() {
+
+			if (self.selectedReport.id != 'mon' || self.selectedMonitoringReport.id != 'allVac') return;
+
+
+			//Get possible targets (denominators) from the selected vaccines
+			self.targets = [];
+			var selected = d2Utils.toArray(angular.copy(self.selectedVaccines));
+			for (var i = 0; i < selected.length; i++) {
+				self.targets.push({
+					'id': selected[i].denominator,
+					'displayName': d2Map.d2NameFromID(selected[i].denominator)
+				});
+			}
+
+			self.targets = d2Utils.arrayRemoveDuplicates(self.targets, 'id');
 
 		}
+
+
+		/** COMMON **/
+		function monthsInYear(year) {
+			var periods = [];
+			var months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+			for (var i = 0; i < months.length; i++) {
+				periods.push(year + months[i]);
+			}
+			return periods;
+		}
+
+		function timeSeries() {
+			var series = [];
+			series.push({
+				'base': true,
+				'year': self.selectedPeriod.id,
+				'periods': monthsInYear(self.selectedPeriod.id)
+			});
+
+			if (self.selectedMonitoringReport.id === 'allVac') return series;
+
+			var currentYear = parseInt(self.selectedPeriod.id);
+			for (var i = 0; i < self.selectedReferencePeriods; i++) {
+				currentYear = currentYear - 1;
+				var periods = monthsInYear(currentYear);
+				series.push({
+					'base': false,
+					'year': currentYear,
+					'periods': periods
+				});
+			}
+
+			return series;
+		}
+
 
 		/** NAVIGATION **/
 		self.showLeftMenu = function () {
 			document.getElementById("leftNav").style.width = "350px";
-			document.getElementById("content").style.marginLeft = "350px";
+			document.getElementById("content").style.marginLeft = "360px";
+
+			var chart = $('#monitoringChart[data-highcharts-chart]');
+			if (chart.length > 0) {
+				chart.highcharts().reflow();
+			}
+			chart = $('#performanceChart[data-highcharts-chart]');
+			if (chart.length > 0) {
+				chart.highcharts().reflow();
+			}
 		}
 
 
 		self.hideLeftMenu = function () {
 			document.getElementById("leftNav").style.width = "0px";
 			document.getElementById("content").style.marginLeft = "10px";
+
+			var chart = $('#monitoringChart[data-highcharts-chart]');
+			if (chart.length > 0) {
+				chart.highcharts().reflow();
+			}
+			chart = $('#performanceChart[data-highcharts-chart]');
+			if (chart.length > 0) {
+				chart.highcharts().reflow();
+			}
+
 		}
 
 
@@ -587,19 +822,19 @@
 			//Report type
 			self.reportTypes = [
 				{
-					"displayName": "Vaccines",
+					"displayName": "Vaccines - doses and coverage",
 					"id": "vac"
 				},
 				{
-					"displayName": "Performance",
+					"displayName": "Performance - coverage vs dropout rate",
 					"id": "perf"
 				},
 				{
-					"displayName": "Monitoring",
+					"displayName": "Monitoring chart",
 					"id": "mon"
 				}
 			];
-			self.selectedReport = self.reportTypes[1];
+			self.selectedReport = self.reportTypes[2];
 
 
 			//Report subtype
@@ -609,16 +844,33 @@
 					"id": "allVac"
 				},
 				{
-					"displayName": "Multiple orgunits for one vaccine",
+					"displayName": "One vaccine for multiple orgunits",
 					"id": "oneVac"
 				}
 			];
 			self.selectedVaccineReport = self.vaccineReportTypes[0];
 
+			//Report subtype
+			self.monitoringReportTypes = [
+				{
+					"displayName": "Multiple vaccines for one year",
+					"id": "allVac"
+				},
+				{
+					"displayName": "One vaccine for multiple years",
+					"id": "oneVac"
+				}
+			];
+			self.selectedMonitoringReport = self.monitoringReportTypes[0];
+
 
 			//Vaccine options
 			self.vaccines = d2Map.indicators();
 			self.selectedVaccines;
+
+			//Target options
+			self.targets = [];
+			self.selectedTarget;
 
 
 			//Period options

@@ -52,6 +52,7 @@
 								d2CoreMeta().then(
 									function (data) {
 										editMap();
+										versionUpgrade();
 										_ready = true;
 										deferred.resolve(true);
 
@@ -93,18 +94,12 @@
 
 
 				function editMap() {
-					var currentVersion = 0.2;
-					if (_map.metaDataVersion != currentVersion) {
 
-						_map.performance = [{
-							"code": "P1",
-							"indicator": "I2",
-							"dropout": "D1"
-						}];
+					_map.currentVersion = 0.1;
+					_map.performance[0].name = "DPT 1 coverage vs DPT 1-3 dropout rate";
 
-						_map.metaDataVersion = currentVersion;
-						return save();
-					}
+					return save();
+
 
 				}
 
@@ -158,9 +153,10 @@
 				 * Upgrade metadata version
 				 */
 				function versionUpgrade() {
+
 					var currentVersion = 0.1;
 					if (_map.metaDataVersion != currentVersion) {
-
+						console.log("Upgrading");
 
 
 						_map.metaDataVersion = currentVersion;

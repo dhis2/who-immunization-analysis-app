@@ -54,6 +54,7 @@
 	"performance": [
 		{
 			"code": "P1",
+			"name": "DPT 1 coverage vs DPT 1-3 dropout rate",
 			"indicator": "I2",
 			"dropout": "D1"
 		}

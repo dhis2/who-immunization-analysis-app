@@ -9,6 +9,7 @@
 		<h4>Report type</h4>
 		<d2-select options="rCtrl.reportTypes" ng-model="rCtrl.selectedReport" placeholder="Select report type..."></d2-select>
 		<d2-select ng-if="rCtrl.selectedReport.id === 'vac'" options="rCtrl.vaccineReportTypes" ng-model="rCtrl.selectedVaccineReport"></d2-select>
+		<d2-select ng-if="rCtrl.selectedReport.id === 'mon'" options="rCtrl.monitoringReportTypes" ng-model="rCtrl.selectedMonitoringReport"></d2-select>
 	</div>
 
 
@@ -20,16 +21,30 @@
 				options="rCtrl.vaccines"
 				ng-model="rCtrl.selectedVaccines"
 				placeholder="Select vaccines..."
-				multiple="rCtrl.selectedVaccineReport.id === 'allVac'">
+				on-select="rCtrl.monitoringTargetOptions();"
+				multiple="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac') ||
+				(rCtrl.selectedReport.id === 'mon' && rCtrl.selectedMonitoringReport.id === 'allVac')">
 		</d2-select>
-		<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.dataType='num';">
-			<label class="btn btn-success" ng-model="rCtrl.dataType" uib-btn-radio="'num'" uncheckable>Vaccines</label>
-			<label class="btn btn-success" ng-model="rCtrl.dataType" uib-btn-radio="'cov'" uncheckable>Coverage</label>
+
+		<!--FOR VACCINES-->
+		<div ng-if="rCtrl.selectedReport.id === 'vac'">
+			<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.dataType='num';">
+				<label class="btn btn-success" ng-model="rCtrl.dataType" uib-btn-radio="'num'" uncheckable>Vaccines</label>
+				<label class="btn btn-success" ng-model="rCtrl.dataType" uib-btn-radio="'cov'" uncheckable>Coverage</label>
+			</div>
+			<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.dataGroup='all';" ng-if="rCtrl.dataType==='num';">
+				<label class="btn btn-success" ng-model="rCtrl.dataGroup" uib-btn-radio="'all'" uncheckable>All ages</label>
+				<label class="btn btn-success" ng-model="rCtrl.dataGroup" uib-btn-radio="'target'" uncheckable>Target age</label>
+			</div>
 		</div>
-		<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.dataGroup='all';" ng-if="rCtrl.dataType==='num';">
-			<label class="btn btn-success" ng-model="rCtrl.dataGroup" uib-btn-radio="'all'" uncheckable>All ages</label>
-			<label class="btn btn-success" ng-model="rCtrl.dataGroup" uib-btn-radio="'target'" uncheckable>Target age</label>
-		</div>
+
+		<!--FOR MONITORING-->
+		<d2-select
+				ng-if="rCtrl.selectedReport.id === 'mon' && rCtrl.selectedMonitoringReport.id === 'allVac'"
+				options="rCtrl.targets"
+				ng-model="rCtrl.selectedTarget"
+				placeholder="Select target...">
+		</d2-select>
 	</div>
 
 	<hr/>
@@ -37,9 +52,21 @@
 	<div class="navItem">
 		<h4>Period</h4>
 		<d2-select options="rCtrl.periods" ng-model="rCtrl.selectedPeriod" placeholder="Select year..."></d2-select>
-		<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.aggregationType='cumulative';">
+		<div class="btn-group btn-group-justified"
+			 style="margin-bottom: 5px;"
+			 ng-init="rCtrl.aggregationType='cumulative';"
+			 ng-if="rCtrl.selectedReport.id != 'mon'">
 			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'cumulative'" uncheckable>Cumulative</label>
 			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'monthly'" uncheckable>Monthly</label>
+		</div>
+		<div ng-if="rCtrl.selectedReport.id === 'mon' && rCtrl.selectedMonitoringReport.id != 'allVac'">
+			<label>Previous years for comparison</label>
+			<input ng-init="rCtrl.selectedReferencePeriods = 3"
+				   ng-model="rCtrl.selectedReferencePeriods"
+				   type="number"
+				   min="1"
+				   step="1"
+				   class="form-control">
 		</div>
 	</div>
 
@@ -50,8 +77,8 @@
 		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit"
 						   default-level="1"
 						   hide-group="true"
-						   hide-level="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac')">
-
+						   hide-level="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac')
+						   || rCtrl.selectedReport.id === 'mon'">
 		</d2-select-orgunit>
 	</div>
 
@@ -62,14 +89,15 @@
 
 </div>
 
-<div style="margin: 10px 10px 10px 10px;">
+<div id="content" style="margin: 90px 10px 10px 10px;">
 
-	<div id="content" ng-if="rCtrl.current.type === 'vac'" class="reportContent">
-		<h3>{{rCtrl.current.title}}</h3>
-		<h4>{{rCtrl.current.subtitle}}</h4>
+	<h3>{{rCtrl.current.title}}</h3>
+	<h4>{{rCtrl.current.subtitle}}</h4>
 
-		<table id="dataTable"
-			   class="table table-striped table-bordered dataTable no-footer"
+
+	<div ng-if="rCtrl.current.type === 'vac'" class="reportContent">
+		<table id="vaccineDataTable"
+			   class="table table-striped table-bordered dataTable no-footer table-condensed"
 			   style="margin-top: 20px;"
 			   st-table="rCtrl.current.dataTable"
 			   st-safe-src="rCtrl.current.data"
@@ -97,11 +125,57 @@
 	</div>
 
 
-	<div id="content" ng-if="rCtrl.current.type === 'perf'"  class="reportContent">
-		<h3>{{rCtrl.current.title}}</h3>
-		<h4>{{rCtrl.current.subtitle}}</h4>
+	<div ng-if="rCtrl.current.type === 'perf'"  class="reportContent">
 
-		<table id="performanceLegend" class="table table-bordered no-footer">
+		<div id="performanceChart" style="height: 600px; margin-bottom: 20px"></div>
+
+		<table id="perfromanceDataTable"
+			   class="table table-bordered dataTable no-footer table-condensed"
+			   style="margin-top: 20px;"
+			   st-table="rCtrl.current.dataTable"
+			   st-safe-src="rCtrl.current.data"
+			   ng-if="rCtrl.current.data">
+			<thead>
+			<tr>
+				<th ng-repeat="header in rCtrl.current.dataHeader"
+					id="{{header.id}}"
+					st-sort="{{header.id}}">
+					{{header.title}}
+				</th>
+				<th ng-repeat="header in rCtrl.current.dataHeaderData"
+					id="{{header.id}}">
+					{{header.title}}
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr></tr>
+			<tr ng-repeat="row in rCtrl.current.dataTable track by $index">
+				<td ng-repeat="header in rCtrl.current.dataHeader">
+					{{row[header.id]}}
+				</td>
+				<td ng-repeat="header in rCtrl.current.dataHeaderData"
+					ng-class="{success:row[header.id].category === 'A',
+					info:row[header.id].category === 'B',
+					warning:row[header.id].category === 'C',
+					danger:row[header.id].category === 'D'}">
+					<table ng-if="row[header.id].category">
+						<tr>
+							<th rowspan=2 style="padding-right: 5px">
+								{{row[header.id].category}}</th>
+							<td>{{row[header.id].coverage}}%</td>
+						</tr>
+						<tr>
+							<td>{{row[header.id].dropout}}%</td>
+						</tr>
+					</table>
+
+				</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<table id="performanceLegendTable" class="table table-bordered no-footer table-condensed">
 			<tr>
 				<td class="success">
 					<table>
@@ -154,56 +228,10 @@
 			</tr>
 		</table>
 
-		<table id="dataTable"
-			   class="table table-striped table-bordered dataTable no-footer"
-			   style="margin-top: 20px;"
-			   st-table="rCtrl.current.dataTable"
-			   st-safe-src="rCtrl.current.data"
-			   ng-if="rCtrl.current.data">
-			<thead>
-			<tr>
-				<th ng-repeat="header in rCtrl.current.dataHeader"
-					id="{{header.id}}"
-					st-sort="{{header.id}}">
-					{{header.title}}
-				</th>
-				<th ng-repeat="header in rCtrl.current.dataHeaderData"
-					id="{{header.id}}"
-					st-sort="{{header.id}}">
-					{{header.title}}
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr></tr>
-			<tr ng-repeat="row in rCtrl.current.dataTable track by $index">
-				<td ng-repeat="header in rCtrl.current.dataHeader">
-					{{row[header.id]}}
-				</td>
-				<td ng-repeat="header in rCtrl.current.dataHeaderData"
-					ng-class="{success:row[header.id].category === 'A',
-					info:row[header.id].category === 'B',
-					warning:row[header.id].category === 'C',
-					danger:row[header.id].category === 'D'}">
-					<table ng-if="row[header.id].category">
-						<tr>
-							<th rowspan=2 style="padding-right: 5px">
-								{{row[header.id].category}}</th>
-							<td>{{row[header.id].coverage}}%</td>
-						</tr>
-						<tr>
-							<td>{{row[header.id].dropout}}%</td>
-						</tr>
-					</table>
-
-				</td>
-			</tr>
-			</tbody>
-		</table>
 	</div>
 
 
-	<div id="chart" style="height: 600px">
-
+	<div ng-if="rCtrl.current.type === 'mon'" class="reportContent">
+		<div id="monitoringChart" style="height: 600px; margin-bottom: 20px"></div>
 	</div>
 </div>
