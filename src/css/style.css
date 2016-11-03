@@ -19,6 +19,10 @@
 		content: '\25BC';
 	}
 
+	.redText {
+		color: red;
+	}
+
 	/* The right side navigation menu */
 	.rightNav {
 		height: 100%;

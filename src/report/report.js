@@ -42,13 +42,15 @@
 			console.log("Making vaccine report");
 
 			//Save misc parameters for report we are making
-			self.current.dataType = self.dataType === 'cov' ? 'cov' : self.dataGroup === 'target' ? 'target' : 'all';
 			self.current.cumulative = self.aggregationType === 'cumulative';
-			self.current.hieararchy = self.selectedOrgunit.boundary.level > 2 && !self.current.ouFilter;
+			self.current.hieararchy = (self.selectedOrgunit.boundary.level > 2 || (self.selectedOrgunit.level && self.selectedOrgunit.level.level > 2)) && !self.current.ouFilter;
+
 
 			//Data
 			self.current.indicators = d2Utils.toArray(self.selectedVaccines);
 			self.current.dataIds = vaccineReportDataIds();
+
+			console.log(self.current.dataIds);
 
 			//Period
 			self.current.periods = monthsInYear(self.selectedPeriod.id);
@@ -119,14 +121,14 @@
 				}
 			}
 
-			var columns = [];
+			var headerColumns = [];
 
 			//Add column headers
-			columns.push({ id: 'ou', title: "Organisation unit" });
-			columns.push({ id: 'vaccine', title: "Vaccine" });
+			headerColumns.push({ id: 'ou', title: "Organisation unit" });
+			headerColumns.push({ id: 'vaccine', title: "Vaccine" });
 			if (self.current.hieararchy) {
 				d2Utils.arraySortByProperty(self.current.data, 'parents', false, false);
-				columns.unshift({ id: 'parents', title: "Hierarchy" });
+				headerColumns.unshift({ id: 'parents', title: "Hierarchy" });
 			}
 			if (self.current.ouFilter) {
 				//Sort data
@@ -145,13 +147,16 @@
 				self.current.subtitle = periods[0].substr(0,4);
 			}
 
+
+			var dataColumns = [];
 			for (var i = 0; i < periods.length; i++) {
-				columns.push({
+				dataColumns.push({
 					id: periods[i], title: d2Data.name(periods[i]).split(' ')[0]
 				});
 			}
 
-			self.current.dataHeader = columns;
+			self.current.headerColumns = headerColumns;
+			self.current.dataColumns = dataColumns;
 			self.current.dataTable = angular.copy(self.current.data);
 
 			self.hideLeftMenu();
@@ -159,52 +164,56 @@
 
 
 		function vaccineReportValue(indicator, periods, orgunit) {
-			var numeratorField = self.current.dataType === 'all' ? 'vaccineAll': 'vaccineTarget';
-			var denominatorField = self.current.dataType === 'cov' ? 'denominator' : false;
-
-			var numeratorId = indicator[numeratorField];
-			var denominatorId = indicator[denominatorField];
-
 			var cumulated = {
-				"numerator": 0,
+				"vaccineTarget": 0,
+				"vaccineAll": 0,
 				"denominator": 0
 			};
+			var current = {
+				"vaccineTarget": null,
+				"vaccineAll": null,
+				"denominator": null
+			};
 
-			var num, den, currentNum, currentDen;
+			var vaccineTargetId = indicator["vaccineTarget"];
+			var vaccineAllId = indicator["vaccineAll"];
+			var denominatorId = indicator["denominator"];
+
+
+			var target, all, denominator;
 			var dataSeries = [];
 			for (var i = 0; i < periods.length; i++) {
 
 				//Get numerator for current month
-				num = d2Data.value(numeratorId, periods[i], orgunit, null, null);
-				if (self.current.dataType === 'cov') {
-					den = d2Data.value(denominatorId, periods[i], orgunit, null, null);
-
-					//TODO: should have check in metadata - if indicator it could be annualized already
-					den = den/12;
-				}
-
+				target = d2Data.value(vaccineTargetId, periods[i], orgunit, null, null);
+				all = d2Data.value(vaccineAllId, periods[i], orgunit, null, null);
+				denominator = d2Data.value(denominatorId, periods[i], orgunit, null, null);
+				denominator = denominator/12;	//TODO: should have a check - if indicator it could be annualized already
 
 				if (self.current.cumulative) {
-					cumulated.numerator += !num ? 0 : num;
-					cumulated.denominator += !den ? 0 : den;
+					cumulated.vaccineTarget += !target ? 0 : target;
+					cumulated.vaccineAll += !all ? 0 : all;
+					cumulated.denominator += !denominator ? 0 : denominator;
 
-					currentNum = cumulated.numerator;
-					currentDen = cumulated.denominator;
+					current.vaccineTarget = cumulated.vaccineTarget;
+					current.vaccineAll = cumulated.vaccineAll;
+					current.denominator = cumulated.denominator;
+
 				}
 				else {
-					currentNum = num;
-					currentDen = den;
+					current.vaccineTarget = target;
+					current.vaccineAll = all;
+					current.denominator = denominator;
 				}
 
+				var result = {
+					"vaccineTarget": current.vaccineTarget,
+					"vaccineAll": current.vaccineAll,
+					"denominator": current.denominator,
+					"coverage": d2Utils.round(100*current.vaccineTarget/current.denominator, 1)
+				};
 
-				if (self.current.dataType === 'cov') {
-					if (!currentNum || !currentDen) dataSeries.push(null);
-					else dataSeries.push(d2Utils.round(100*currentNum/currentDen, 1));
-				}
-				else {
-					if (!currentNum) dataSeries.push(null);
-					else dataSeries.push(currentNum);
-				}
+				dataSeries.push(result);
 			}
 
 			return dataSeries;
@@ -213,16 +222,10 @@
 
 		function vaccineReportDataIds() {
 
-			var dataFields = [];
-			dataFields.push(self.current.dataType === 'all' ? 'vaccineAll': 'vaccineTarget');
-			if (self.current.dataType === 'cov') dataFields.push('denominator');
-
 			var dataIds = [];
 			var indicators = d2Utils.toArray(self.selectedVaccines);
 			for (var i = 0; i < indicators.length; i++) {
-				for (var j = 0; j < dataFields.length; j++) {
-					dataIds.push(indicators[i][dataFields[j]]);
-				}
+				dataIds.push(indicators[i]["vaccineTarget"], indicators[i]["vaccineAll"], indicators[i]["denominator"]);
 			}
 
 			return dataIds;
@@ -498,7 +501,7 @@
 						max: xMax,
 						title: {
 							enabled: true,
-							text: 'Coverage (%)'
+							text: 'DPT 1 coverage (%)'
 						}
 					},
 					yAxis: {
@@ -506,7 +509,7 @@
 						max: yMax,
 						title: {
 							enabled: true,
-							text: 'Dropout rate (%)'
+							text: 'DPT 1 to 3 dropout rate (%)'
 						}
 					},
 					title: {
@@ -520,10 +523,12 @@
 									this.point.y + '%'
 						}
 					},
-					series: [{
+					series: [
+					{
 						type: 'line',
-						color: '#000000',
+						lineWidth: 1,
 						name: 'Coverage = 90%',
+						color: '#000000',
 						data: [[90, 0], [90, yMax]],
 						marker: {
 							enabled: false
@@ -536,8 +541,9 @@
 						enableMouseTracking: false
 					},{
 						type: 'line',
-						color: '#000000',
+						lineWidth: 1,
 						name: 'Dropout rate = 10%',
+						color: '#000000',
 						data: [[0, 10], [xMax, 10]],
 						marker: {
 							enabled: false
@@ -548,15 +554,16 @@
 							}
 						},
 						enableMouseTracking: false
-					}, {
-						color: '#FF0000',
-						type: 'scatter',
-						name: 'Orgunits',
-						data: datapoints,
-						marker: {
-							radius: 3
+					},{
+							type: 'scatter',
+							name: 'Orgunits',
+							color: '#000000',
+							data: datapoints,
+							marker: {
+								radius: 3
+							}
 						}
-					}]
+					]
 			});
 
 			setTimeout(function () {
@@ -668,6 +675,12 @@
 
 				chartSeries.push({
 					'name': 'Target',
+					'dashStyle': 'longdash',
+					'color': "#FFA500",
+					'lineWidth': 4,
+					'marker': {
+						'enabled': false
+					},
 					'data': monitoringReportValue(periods, ou, self.current.target, true)
 				});
 
@@ -678,8 +691,8 @@
 						'data': monitoringReportValue(periods, ou, indicators[i].vaccineTarget, false)
 					});
 				}
-
-				self.current.title = self.current.timeSeries[0].year;
+				self.current.title = self.current.orgunits.boundary.displayName;
+				self.current.subtitle = self.current.timeSeries[0].year;
 
 			}
 			//one vaccine for multiple years
@@ -688,6 +701,12 @@
 
 				chartSeries.push({
 					'name': 'Target (' + self.current.timeSeries[0].year + ')',
+					'dashStyle': 'longdash',
+					'color': "#FFA500",
+					'lineWidth': 4,
+					'marker': {
+						'enabled': false
+					},
 					'data': monitoringReportValue(self.current.timeSeries[0].periods, ou, self.current.target, true)
 				});
 
@@ -700,7 +719,7 @@
 					});
 				}
 
-				self.current.title = self.current.indicators.displayName;
+				self.current.title = self.current.selectedOrgunit.boundary.displayName;
 				self.current.subtitle = d2Data.name(self.current.indicators.vaccineTarget);
 			}
 
