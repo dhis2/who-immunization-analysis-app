@@ -15,7 +15,7 @@
 					indicators: indicators,
 					indicatorAddEdit: indicatorAddEdit,
 					indicatorDelete: indicatorDelete,
-					dropouts: dropout,
+					dropouts: dropouts,
 					dropoutAddEdit: dropoutAddEdit,
 					dropoutDelete: dropoutDelete,
 					performance: performance,
@@ -96,11 +96,10 @@
 				function editMap() {
 
 					_map.currentVersion = 0.1;
-					_map.performance[0].name = "DPT 1 coverage vs DPT 1-3 dropout rate";
+					_map.performance[0].displayName = "DPT 1 coverage vs DPT 1-3 dropout rate";
+					delete _map.performance[0].name;
 
 					return save();
-
-
 				}
 
 
@@ -108,7 +107,7 @@
 
 					//Check if we have new DHIS 2 ids to fetch;
 					var currentIDs = d2IDs().join('');
-					var previousIDs = _dataIDs.join('');
+					var previousIDs = _dataIDs ? _dataIds.join('') : '';
 					if (currentIDs != previousIDs) d2CoreMeta();
 					//requestService.post('/api/systemSettings', {'dq': angular.toJson(_map)});
 					return requestService.put('/api/dataStore/epiApp/settings', angular.toJson(_map));
@@ -232,16 +231,18 @@
 
 					var indicator;
 					if (code) {
-						indicators = indicators(code);
+						console.log("Editing indicator");
+						indicator = indicators(code);
 					}
 					else {
+						console.log("Adding indicator");
 						indicator = {
 							'code': newIndicatorCode()
 						}
 					}
 
 					//Add default quality parameters
-					indicator.name = name;
+					indicator.displayName = name;
 					indicator.vaccineAll = vaccineAll;
 					indicator.vaccineTarget = vaccineTarget;
 					indicator.denominator = denominator;
@@ -301,7 +302,7 @@
 
 				/** ===== RELATIONS ===== **/
 
-				function dropout(code) {
+				function dropouts(code) {
 					if (code) {
 						var dropouts = [];
 						for (var i = 0; i < _map.dropout.length; i++) {
@@ -321,7 +322,7 @@
 
 					var dropout;
 					if (code) {
-						dropout = dropout(code);
+						dropout = dropouts(code);
 					}
 					else {
 						dropout = {
@@ -330,7 +331,7 @@
 					}
 
 
-					dropout.name = name;
+					dropout.displayName = name;
 					dropout.vaccineFrom = vaccineFrom;
 					dropout.vaccineTo = vaccineTo;
 

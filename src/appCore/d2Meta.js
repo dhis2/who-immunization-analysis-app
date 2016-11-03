@@ -21,6 +21,7 @@
 					indicatorFormulaText: indicatorFormulaText,
 					dataElementOperands: dataElementOperandsFromIDs,
 					dataElementOrIndicator: dataElementOrIndicator,
+					authorizations: authorizations,
 					version: version
 				};
 
@@ -622,6 +623,25 @@
 						},
 						function(error){
 							console.log("d2meta error: defaultCategoryOptionCombo()");
+							console.log(error);
+						}
+					);
+
+					return deferred.promise;
+				}
+
+
+				/** ===== AUTHORIZATION ===== */
+				function authorizations() {
+					var deferred = $q.defer();
+
+					var requestURL = '/api/me/authorization.json';
+					requestService.getSingleData(requestURL).then(
+						function(data) {
+							deferred.resolve(data);
+						},
+						function(error){
+							console.log("d2meta error: version()");
 							console.log(error);
 						}
 					);

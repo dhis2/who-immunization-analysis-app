@@ -1,9 +1,16 @@
-<a class="navOpen" style="text-decoration: none;" ng-click="rCtrl.showLeftMenu();">&rightarrow;</a>
+<a class="navIcon" style="left: 5px" ng-click="rCtrl.showLeftMenu();">
+	<span class="glyphicon glyphicon-chevron-right"></span>
+</a>
 
+<a class="navIcon" style="right: 5px;" ng-click="rCtrl.showRightMenu();" ng-if="rCtrl.admin">
+	<span class="glyphicon glyphicon-cog"></span>
+</a>
 
 <div id="leftNav" class="leftNav">
 
-	<a class="navClose" style="text-decoration: none;" ng-click="rCtrl.hideLeftMenu();">&leftarrow;</a>
+	<a class="navIcon" style="right: 15px;" ng-click="rCtrl.hideLeftMenu();">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+	</a>
 
 	<div class="navItem">
 		<h4>Report type</h4>
@@ -88,6 +95,176 @@
 	</div>
 
 </div>
+
+
+<div id="rightNav" class="rightNav">
+
+	<a class="navIcon" style="left: 5px;" ng-click="rCtrl.hideRightMenu();">
+		<span class="glyphicon glyphicon-chevron-right"></span>
+	</a>
+
+	<uib-tabset style="margin: 30px 10px 10px 10px" active="activeForm" ng-if="rCtrl.ready && rCtrl.admin">
+		<uib-tab index="0" heading="Vaccines">
+
+			<div ng-if="rCtrl.adm.i" style="margin: 10px">
+				<table class="table table-bordered" style="width: 600px;">
+					<tr>
+						<th>Code</th>
+						<td>{{rCtrl.adm.i.code}}</td>
+					</tr><tr>
+						<th>Name</th>
+						<td><input class="form-control" ng-model="rCtrl.adm.i.displayName"></td>
+					</tr><tr>
+						<th>Vaccine (total)</th>
+						<td>
+							<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.adm.i.typeA='de';">
+								<label class="btn btn-success" ng-model="rCtrl.adm.i.typeA" uib-btn-radio="'de'" uncheckable>Data element</label>
+								<label class="btn btn-success" ng-model="rCtrl.adm.i.typeA" uib-btn-radio="'in'" uncheckable>Indicator</label>
+							</div>
+							<d2-select-data-element ng-if="rCtrl.adm.i.typeA === 'de'" ng-model="rCtrl.adm.i.vaccineAll"></d2-select-data-element>
+							<d2-select-indicator ng-if="rCtrl.adm.i.typeA === 'in'" ng-model="rCtrl.adm.i.vaccineAll"></d2-select-indicator>
+						</td>
+					</tr><tr>
+						<th>Vaccine (target age)</th>
+					<td>
+						<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.adm.i.typeT='de';">
+							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeT" uib-btn-radio="'de'" uncheckable>Data element</label>
+							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeT" uib-btn-radio="'in'" uncheckable>Indicator</label>
+						</div>
+						<d2-select-data-element ng-if="rCtrl.adm.i.typeT === 'de'" ng-model="rCtrl.adm.i.vaccineTarget"></d2-select-data-element>
+						<d2-select-indicator ng-if="rCtrl.adm.i.typeT === 'in'" ng-model="rCtrl.adm.i.vaccineTarget"></d2-select-indicator>
+					</td>
+					</tr><tr>
+						<th>Denominator</th>
+					<td>
+						<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.adm.i.typeD='de';">
+							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeD" uib-btn-radio="'de'" uncheckable>Data element</label>
+							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeD" uib-btn-radio="'in'" uncheckable>Indicator</label>
+						</div>
+						<d2-select-data-element ng-if="rCtrl.adm.i.typeD === 'de'" ng-model="rCtrl.adm.i.denominator"></d2-select-data-element>
+						<d2-select-indicator ng-if="rCtrl.adm.i.typeD === 'in'" ng-model="rCtrl.adm.i.denominator"></d2-select-indicator>
+					</td>
+					</tr>
+
+				</table>
+				<button class="btn btn-danger" ng-click="rCtrl.adm.i = null">Cancel</button>
+				<button class="btn btn-success" ng-click="rCtrl.adm.indicatorSave(rCtrl.adm.i)">Save</button>
+			</div>
+
+			<table class="table table-bordered" ng-if="!rCtrl.adm.i" style="margin: 10px">
+				<tr>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Vaccine (total)</th>
+					<th>Vaccine (target age)</th>
+					<th>Denominator</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="vac in rCtrl.adm.indicators()">
+					<td>{{vac.code}}</td>
+					<td>{{vac.displayName}}</td>
+					<td>{{rCtrl.adm.name(vac.vaccineAll)}}</td>
+					<td>{{rCtrl.adm.name(vac.vaccineTarget)}}</td>
+					<td>{{rCtrl.adm.name(vac.denominator)}}</td>
+					<td>
+						<button class="btn btn-small btn-info"
+								ng-click="rCtrl.adm.i = vac">
+							Edit
+						</button>
+						<button class="btn btn-small btn-danger"
+								ng-click="rCtrl.adm.indicatorDelete(vac.code)">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</table>
+			<button class="btn btn-success" ng-click="rCtrl.adm.i = {code: null}" style="float: right">Add</button>
+		</uib-tab>
+		<uib-tab index="1" heading="Dropout rates">
+			<div ng-if="rCtrl.adm.d" style="margin: 10px">
+				<table class="table table-bordered" style="width: 600px;">
+					<tr>
+						<th>Code</th>
+						<td>{{rCtrl.adm.d.code}}</td>
+					</tr><tr>
+					<th>Name</th>
+					<td><input class="form-control" ng-model="rCtrl.adm.d.displayName"></td>
+				</tr><tr>
+					<th>Vaccine from</th>
+					<td>
+						<d2-select ng-model="rCtrl.adm.d.vaccineFrom" options="rCtrl.adm.indicators()"></d2-select>
+					</td>
+				</tr><tr>
+					<th>Vaccine to</th>
+					<td>
+						<d2-select ng-model="rCtrl.adm.d.vaccineTo" options="rCtrl.adm.indicators()"></d2-select>
+					</td>
+				</tr>
+
+				</table>
+				<button class="btn btn-danger" ng-click="rCtrl.adm.d = null">Cancel</button>
+				<button class="btn btn-success" ng-click="rCtrl.adm.dropoutSave(rCtrl.adm.d)">Save</button>
+			</div>
+
+			<table class="table table-bordered" ng-if="!rCtrl.adm.d" style="margin: 10px">
+				<tr>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Vaccine from</th>
+					<th>Vaccine to</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="do in rCtrl.adm.dropouts()">
+					<td>{{do.code}}</td>
+					<td>{{do.displayName}}</td>
+					<td>{{rCtrl.adm.indicators(do.vaccineFrom).displayName}}</td>
+					<td>{{rCtrl.adm.indicators(do.vaccineTo).displayName}}</td>
+					<td>
+						<button class="btn btn-small btn-info"
+								ng-click="rCtrl.adm.d = do">
+							Edit
+						</button>
+						<button class="btn btn-small btn-danger"
+								ng-click="rCtrl.adm.dropoutDelete(do.code)">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</table>
+			<button class="btn btn-success" ng-click="rCtrl.adm.d = {code: null}" style="float: right">Add</button>
+		</uib-tab>
+		<uib-tab index="2" heading="Performance">
+			<table class="table table-bordered"
+				   ng-if="!rCtrl.adm.d"
+				   style="margin: 10px; width: 600px;"
+				   ng-init="rCtrl.adm.p = rCtrl.adm.performance()[0]">
+				<tr>
+					<th>Name</th>
+					<td><input class="form-control" ng-model="rCtrl.adm.p.displayName"></td>
+				</tr>
+				<tr>
+					<th>Indicator (coverage)</th>
+					<td>
+						<d2-select options="rCtrl.adm.indicators()" ng-model="rCtrl.adm.p.indicator"></d2-select>
+					</td>
+				</tr>
+				<tr>
+					<th>Dropout rate</th>
+					<td>
+						<d2-select options="rCtrl.adm.dropouts()" ng-model="rCtrl.adm.p.dropout"></d2-select>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<button class="button btn btn-success" ng-click="">Save</button>
+					</th>
+				</tr>
+			</table>
+		</uib-tab>
+	</uib-tabset>
+
+</div>
+
 
 <div id="content" style="margin: 90px 10px 10px 10px;">
 

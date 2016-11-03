@@ -11,8 +11,6 @@
 
 	    var self = this;
 
-
-
 		self.makeReport = function() {
 
 			self.current = {
@@ -330,7 +328,7 @@
 
 
 			//Add title
-			self.current.title = self.current.performance.name;
+			self.current.title = self.current.performance.displayName;
 			self.current.subtitle = periods[0].substr(0,4);
 
 
@@ -561,7 +559,62 @@
 					}]
 			});
 
-			setTimeout(function(){ $('#performanceChart').highcharts().reflow(); }, 10);
+			setTimeout(function () {
+				performanceChartFixSize()
+			}, 1000);
+			watchPerformanceChart();
+		}
+
+
+		function watchPerformanceChart() {
+			var resizeTimer;
+
+			$(window).on('resize', function(e) {
+
+				clearTimeout(resizeTimer);
+				resizeTimer = setTimeout(function() {
+
+					performanceChartFixSize()
+
+				}, 200);
+
+			});
+		}
+
+
+		function performanceChartFixSize() {
+			chart = $('#performanceChart[data-highcharts-chart]');
+			chart.highcharts().reflow();
+
+			drawBox(90, 'max', 0, 10, '#dff0d8', 'performanceChart', 'greenBox');
+			drawBox(90, 'max', 10, 'max', '#d9edf7', 'performanceChart', 'blueBox');
+			drawBox(0, 90, 0, 10, '#fcf8e3', 'performanceChart', 'yellowBox');
+			drawBox(0, 90, 10, 'max', '#f2dede', 'performanceChart', 'redBox');
+
+		}
+
+
+		function drawBox(xStart, xStop, yStart, yStop, color, chartId, boxId) {
+			//First remove existing box with same id:
+			$('#' + boxId).remove();
+
+			var chart = $('#' + chartId).highcharts();
+
+			if (xStart === 'min') xStart = chart.axes[0].dataMin;
+			if (xStop === 'max') xStop = chart.axes[0].dataMax;
+			if (yStart === 'min') yStart = chart.axes[1].dataMin;
+			if (yStop === 'max') yStop = chart.axes[1].dataMax;
+
+			var x1 = chart.xAxis[0].toPixels(xStart),
+				x2 = chart.xAxis[0].toPixels(xStop),
+				y1 = chart.yAxis[0].toPixels(yStart),
+				y2 = chart.yAxis[0].toPixels(yStop);
+
+			chart.renderer.rect(x1, y2, x2 - x1, y1 - y2)
+				.attr({
+					fill: color,
+					id: boxId ? boxId : 'box_' + color
+				}).add();
 		}
 
 
@@ -749,6 +802,31 @@
 		}
 
 
+		/** ADMIN **/
+		self.adm = {
+			indicators: function(code) {return d2Map.indicators(code)},
+			indicatorDelete: function (code) { return d2Map.indicatorDelete(code)},
+			indicatorSave: function (indicator) {
+				d2Map.indicatorAddEdit(indicator.displayName, indicator.vaccineAll.id, indicator.vaccineTarget.id,
+				indicator.denominator.id, indicator.code);
+				self.adm.i = null;
+			},
+			i: null,
+			dropouts: function (code) {return d2Map.dropouts(code)},
+			dropoutDelete: function (code) { return d2Map.dropoutDelete(code)},
+			dropoutSave: function (dropout) {
+				d2Map.dropoutAddEdit(dropout.displayName, dropout.vaccineFrom.code, dropout.vaccineTo.code, dropout.code);
+				self.adm.d = null;
+			},
+			performance: function () {return d2Map.performance()},
+			performanceSave: function (perf) {
+				d2Map.performanceAddEdit(perf.indicator.code, perf.dropout.code, perf.code);
+			},
+			name: function (id) {return d2Map.d2NameFromID(id)}
+		}
+
+
+
 		/** COMMON **/
 		function monthsInYear(year) {
 			var periods = [];
@@ -795,7 +873,7 @@
 			}
 			chart = $('#performanceChart[data-highcharts-chart]');
 			if (chart.length > 0) {
-				chart.highcharts().reflow();
+				performanceChartFixSize();
 			}
 		}
 
@@ -810,9 +888,19 @@
 			}
 			chart = $('#performanceChart[data-highcharts-chart]');
 			if (chart.length > 0) {
-				chart.highcharts().reflow();
+				performanceChartFixSize();
 			}
 
+		}
+
+
+		self.showRightMenu = function () {
+			document.getElementById("rightNav").style.width = "100%";
+		}
+
+
+		self.hideRightMenu = function () {
+			document.getElementById("rightNav").style.width = "0%";
 		}
 
 
@@ -834,7 +922,7 @@
 					"id": "mon"
 				}
 			];
-			self.selectedReport = self.reportTypes[2];
+			self.selectedReport = self.reportTypes[0];
 
 
 			//Report subtype
@@ -887,7 +975,20 @@
 		}
 
 
+		d2Meta.authorizations().then(function(authorities) {
+			self.admin = false;
+			for (var i = 0; i < authorities.length; i++) {
+				if (authorities[i] === 'ALL' || authorities[i] === 'F_INDICATOR_PUBLIC_ADD') {
+					self.admin = true;
+					return;
+				}
+			}
+
+		});
+
+
 		d2Map.load().then(function(success) {
+			self.ready = true;
 			init();
 		});
 
