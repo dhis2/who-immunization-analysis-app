@@ -12,6 +12,8 @@
 					admin: admin,
 					versionUpgrade: versionUpgrade,
 					dhisVersion: dhisVersion,
+					rimMeta: rimMeta,
+					rimUpdateConfig: rimUpdateConfig,
 					rimIndicatorTemplate: rimIndicatorTemplate,
 					rimVaccineCodes: rimVaccineCodes,
 					rimIndicatorType: rimIndicatorType,
@@ -19,6 +21,7 @@
 					rimUserGroup: rimUserGroup,
 					rimImported: rimImported,
 					rimAccess: rimAccess,
+					rimCodes: rimCodes,
 					indicators: indicators,
 					indicatorAddEdit: indicatorAddEdit,
 					indicatorDelete: indicatorDelete,
@@ -241,11 +244,29 @@
 					return deferred.promise;
 				}
 
+				function rimMeta() {
+					return _map.rim;
+				}
 
-				function rimImported(userGroupId) {
+
+				function rimUpdateConfig(dataSetId, districtLevel, provinceLevel, countryCode) {
+					_map.rim.dataSetId = dataSetId;
+					_map.rim.districtLevel = districtLevel;
+					_map.rim.provinceLevel = provinceLevel;
+					_map.rim.countryCode = countryCode;
+
+					save();
+				}
+
+
+				function rimImported(userGroupId, dataSetId, districtLevel, provinceLevel, countryCode) {
 					_map.rim = {
 						"imported": true,
-						"userGroup": userGroupId
+						"userGroup": userGroupId,
+						"dataSetId": dataSetId,
+						"districtLevel": districtLevel,
+						"provinceLevel": provinceLevel,
+						"countryCode": countryCode
 					}
 					save();
 				}
@@ -267,6 +288,23 @@
 					requestService.getSingleLocal('data/RimIndicators.json').then(function(response) {
 
 						deferred.resolve(response.data.indicators);
+
+					});
+
+					return deferred.promise;
+				}
+
+				function rimCodes() {
+					var deferred = $q.defer();
+
+					//First get the relevant indicators (by codes)
+					rimIndicatorTemplate().then(function(indicators) {
+						var codes = [];
+						for (var i = 0; i < indicators.length; i++) {
+							codes.push(indicators[i].code);
+						}
+
+						deferred.resolve(codes);
 
 					});
 

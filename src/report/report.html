@@ -71,7 +71,7 @@
 
 	<hr/>
 
-	<div class="navItem">
+	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'rim'">
 		<h4>Organisation unit</h4>
 		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit"
 						   default-level="1"
@@ -255,7 +255,44 @@
 		</uib-tab>
 		<uib-tab index="3" heading="RIM configuration" ng-click="rCtrl.rimConfig()">
 
-			<h3>RIM export configuration</h3>
+			<div style="width: 800px">
+			<h2>RIM export configuration</h2>
+
+			<p><em>Configuration</em> is used for changing general export parameters (existing parameters will be overwritten.
+				<em>Import</em> is used for	the initial import of RIM metadata only.</p>
+
+			<h3>Configuration</h3>
+			<label>Organisation unit levels</label>
+			<p>RIM export is done by district, and also include country codes. Please enter country code and select
+				province, district levels"</p>
+				<div style="width: 400px">
+				<span ">Country code: <input style="width: 100px; margin-bottom: 5px;" type="text" ng-model="rCtrl.rim.countryCode"></span>
+				<d2-select placeholder="Select province level..."
+						   options="rCtrl.rim.options.orgunitLevelsProvince" ng-model="rCtrl.rim.provinceLevel"
+				style="width: 400px"></d2-select>
+				<d2-select placeholder="Select district level..."
+						   options="rCtrl.rim.options.orgunitLevelsDistrict" ng-model="rCtrl.rim.districtLevel"
+						   style="width: 400px"></d2-select>
+				</div>
+
+			<br />
+
+			<label>Completeness</label>
+			<p>Select the EPI data set/reporting form to use for reporting on completeness</p>
+			<div style="width: 400px">
+				<d2-select placeholder="Select dataset..."
+						   options="rCtrl.rim.options.dataSets" ng-model="rCtrl.rim.dataset"
+						   style="width: 400px"></d2-select>
+
+			</div>
+			<button style="float: right; margin-top: 20px; margin-bottom: 20px;" class="btn btn-danger" ng-click="rCtrl.rimUpdate()"
+					ng-disabled="!rCtrl.rim.dataset || !rCtrl.rim.orgunitLevelsDistrict || !rCtrl.rim.orgunitLevelsProvince || !rCtrl.rim.countryCode">
+				Update configuration
+			</button>
+
+				<hr style="width: 100%; margin-top: 20px"/>
+
+			<h3>Import settings</h3>
 			<p>
 				RIM export relies on configuration of DHIS 2 indicators. This page is used for selecting the relevant
 				indicators and importing them into the DHIS 2. Administrators must then configure the indicator formulas
@@ -267,8 +304,8 @@
 				only to user in that group. Additional users can be added to this group in the DHIS 2 user management app.
 			</p>
 
+			<br/>
 
-			<br />
 			<label>Stock</label>
 			<p>Is information on stock (doses available and doses used) available?
 				<input type="checkbox" ng-model="rCtrl.rim.stock"></p>
@@ -291,11 +328,18 @@
 				   style="width: 600px;">
 				<tr ng-repeat="vaccine in rCtrl.rim.vaccineCodes">
 					<td>{{vaccine.name}}</td>
-					<td><input type="checkbox" ng-model="vaccine.selected" ng-init="vaccine.selected = true"></td>
+					<td><input type="checkbox" ng-model="vaccine.selected" ng-init="vaccine.selected = false"></td>
 				</tr>
 			</table>
 
-			<button class="btn btn-default" ng-click="rCtrl.rimImport()">Import</button>
+			<p>Overwrite previously imported RIM indicators?
+				<input type="checkbox" ng-model="rCtrl.rim.overwrite"></p>
+
+			<button ng-disabled="!rCtrl.rim.dataset || !rCtrl.rim.orgunitLevelsDistrict || !rCtrl.rim.orgunitLevelsProvince || !rCtrl.rim.countryCode"
+					style="float: right; margin-top: 20px; margin-bottom: 20px;" class="btn btn-danger" ng-click="rCtrl.rimImport()">
+				Import RIM metadata and update configuration
+			</button>
+			</div>
 
 		</uib-tab>
 	</uib-tabset>
@@ -475,5 +519,15 @@
 	<!--MONITORING-->
 	<div ng-if="rCtrl.current.type === 'mon'" class="reportContent">
 		<div id="monitoringChart" style="height: 600px; margin-bottom: 20px"></div>
+	</div>
+
+	<!-- RIM -->
+	<div ng-if="rCtrl.current.type === 'rim' && !rCtrl.rim.done">
+		<h3>{{rCtrl.rim.activity}}</h3>
+		<div class="progress">
+		<div class="progress-bar progress-bar-striped active" role="progressbar"
+			 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+		</div>
+		</div>
 	</div>
 </div>

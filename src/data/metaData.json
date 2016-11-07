@@ -263,7 +263,11 @@
 	],
 	"rim": {
 		"imported": false,
-		"userGroup": null
+		"userGroup": null,
+		"dataSetId": null,
+		"districtLevel": null,
+		"provinceLevel": null,
+		"countryCode"
 	}
 
 }

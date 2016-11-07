@@ -6,13 +6,12 @@
 
 	//Define DashboardController
 	angular.module('report').controller("ReportController",
-	['d2Map', 'd2Meta', 'd2Data', 'd2Utils',
-	function(d2Map, d2Meta, d2Data, d2Utils) {
+	['d2Map', 'd2Meta', 'd2Data', 'd2Utils', '$q',
+	function(d2Map, d2Meta, d2Data, d2Utils, $q) {
 
 	    var self = this;
 
 		self.makeReport = function() {
-
 			self.current = {
 				"type": self.selectedReport.id,
 				"ouFilter": ((self.selectedReport.id === 'vac' && self.selectedVaccineReport.id === 'allVac') ||
@@ -29,6 +28,9 @@
 				case 'mon':
 					monitoringReport();
 					break;
+				case 'rim':
+					rimExport();
+					break;
 				default:
 					console.log("Not implemented");
 			}
@@ -36,6 +38,7 @@
 		}
 
 		self.isReady = function() {
+			if (!self.selectedReport) return false;
 
 			var dataSelection;
 			if (self.selectedVaccines) {
@@ -846,6 +849,141 @@
 		}
 
 
+		/** RIM EXPORT **/
+		function rimExport() {
+			self.hideLeftMenu();
+
+			self.rim = {
+				done: false,
+				activity: 'Identifying data'
+			};
+			//First get all RIM variables (codes)
+			d2Map.rimCodes().then(function(codes) {
+
+				var promises = [];
+
+				//Query for these codes in DHIS
+				var start = 0, end = 50, filter = '';
+				while (start < codes.length && end <= codes.length) {
+					filter = 'code:in:[' + codes.slice(start, end).join(',') + ']';
+					promises.push(d2Meta.objects('indicators', null, 'id,numerator,code', filter, false));
+					start = end;
+					end += 50;
+					if (end > codes.length) end = codes.length;
+				}
+
+				//Save the ones that are in DHIS, and have been configured
+				$q.all(promises).then(function(datas) {
+					var indicatorIds = [];
+					self.rim.indicators = [];
+					for (var i = 0; i < datas.length; i++) {
+						for (var j = 0; j < datas[i].length; j++) {
+							if (datas[i][j].numerator != "") {
+								indicatorIds.push(datas[i][j].id);
+								self.rim.indicators.push(datas[i][j]);
+							}
+						}
+					}
+
+					var rimMeta = d2Map.rimMeta();
+					var pe = self.selectedPeriod.id + self.selectedMonth.id;
+					var ouLevel = rimMeta.districtLevel;
+
+					var completenessIds = [rimMeta.dataSetId + '.EXPECTED_REPORTS', rimMeta.dataSetId + '.ACTUAL_REPORTS',
+						rimMeta.dataSetId + '.ACTUAL_REPORTS_ON_TIME'];
+					d2Data.addRequest(completenessIds, pe, null, ouLevel, null, null);
+
+					//Request the data
+					var start = 0, end = 10;
+					if (end > indicatorIds.length) end = indicatorIds.length;
+					while (start < indicatorIds.length && end <= indicatorIds.length) {
+						d2Data.addRequest(indicatorIds.slice(start, end), pe, null,
+							ouLevel, null, null);
+
+						start = end;
+						end += 10;
+						if (end > indicatorIds.length) end = indicatorIds.length;
+					}
+					self.rim.activity = 'Downloading data';
+					d2Data.fetch().then(function (meta) {
+						rimProcessData(meta, indicatorIds);
+					});
+
+				});
+
+			});
+
+		}
+
+
+		function rimCodeFromId(id) {
+			for (var i = 0; i < self.rim.indicators.length; i++) {
+				if (self.rim.indicators[i].id === id) return self.rim.indicators[i].code;
+			}
+			return false;
+		}
+
+
+		function rimProcessData(metaData, indicatorIds) {
+			//Store data in array of arrays, which we can covert to CSV
+			var table = [];
+
+			//Rim metadata
+			var rimMeta = d2Map.rimMeta();
+
+			//Period (ISO)
+			var pe = metaData.pe[0];
+
+			//Year
+			var year = metaData.names[metaData.pe[0]].split(' ')[1];
+
+			//Month
+			var month = metaData.names[metaData.pe[0]].split(' ')[0];
+
+			//Country_Code
+			var countryCode = d2Map.rimMeta().countryCode;
+
+			//Districts to iterate over
+			var districts = metaData.ou;
+
+			var header = ['Country_Code', 'Province_Name', 'District', 'Year', 'Month', 'TotalNumHF',
+				'NumHFReportsIncluded', 'NumHFReportsTimely'];
+			for (var i = 0; i < indicatorIds.length; i++) {
+				header.push(rimCodeFromId(indicatorIds[i]));
+			}
+			table.push(header);
+
+			var districtId;
+			for (var i = 0; i < districts.length; i++) {
+				districtId = districts[i];
+				var row = [];
+
+				//Add metadata
+				row.push(countryCode);
+				row.push(metaData.names[metaData.ouHierarchy[districtId].split('/')[rimMeta.provinceLevel]]);
+				row.push(metaData.names[districtId]);
+				row.push(year);
+				row.push(month);
+
+				//Add completeness
+				row.push(d2Data.value(rimMeta.dataSetId + '.EXPECTED_REPORTS', pe, districtId, null, null));
+				row.push(d2Data.value(rimMeta.dataSetId + '.ACTUAL_REPORTS', pe, districtId, null, null));
+				row.push(d2Data.value(rimMeta.dataSetId + '.ACTUAL_REPORTS_ON_TIME', pe, districtId, null, null));
+
+				//Iterate over indicators
+				for (var j = 0; j < indicatorIds.length; j++) {
+					row.push(d2Data.value(indicatorIds[j], pe, districtId, null, null));
+				}
+
+				table.push(row);
+			}
+
+			makeExportFile(table);
+			self.rim.done = true;
+		}
+
+
+
 		/** ADMIN **/
 		self.adm = {
 			indicators: function(code) {return d2Map.indicators(code)},
@@ -876,9 +1014,30 @@
 				self.rim = {
 					"stock": true,
 					"outreach": false,
-					"aefi": false
+					"aefi": false,
+					"countryCode": '',
+					"districtLevel": null,
+					"provinceLevel": null,
+					"dataset": null,
+					"overwrite": false
 				};
 			}
+
+			self.rim.options = {
+				orgunitLevelsDistrict: [],
+				orgunitLevelsProvince: [],
+				dataSets: []
+			};
+			d2Meta.objects('dataSets', null, null, null, false).then(function (datasets) {
+				self.rim.options.dataSets = datasets;
+			});
+			d2Meta.objects('organisationUnitLevels', null, 'displayName,id,level', null, false).then(function (ouLevels) {
+
+				ouLevels = d2Utils.arraySortByProperty(ouLevels, 'level', true, true);
+
+				self.rim.options.orgunitLevelsDistrict = ouLevels;
+				self.rim.options.orgunitLevelsProvince = ouLevels;
+			});
 
 			//Get codes
 			d2Map.rimVaccineCodes().then(function (vaccines) {
@@ -940,8 +1099,15 @@
 			});
 		}
 
+		self.rimUpdate = function() {
+			console.log("Updating RIM setting");
 
-		self.rimImport = function() {
+			d2Map.rimUpdateConfig(self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level,
+				self.rim.countryCode);
+		}
+
+
+		self.rimImport = function(overwrite) {
 			console.log("Importing RIM indicators");
 
 			var stock = self.rim.stock;
@@ -1037,8 +1203,11 @@
 				metaData.indicatorTypes = [self.rim.indicatorType];
 			}
 
-			d2Meta.postMetadata(metaData, 'CREATE').then(function(data){
-				d2Map.rimImported(self.rim.userGroup);
+			var strategy = 'CREATE';
+			if (self.rim.overwrite) strategy = 'CREATE_AND_UPDATE';
+			var ugid = self.rim.userGroup.id;
+			d2Meta.postMetadata(metaData, strategy).then(function(data){
+				d2Map.rimImported(ugid);
 				console.log(data.data.importTypeSummaries);
 			});
 
@@ -1170,6 +1339,71 @@
 		}
 
 
+		/** CSV EXPORT **/
+		function makeExportFile(table) {
+			var string, csvContent = '';
+			var s = self.file.separator;
+			var fileName = self.file.fileName;
+
+			//Header
+			var headers = table[0];
+			string = '';
+			for (var i = 0; i < headers.length; i++) {
+				string += checkExportValue(headers[i]);
+				if (i+1 < headers.length) string += s;
+				else string += '\n';
+			}
+			csvContent += string;
+
+			for (var i = 1; i < table.length; i++) {
+				string = '';
+				var row = table[i];
+				for (var j = 0; j < row.length; j++) {
+					var value = row[j];
+					if (isNumeric(value)) {
+						value = fixDecimalsForExport(value);
+					}
+					string += checkExportValue(value);
+					if (j+1 < row.length) string += s;
+					else string += '\n';
+				}
+				csvContent += string;
+			}
+
+			var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+			saveAs(blob, self.file.fileName + '.csv');
+		}
+
+
+		/** UTILITIES */
+		function isNumeric(string){
+			return !isNaN(string)
+		}
+
+
+		function fixDecimalsForExport(value) {
+			value = value.toString();
+			if (value.length > 3 && value.indexOf('.0') === (value.length - 2)) {
+				value = value.slice(0, - 2);
+			}
+			else {
+				value = value.replace(',', self.file.decimal);
+				value = value.replace('.', self.file.decimal);
+			}
+			return value;
+		}
+
+
+		function checkExportValue(value, separator) {
+			var innerValue =	value === null ? '' : value.toString();
+			var result = innerValue.replace(/"/g, '""');
+			if (result.search(/("|separator|\n)/g) >= 0)
+				result = '"' + result + '"';
+			return result;
+		}
+
+
+
 		/** INIT **/
 		function init() {
 
@@ -1234,7 +1468,7 @@
 
 
 			self.months = [ {"displayName": "January", "id": "01"}, {"displayName": "February", "id": "02"}, {"displayName": "March", "id": "03"}, {"displayName": "April", "id": "04"}, {"displayName": "May", "id": "05"}, {"displayName": "June", "id": "06"}, {"displayName": "July", "id": "07"}, {"displayName": "August", "id": "08"}, {"displayName": "September", "id": "09"}, {"displayName": "October", "id": "10"}, {"displayName": "November", "id": "11"}, {"displayName": "December", "id": "12"} ];
-			self.selectedMonths = null;
+			self.selectedMonth = null;
 
 
 			//Parameters
@@ -1242,7 +1476,15 @@
 				"title": "[No data]"
 			};
 
+
+			self.file = {
+				"separator": ",",
+				"decimal": ".",
+				"fileName": "epi_export"
+			}
+
 		}
+
 
 		function initRim() {
 			d2Map.rimAccess().then(function(rimAccess) {
@@ -1254,6 +1496,8 @@
 						"id": "rim"
 					}
 				);
+
+				self.selectedReport = self.reportTypes[3];
 
 			});
 		}
@@ -1269,6 +1513,7 @@
 			}
 
 		});
+
 
 		d2Map.load().then(function(success) {
 			self.ready = true;
