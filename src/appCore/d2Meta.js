@@ -10,6 +10,7 @@
 					objects: objects,
 					orgunitIDs: orgunitIDs,
 					orgunitCountEstimate: orgunitCountEstimate,
+					currentUser: currentUser,
 					userOrgunit: userOrgunit,
 					userOrgunits: userOrgunits,
 					userOrgunitsHierarchy: userOrgunitsHierarchy,
@@ -22,7 +23,9 @@
 					dataElementOperands: dataElementOperandsFromIDs,
 					dataElementOrIndicator: dataElementOrIndicator,
 					authorizations: authorizations,
-					version: version
+					version: version,
+					postMetadata: postMetadata,
+					setSharing: setSharing
 				};
 
 
@@ -631,7 +634,25 @@
 				}
 
 
-				/** ===== AUTHORIZATION ===== */
+				/** ===== USER ===== */
+				function currentUser() {
+					var deferred = $q.defer();
+
+					var requestURL = '/api/me.json';
+					requestService.getSingleData(requestURL).then(
+						function(data) {
+							deferred.resolve(data);
+						},
+						function(error){
+							console.log("d2meta error: currentUser()");
+							console.log(error);
+						}
+					);
+
+					return deferred.promise;
+				}
+
+
 				function authorizations() {
 					var deferred = $q.defer();
 
@@ -641,7 +662,7 @@
 							deferred.resolve(data);
 						},
 						function(error){
-							console.log("d2meta error: version()");
+							console.log("d2meta error: authorizations()");
 							console.log(error);
 						}
 					);
@@ -667,6 +688,46 @@
 
 					return deferred.promise;
 				}
+
+
+				/** ===== IMPORT METADATA ===== */
+				function postMetadata(payload, strategy) {
+					var deferred = $q.defer();
+
+					var requestURL = '/api/metadata';
+					if (strategy) requestURL += '?strategy=' + strategy;
+					requestService.post(requestURL, payload).then(
+						function(data) {
+							deferred.resolve(data);
+						},
+						function(error){
+							console.log("d2meta error: postMetadata()");
+							console.log(error);
+						}
+					);
+
+					return deferred.promise;
+				}
+
+
+				/** ===== SET SHARING===== */
+				function setSharing(id, type, sharing) {
+					var deferred = $q.defer();
+
+					var requestURL = '/api/sharing?type=' + type + '&id=' + id;
+					requestService.post(requestURL, sharing).then(
+						function(data) {
+							deferred.resolve(data);
+						},
+						function(error){
+							console.log("d2meta error: postMetadata()");
+							console.log(error);
+						}
+					);
+
+					return deferred.promise;
+				}
+
 
 
 

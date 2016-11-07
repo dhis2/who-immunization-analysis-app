@@ -1,0 +1,220 @@
+{
+  "vaccines": [
+    {
+      "codeVacc": "BCG_",
+      "name": "BCG",
+      "codeStock": ["BCG_Avail", "BCG_Used"],
+      "codeAEFI": "AEFI_BCG"
+    },
+    {
+      "codeVacc": "DptHibHepB1_",
+      "name": "DPT-Hib-HepB 1",
+      "codeStock": ["DPTHibHepB_"],
+      "codeAEFI": "AEFI_DPTHibHepB"
+    },
+    {
+      "codeVacc": "DptHibHepB2_",
+      "name": "DPT-Hib-HepB 2",
+      "codeStock": ["DPTHibHepB_"],
+      "codeAEFI": "AEFI_DPTHibHepB"
+    },
+    {
+      "codeVacc": "DptHibHepB3_",
+      "name": "DPT-Hib-HepB 3",
+      "codeStock": ["DPTHibHepB_"],
+      "codeAEFI": "AEFI_DPTHibHepB"
+    },
+    {
+      "codeVacc": "HepB_",
+      "name": "HepB",
+      "codeStock": ["MonoHepB_"],
+      "codeAEFI": "AEFI_mHepB"
+    },
+    {
+      "codeVacc": "HPV1_",
+      "name": "HPV 1",
+      "codeStock": ["HPV_"],
+      "codeAEFI": "AEFI_HPV"
+    },
+    {
+      "codeVacc": "HPV2_",
+      "name": "HPV 2",
+      "codeStock": ["HPV_"],
+      "codeAEFI": "AEFI_HPV"
+    },
+    {
+      "codeVacc": "HPV3_",
+      "name": "HPV 3",
+      "codeStock": ["HPV_"],
+      "codeAEFI": "AEFI_HPV"
+    },
+    {
+      "codeVacc": "IPV_",
+      "name": "IPV",
+      "codeStock": ["IPV_Avail", "IPV_Used"],
+      "codeAEFI": "AEFI_IPV"
+    },
+    {
+      "codeVacc": "IPV1_",
+      "name": "IPV 1",
+      "codeStock": ["IPV_Avail", "IPV_Used"],
+      "codeAEFI": "AEFI_IPV"
+    },
+    {
+      "codeVacc": "IPV2_",
+      "name": "IPV 2",
+      "codeStock": ["IPV_Avail", "IPV_Used"],
+      "codeAEFI": "AEFI_IPV"
+    },
+    {
+      "codeVacc": "IPV3_",
+      "name": "IPV 3",
+      "codeStock": ["IPV_Avail", "IPV_Used"],
+      "codeAEFI": "AEFI_IPV"
+    },
+    {
+      "codeVacc": "Measles1_",
+      "name": "Measles 1",
+      "codeStock": ["MCV_"],
+      "codeAEFI": "AEFI_Measles"
+    },
+    {
+      "codeVacc": "Measles2_",
+      "name": "Measles 2",
+      "codeStock": ["MCV_"],
+      "codeAEFI": "AEFI_Measles"
+    },
+    {
+      "codeVacc": "MeaslesRub1_",
+      "name": "Measles Rubella 1",
+      "codeStock": ["MR_"],
+      "codeAEFI": "AEFI_MR"
+    },
+    {
+      "codeVacc": "MeaslesRub2_",
+      "name": "Measles Rubella 2",
+      "codeStock": ["MR_"],
+      "codeAEFI": "AEFI_MR"
+    },
+    {
+      "codeVacc": "MenA_",
+      "name": "MenA",
+      "codeStock": ["MenA_Avail", "MenA_Used"],
+      "codeAEFI": "AEFI_MenA"
+    },
+    {
+      "codeVacc": "OPV1_",
+      "name": "OPV 1",
+      "codeStock": ["OPV_"],
+      "codeAEFI": "AEFI_OPV"
+    },
+    {
+      "codeVacc": "OPV2_",
+      "name": "OPV 2",
+      "codeStock": ["OPV_"],
+      "codeAEFI": "AEFI_OPV"
+    },
+    {
+      "codeVacc": "OPV3_",
+      "name": "OPV 3",
+      "codeStock": ["OPV_"],
+      "codeAEFI": "AEFI_OPV"
+    },
+    {
+      "codeVacc": "OPVBirth_",
+      "name": "OPV 0/Birth dose",
+      "codeStock": ["OPV_"],
+      "codeAEFI": "AEFI_OPV"
+    },
+    {
+      "codeVacc": "Pneumo1_",
+      "name": "Pneumo 1",
+      "codeStock": ["Pneumo_"],
+      "codeAEFI": "AEFI_Pneumo"
+    },
+    {
+      "codeVacc": "Pneumo2_",
+      "name": "Pneumo 2",
+      "codeStock": ["Pneumo_"],
+      "codeAEFI": "AEFI_Pneumo"
+    },
+    {
+      "codeVacc": "Pneumo3_",
+      "name": "Pneumo 3",
+      "codeStock": ["Pneumo_"],
+      "codeAEFI": "AEFI_Pneumo"
+    },
+    {
+      "codeVacc": "Rota1_",
+      "name": "Rota 1",
+      "codeStock": ["Rota_"],
+      "codeAEFI": "AEFI_Rota"
+    },
+    {
+      "codeVacc": "Rota2_",
+      "name": "Rota 2",
+      "codeStock": ["Rota_"],
+      "codeAEFI": "AEFI_Rota"
+    },
+    {
+      "codeVacc": "RotaLast_",
+      "name": "Rota last",
+      "codeStock": ["Rota_"],
+      "codeAEFI": "AEFI_Rota"
+    },
+    {
+      "codeVacc": "TD_",
+      "name": "Tetanus diphteria (TD)",
+      "codeStock": [],
+      "codeAEFI": null
+    },
+    {
+      "codeVacc": "TT1_",
+      "name": "TT1",
+      "codeStock": ["TT_"],
+      "codeAEFI": "AEFI_TT"
+    },
+    {
+      "codeVacc": "TT2_",
+      "name": "TT2",
+      "codeStock": ["TT_"],
+      "codeAEFI": "AEFI_TT"
+    },
+    {
+      "codeVacc": "TT3_",
+      "name": "TT3",
+      "codeStock": ["TT_"],
+      "codeAEFI": "AEFI_TT"
+    },
+    {
+      "codeVacc": "TT4_",
+      "name": "TT4",
+      "codeStock": ["TT_"],
+      "codeAEFI": "AEFI_TT"
+    },
+    {
+      "codeVacc": "TT5_",
+      "name": "TT5",
+      "codeStock": ["TT_"],
+      "codeAEFI": "AEFI_TT"
+    },
+    {
+      "codeVacc": "VitaminA_",
+      "name": "Vitamin A",
+      "codeStock": [],
+      "codeAEFI": null
+    },
+    {
+      "codeVacc": "VitaminAPP",
+      "name": "Vitamin A postpartum",
+      "codeStock": [],
+      "codeAEFI": null
+    },
+    {
+      "codeVacc": "YF_",
+      "name": "Yellow fever",
+      "codeStock": ["YF_Avail", "YF_Used"],
+      "codeAEFI": "AEFI_YF"
+    }
+  ]
+}

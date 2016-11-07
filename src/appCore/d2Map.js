@@ -12,6 +12,13 @@
 					admin: admin,
 					versionUpgrade: versionUpgrade,
 					dhisVersion: dhisVersion,
+					rimIndicatorTemplate: rimIndicatorTemplate,
+					rimVaccineCodes: rimVaccineCodes,
+					rimIndicatorType: rimIndicatorType,
+					rimIndicatorGroup: rimIndicatorGroup,
+					rimUserGroup: rimUserGroup,
+					rimImported: rimImported,
+					rimAccess: rimAccess,
 					indicators: indicators,
 					indicatorAddEdit: indicatorAddEdit,
 					indicatorDelete: indicatorDelete,
@@ -96,8 +103,8 @@
 				function editMap() {
 
 					_map.currentVersion = 0.1;
-					_map.performance[0].displayName = "DPT 1 coverage vs DPT 1-3 dropout rate";
-					delete _map.performance[0].name;
+
+
 
 					return save();
 				}
@@ -147,6 +154,8 @@
 
 					return deferred.promise;
 				}
+
+
 
 				/**
 				 * Upgrade metadata version
@@ -211,9 +220,94 @@
 				}
 
 
+				/** ===== RIM ===== **/
+
+				function rimAccess() {
+					var deferred = $q.defer();
+
+					console.log(_map.rim);
+
+					if (!_map || !_map.rim.imported) deferred.resolve(false);
+					else {
+						d2Meta.currentUser().then(function(response) {
+							var groups = response.userGroups;
+							for (var i = 0; i < groups.length; i++) {
+								if (groups[i].id === _map.rim.userGroup) deferred.resolve(true);
+							}
+							deferred.resolve(false);
+						});
+					}
+
+					return deferred.promise;
+				}
+
+
+				function rimImported(userGroupId) {
+					_map.rim = {
+						"imported": true,
+						"userGroup": userGroupId
+					}
+					save();
+				}
+
+
+				function rimVaccineCodes() {
+					var deferred = $q.defer();
+					requestService.getSingleLocal('data/RimVaccineCodes.json').then(function(response) {
+
+						deferred.resolve(response.data.vaccines);
+
+					});
+
+					return deferred.promise;
+				}
+
+				function rimIndicatorTemplate() {
+					var deferred = $q.defer();
+					requestService.getSingleLocal('data/RimIndicators.json').then(function(response) {
+
+						deferred.resolve(response.data.indicators);
+
+					});
+
+					return deferred.promise;
+				}
+
+				function rimIndicatorType() {
+					var deferred = $q.defer();
+					requestService.getSingleLocal('data/defaultIndicatorType.json').then(function(response) {
+
+						deferred.resolve(response.data.indicatorTypes[0]);
+
+					});
+
+					return deferred.promise;
+				}
+
+				function rimIndicatorGroup() {
+					var deferred = $q.defer();
+					requestService.getSingleLocal('data/defaultIndicatorGroup.json').then(function(response) {
+
+						deferred.resolve(response.data.indicatorGroups[0]);
+
+					});
+
+					return deferred.promise;
+				}
+
+				function rimUserGroup() {
+					var deferred = $q.defer();
+					requestService.getSingleLocal('data/defaultUserGroup.json').then(function(response) {
+
+						deferred.resolve(response.data.userGroups[0]);
+
+					});
+
+					return deferred.promise;
+				}
+
 
 				/** ===== INDICATORS ===== **/
-
 				function indicators(code) {
 					if (code) {
 						for (var i = 0; i < _map.indicators.length; i++) {

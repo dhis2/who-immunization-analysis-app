@@ -14,21 +14,21 @@
 
 	<div class="navItem">
 		<h4>Report type</h4>
-		<d2-select options="rCtrl.reportTypes" ng-model="rCtrl.selectedReport" placeholder="Select report type..."></d2-select>
-		<d2-select ng-if="rCtrl.selectedReport.id === 'vac'" options="rCtrl.vaccineReportTypes" ng-model="rCtrl.selectedVaccineReport"></d2-select>
-		<d2-select ng-if="rCtrl.selectedReport.id === 'mon'" options="rCtrl.monitoringReportTypes" ng-model="rCtrl.selectedMonitoringReport"></d2-select>
+		<d2-select on-select="rCtrl.selectedVaccines = undefined;" options="rCtrl.reportTypes" ng-model="rCtrl.selectedReport" placeholder="Select report type..."></d2-select>
+		<d2-select on-select="rCtrl.selectedVaccines = undefined;" ng-if="rCtrl.selectedReport.id === 'vac'" options="rCtrl.vaccineReportTypes" ng-model="rCtrl.selectedVaccineReport"></d2-select>
+		<d2-select on-select="rCtrl.selectedVaccines = undefined;" ng-if="rCtrl.selectedReport.id === 'mon'" options="rCtrl.monitoringReportTypes" ng-model="rCtrl.selectedMonitoringReport"></d2-select>
 	</div>
 
 
-	<hr ng-if="rCtrl.selectedReport.id != 'perf'"/>
+	<hr ng-if="rCtrl.selectedReport.id != 'perf' && rCtrl.selectedReport.id != 'rim'"/>
 
-	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'perf'">
+	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'perf' && rCtrl.selectedReport.id != 'rim'">
 		<h4>Data</h4>
 		<d2-select
 				options="rCtrl.vaccines"
 				ng-model="rCtrl.selectedVaccines"
 				placeholder="Select vaccines..."
-				on-select="rCtrl.monitoringTargetOptions();"
+				on-select="rCtrl.monitoringTargetOptions(); rCtrl.selectedTarget = undefined;"
 				multiple="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac') ||
 				(rCtrl.selectedReport.id === 'mon' && rCtrl.selectedMonitoringReport.id === 'allVac')">
 		</d2-select>
@@ -45,7 +45,7 @@
 	<hr/>
 
 	<div class="navItem">
-		<h4>Year</h4>
+		<h4>Period</h4>
 		<d2-select options="rCtrl.periods" ng-model="rCtrl.selectedPeriod" placeholder="Select year..."></d2-select>
 		<div class="btn-group btn-group-justified"
 			 style="margin-bottom: 5px;"
@@ -63,6 +63,10 @@
 				   step="1"
 				   class="form-control">
 		</div>
+		<div ng-if="rCtrl.selectedReport.id === 'rim'">
+			<label>Month</label>
+			<d2-select ng-model="rCtrl.selectedMonth" options="rCtrl.months" placeholder="Select month..."></d2-select>
+		</div>
 	</div>
 
 	<hr/>
@@ -78,7 +82,7 @@
 	</div>
 
 	<div class="navItem" style="float:right;">
-		<button ng-click="rCtrl.makeReport()" class="btn btn-success">Make report</button>
+		<button ng-disabled="!rCtrl.isReady()" ng-click="rCtrl.makeReport()" class="btn btn-success">Make report</button>
 
 	</div>
 
@@ -248,6 +252,51 @@
 					</th>
 				</tr>
 			</table>
+		</uib-tab>
+		<uib-tab index="3" heading="RIM configuration" ng-click="rCtrl.rimConfig()">
+
+			<h3>RIM export configuration</h3>
+			<p>
+				RIM export relies on configuration of DHIS 2 indicators. This page is used for selecting the relevant
+				indicators and importing them into the DHIS 2. Administrators must then configure the indicator formulas
+				to map each indicator to the appropriate data elements.
+			</p>
+
+			<p>
+				A new user group will be imported with the current users as member, and the RIM indicators will be visible
+				only to user in that group. Additional users can be added to this group in the DHIS 2 user management app.
+			</p>
+
+
+			<br />
+			<label>Stock</label>
+			<p>Is information on stock (doses available and doses used) available?
+				<input type="checkbox" ng-model="rCtrl.rim.stock"></p>
+
+			<br />
+
+			<label>AEFI</label>
+			<p>Is information on AEFIs <em>by vaccine</em> available?
+				<input type="checkbox" ng-model="rCtrl.rim.aefi"></p>
+
+			<br />
+			<label>Vaccine disaggregation</label>
+			<p>Is vaccination data disaggregated by static/outreach, or static/outreach/mobile?
+				<input type="checkbox" ng-model="rCtrl.rim.outreach"></p>
+
+			<br />
+			<label>Vaccines</label>
+			<table class="table table-bordered"
+				   ng-if="!rCtrl.adm.d"
+				   style="width: 600px;">
+				<tr ng-repeat="vaccine in rCtrl.rim.vaccineCodes">
+					<td>{{vaccine.name}}</td>
+					<td><input type="checkbox" ng-model="vaccine.selected" ng-init="vaccine.selected = true"></td>
+				</tr>
+			</table>
+
+			<button class="btn btn-default" ng-click="rCtrl.rimImport()">Import</button>
+
 		</uib-tab>
 	</uib-tabset>
 

@@ -35,7 +35,32 @@
 
 		}
 
+		self.isReady = function() {
 
+			var dataSelection;
+			if (self.selectedVaccines) {
+				dataSelection = d2Utils.toArray(self.selectedVaccines);
+				if ((self.selectedReport.id === 'vac' || self.selectedReport.id === 'mon') && dataSelection.length === 0) return false;
+			}
+			else {
+				if (self.selectedReport.id === 'vac' || self.selectedReport.id === 'mon') return false;
+			}
+
+			if (self.selectedPeriod === undefined) return false;
+
+			if (self.selectedReport.id === 'vac' && self.selectedVaccineReport.id === 'oneVac') {
+				if (self.selectedOrgunit.level === undefined) return false;
+			}
+			if (self.selectedReport.id === 'mon' && self.selectedMonitoringReport.id === 'allVac') {
+				if (self.selectedTarget === undefined) return false;
+			}
+			if (self.selectedReport.id === 'rim') {
+				if (self.selectedOrgunit.level === undefined) return false;
+				if (self.selectedMonth === undefined) return false;
+			}
+
+			return true;
+		}
 
 		/** VACCINE REPORT **/
 		function vaccineReport() {
@@ -719,7 +744,7 @@
 					});
 				}
 
-				self.current.title = self.current.selectedOrgunit.boundary.displayName;
+				self.current.title = self.current.orgunits.boundary.displayName;
 				self.current.subtitle = d2Data.name(self.current.indicators.vaccineTarget);
 			}
 
@@ -845,6 +870,226 @@
 		}
 
 
+		/** RIM ADMIN **/
+		self.rimConfig = function () {
+			if (!self.rim) {
+				self.rim = {
+					"stock": true,
+					"outreach": false,
+					"aefi": false
+				};
+			}
+
+			//Get codes
+			d2Map.rimVaccineCodes().then(function (vaccines) {
+
+					console.log(vaccines);
+					self.rim.vaccineCodes = vaccines;
+
+				}
+			);
+
+			//Get indicator templates
+			d2Map.rimIndicatorTemplate().then(function (indicators) {
+
+					console.log(indicators);
+					self.rim.indicatorTemplate = indicators;
+				}
+			);
+
+			//Get current user id
+			d2Meta.currentUser().then(function(user) {
+				self.rim.userId = user.id;
+			});
+
+			//Get user group template
+			d2Map.rimUserGroup().then(function(userGroup) {
+				self.rim.userGroup = userGroup;
+			});
+
+			//Get indicator group template
+			d2Map.rimIndicatorGroup().then(function(indicatorGroup) {
+				self.rim.indicatorGroup = indicatorGroup;
+			});
+
+			//Get indicator type to use (reuse if possible, else add)
+			d2Meta.objects('indicatorTypes', null, 'displayName,id,number,factor', 'factor:eq:1', false).then(function(indicatorTypes) {
+
+				//if nothing, use our template
+				if (indicatorTypes.length === 0) {
+					d2Map.rimIndicatorType().then(function(indicatorType) {
+						self.rim.indicatorType = indicatorType;
+					});
+				}
+
+				//if one, use that
+				else if (indicatorTypes.length === 1) {
+					self.rim.indicatorType = indicatorTypes[0];
+				}
+
+				//if multiple, try to find one where factor = 1 AND number = true, else use the first
+				else {
+					self.rim.indicatorTypes = indicatorTypes[0];
+					for (var i = 0; i < indicatorTypes.length; i++) {
+						if (indicatorTypes[i].number) {
+							self.rim.indicatorType = indicatorTypes[i];
+							break;
+						}
+					}
+				}
+			});
+		}
+
+
+		self.rimImport = function() {
+			console.log("Importing RIM indicators");
+
+			var stock = self.rim.stock;
+			var outreach = self.rim.outreach;
+			var aefi = self.rim.aefi;
+
+			var indicator, indicators = [], skipped = [];
+			for (var i = 0; i < self.rim.indicatorTemplate.length; i++) {
+				indicator = self.rim.indicatorTemplate[i];
+
+				var match = false;
+				for (var j = 0; j < self.rim.vaccineCodes.length && !match; j++) {
+					vacc = self.rim.vaccineCodes[j];
+
+					var stockCode = false;
+					for (var k = 0; k < vacc.codeStock.length && !stockCode; k++) {
+						if (indicator.code.startsWith(vacc.codeStock[k])) stockCode = true;
+					}
+
+					if (stockCode) {
+						match = true;
+						if (vacc.selected && stock) {
+							indicators.push(indicator);
+						}
+						else {
+							skipped.push(indicator.name);
+						}
+					}
+					else if (indicator.code.startsWith(vacc.codeVacc)) {
+						match = true;
+						if (vacc.selected &&
+							!(indicator.code.endsWith('Avail') || indicator.code.endsWith('Used'))) {
+							if (outreach && (indicator.code.endsWith('_Static') || indicator.code.endsWith('_Out'))) {
+								indicators.push(indicator);
+							}
+							else if (!outreach && !(indicator.code.endsWith('_Static') || indicator.code.endsWith('_Out'))) {
+								indicators.push(indicator);
+							}
+							else {
+								skipped.push(indicator.name);
+							}
+						}
+						else {
+							skipped.push(indicator.name);
+						}
+					}
+					else if (indicator.code.startsWith(vacc.codeAEFI)) {
+						match = true;
+						if (vacc.selected && aefi) {
+							indicators.push(indicator);
+						}
+						else {
+							skipped.push(indicator.name);
+						}
+					}
+				}
+
+				if (!match) indicators.push(indicator);
+
+			}
+
+			//Add current user to user group
+			self.rim.userGroup.users.push({'id': self.rim.userId});
+
+			//Add indicator group
+			self.rim.indicatorGroup.userGroupAccesses = [{
+				'id': self.rim.userGroup.id
+			}];
+
+			//Add indicator type and user group to each indicator
+			for (var i = 0; i < indicators.length; i++) {
+				indicators[i].indicatorType = {
+					'id': self.rim.indicatorType.id
+				}
+				indicators[i].userGroupAccesses = [{
+					'id': self.rim.userGroup.id
+				}];
+
+				self.rim.indicatorGroup.indicators.push({
+					'id': indicators[i].id
+				});
+			}
+
+			//Make metadata object
+			var metaData = {
+				'userGroups': [self.rim.userGroup],
+				'indicatorGroups': [self.rim.indicatorGroup],
+				'indicators': indicators
+			}
+
+			//If we're not reusing an indicatorType, add indicatorType as well
+			if (self.rim.indicatorType.id === "kHy61PbChXR") {
+				metaData.indicatorTypes = [self.rim.indicatorType];
+			}
+
+			d2Meta.postMetadata(metaData, 'CREATE').then(function(data){
+				d2Map.rimImported(self.rim.userGroup);
+				console.log(data.data.importTypeSummaries);
+			});
+
+
+			//Temporary workaround until sharing issue is resolved
+			self.shareQueue = [];
+			var shareObject = {
+				"object": {
+					"publicAccess": "--------",
+					"userGroupAccesses": [
+						{
+							"id": self.rim.userGroup.id,
+							"access": "rw------"
+						}
+					]
+				}
+			};
+
+			self.shareQueue.push({
+				'id': self.rim.indicatorGroup.id,
+				'type': 'indicatorGroup',
+				'sharing': shareObject
+			});
+			self.shareQueue.push({
+				'id': self.rim.userGroup.id,
+				'type': 'userGroup',
+				'sharing': shareObject
+			});
+			for (var i = 0; i < indicators.length; i++) {
+				self.shareQueue.push({
+					'id': indicators[i].id,
+					'type': 'indicator',
+					'sharing': shareObject
+				});
+			}
+
+			shareQueuePop();
+
+		}
+
+
+		function shareQueuePop() {
+
+			var obj = self.shareQueue.pop();
+			if (!obj) return;
+
+			d2Meta.setSharing(obj.id, obj.type, obj.sharing).then(function(data) {
+				shareQueuePop();
+			});
+		}
+
 
 		/** COMMON **/
 		function monthsInYear(year) {
@@ -855,6 +1100,7 @@
 			}
 			return periods;
 		}
+
 
 		function timeSeries() {
 			var series = [];
@@ -879,6 +1125,7 @@
 
 			return series;
 		}
+
 
 
 		/** NAVIGATION **/
@@ -986,11 +1233,29 @@
 			self.selectedPeriod = self.periods[0];
 
 
+			self.months = [ {"displayName": "January", "id": "01"}, {"displayName": "February", "id": "02"}, {"displayName": "March", "id": "03"}, {"displayName": "April", "id": "04"}, {"displayName": "May", "id": "05"}, {"displayName": "June", "id": "06"}, {"displayName": "July", "id": "07"}, {"displayName": "August", "id": "08"}, {"displayName": "September", "id": "09"}, {"displayName": "October", "id": "10"}, {"displayName": "November", "id": "11"}, {"displayName": "December", "id": "12"} ];
+			self.selectedMonths = null;
+
+
 			//Parameters
 			self.current = {
 				"title": "[No data]"
 			};
 
+		}
+
+		function initRim() {
+			d2Map.rimAccess().then(function(rimAccess) {
+				self.rimAccess = rimAccess;
+
+				self.reportTypes.push(
+					{
+						"displayName": "RIM Export",
+						"id": "rim"
+					}
+				);
+
+			});
 		}
 
 
@@ -1005,10 +1270,10 @@
 
 		});
 
-
 		d2Map.load().then(function(success) {
 			self.ready = true;
 			init();
+			initRim();
 		});
 
 
