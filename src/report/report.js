@@ -65,6 +65,7 @@
 			return true;
 		}
 
+
 		/** VACCINE REPORT **/
 		function vaccineReport() {
 			console.log("Making vaccine report");
@@ -76,9 +77,8 @@
 
 			//Data
 			self.current.indicators = d2Utils.toArray(self.selectedVaccines);
-			self.current.dataIds = vaccineReportDataIds();
-
-			console.log(self.current.dataIds);
+			self.current.dataIds = vaccineReportDataIds().all;
+			self.current.denominatorIds = vaccineReportDataIds().denominators;
 
 			//Period
 			self.current.periods = monthsInYear(self.selectedPeriod.id);
@@ -93,14 +93,21 @@
 			var level = self.current.ouFilter ? null :
 				self.selectedOrgunit.level ? self.selectedOrgunit.level.level : null;
 
+
+			//fetch metadata and data
+			//Need to check whether denominator is annualized, or if we should annualize it
+			var promises = [];
+			promises.push(d2Meta.objects('indicators', self.current.denominatorIds, 'id,annualized', 'annualized:eq:true', false))
+
 			//data
 			d2Data.addRequest(dx, pe, self.selectedOrgunit.boundary.id, level, null);
-			d2Data.fetch().then(
-				function(data) {
-					self.current.d2meta = data;
-					vaccineReportProcessData();
-				}
-			);
+			promises.push(d2Data.fetch());
+
+			$q.all(promises).then(function(datas) {
+				self.current.annualizedDenominators = datas[0];
+				self.current.d2meta = datas[1];
+				vaccineReportProcessData();
+			});
 		}
 
 
@@ -216,7 +223,9 @@
 				target = d2Data.value(vaccineTargetId, periods[i], orgunit, null, null);
 				all = d2Data.value(vaccineAllId, periods[i], orgunit, null, null);
 				denominator = d2Data.value(denominatorId, periods[i], orgunit, null, null);
-				denominator = denominator/12;	//TODO: should have a check - if indicator it could be annualized already
+
+				//If population is set up as indicator it could already be annualized, so we need to check
+				if (!annualized(denominatorId)) denominator = denominator/12;
 
 				if (self.current.cumulative) {
 					cumulated.vaccineTarget += !target ? 0 : target;
@@ -234,11 +243,13 @@
 					current.denominator = denominator;
 				}
 
+				var coverage = current.denominator ? d2Utils.round(100*current.vaccineTarget/current.denominator, 1) : null;
+
 				var result = {
 					"vaccineTarget": current.vaccineTarget,
 					"vaccineAll": current.vaccineAll,
 					"denominator": current.denominator,
-					"coverage": d2Utils.round(100*current.vaccineTarget/current.denominator, 1)
+					"coverage": coverage
 				};
 
 				dataSeries.push(result);
@@ -250,20 +261,71 @@
 
 		function vaccineReportDataIds() {
 
-			var dataIds = [];
+			var all = [];
+			var denominators = [];
 			var indicators = d2Utils.toArray(self.selectedVaccines);
 			for (var i = 0; i < indicators.length; i++) {
-				dataIds.push(indicators[i]["vaccineTarget"], indicators[i]["vaccineAll"], indicators[i]["denominator"]);
+				denominators.push(indicators[i]["denominator"]);
+				all.push(indicators[i]["vaccineTarget"], indicators[i]["vaccineAll"], indicators[i]["denominator"]);
 			}
 
-			return dataIds;
+			return {'all': all, 'denominators': denominators};
+		}
+
+
+		self.vaccineReportDownload = function() {
+			var table = [];
+			var periods = [];
+
+
+			var headerRow = []
+			for (var i = 0; i < self.current.headerColumns.length; i++) {
+				headerRow.push(self.current.headerColumns[i].title);
+			}
+			headerRow.push("Data");
+			for (var i = 0; i < self.current.dataColumns.length; i++) {
+				headerRow.push(self.current.dataColumns[i].title);
+				periods.push(self.current.dataColumns[i].id);
+			}
+			table.push(headerRow);
+
+			var dataFields = [{'id': 'vaccineAll', 'name': "all ages"}, {'id': 'vaccineTarget', 'name': "target age"},
+				{'id': 'coverage', 'name': "coverage"}];
+			for (var i = 0; i < self.current.dataTable.length; i++) {
+
+				for (j = 0; j < dataFields.length; j++) {
+					var dataField = dataFields[j];
+					var row = [];
+
+					if (self.current.dataTable[i].parents) row.push(self.current.dataTable[i].parents);
+					row.push(self.current.dataTable[i].ou, self.current.dataTable[i].vaccine, dataField.name);
+
+					//Row for all ages
+					for (var k = 0; k < periods.length; k++) {
+						row.push(self.current.dataTable[i][periods[k]][dataField.id]);
+					}
+
+					table.push(row);
+				}
+			}
+
+			makeExportFile(table, "vaccinations");
 		}
 
 
 
 		/** PERFORMANCE REPORT **/
+		function performanceReportPossible() {
+			var perf = d2Map.performance("P1");
+			if (d2Map.indicatorsConfigured(perf.indicator) && d2Map.dropoutsConfigured(perf.dropout)) return true;
+			return false;
+		}
+
+
 		function performanceReport() {
 			console.log("Making performance report");
+
+			if (!performanceReportPossible()) alert("Performance report has not been configured, contact the administrators.");
 
 			//Save misc parameters for report we are making
 			self.current.cumulative = self.aggregationType === 'cumulative';
@@ -276,9 +338,8 @@
 			self.current.indicator = d2Map.indicators(perf.indicator);
 			self.current.dropout = d2Map.dropouts(perf.dropout);
 
-			self.current.dataIds = performanceReportDataIds();
-
-			console.log(self.current.dataIds);
+			self.current.dataIds = performanceReportDataIds().all;
+			self.current.denominatorIds = performanceReportDataIds().denominators;
 
 			//Period
 			self.current.periods = monthsInYear(self.selectedPeriod.id);
@@ -293,14 +354,22 @@
 			var level = self.current.ouFilter ? null :
 				self.selectedOrgunit.level ? self.selectedOrgunit.level.level : null;
 
+			//fetch metadata and data
+			//Need to check whether denominator is annualized, or if we should annualize it
+			var promises = [];
+			promises.push(d2Meta.objects('indicators', self.current.denominatorIds, 'id,annualized', 'annualized:eq:true', false))
+
 			//data
 			d2Data.addRequest(dx, pe, self.selectedOrgunit.boundary.id, level, null);
-			d2Data.fetch().then(
-				function(data) {
-					self.current.d2meta = data;
-					performanceReportProcessData();
-				}
-			);
+			promises.push(d2Data.fetch());
+
+			$q.all(promises).then(function(datas) {
+
+				self.current.annualizedDenominators = datas[0];
+
+				self.current.d2meta = datas[1];
+				performanceReportProcessData();
+			});
 		}
 
 
@@ -405,8 +474,7 @@
 				dropFrom = d2Data.value(dropFromId, periods[i], orgunit, null, null);
 				dropTo = d2Data.value(dropToId, periods[i], orgunit, null, null);
 
-				//TODO: should check is annualized indicator
-				covDen = covDen/12;
+				if (!annualized(covDenId))covDen = covDen/12;
 
 
 				if (self.current.cumulative) {
@@ -474,20 +542,22 @@
 
 		function performanceReportDataIds() {
 
-			var dataIds = [];
-			dataIds.push(self.current.indicator.vaccineTarget);
-			dataIds.push(self.current.indicator.denominator);
+			var all = [];
+			var denominators = [];
+			all.push(self.current.indicator.vaccineTarget);
+			all.push(self.current.indicator.denominator);
+			denominators.push(self.current.indicator.denominator);
 
-			dataIds.push(d2Map.indicators(self.current.dropout.vaccineFrom).vaccineTarget);
-			dataIds.push(d2Map.indicators(self.current.dropout.vaccineTo).vaccineTarget);
+			all.push(d2Map.indicators(self.current.dropout.vaccineFrom).vaccineTarget);
+			all.push(d2Map.indicators(self.current.dropout.vaccineTo).vaccineTarget);
 
-			return dataIds;
+			return {'all': all, 'denominators': denominators};
 		}
 
 
 		function performanceChart() {
 
-			var xMax = 100, yMax = 30;
+			var xMax = 100, yMax = 30, yMin = 0;
 			var datapoints = [];
 
 			//Find the latest period with data, which we use for the chart
@@ -514,6 +584,7 @@
 
 				xMax = value.coverage > xMax ? value.coverage : xMax;
 				yMax = value.dropout > yMax ? value.dropout : yMax;
+				yMin = value.dropout < yMin ? value.dropout : yMin;
 
 			}
 
@@ -521,7 +592,12 @@
 			title = d2Data.name(period) + title;
 
 			yMax = Math.ceil(yMax/10)*10;
+			yMin = Math.floor(yMin/10)*10;
 			xMax = Math.ceil(xMax/10)*10;
+
+			if (yMax > 30) yMax = 30;
+			if (yMin < -30) yMax = -30;
+			if (xMax > 200) xMax = 200;
 
 			$('#performanceChart').highcharts({
 					xAxis: {
@@ -533,7 +609,7 @@
 						}
 					},
 					yAxis: {
-						min: 0,
+						min: yMin,
 						max: yMax,
 						title: {
 							enabled: true,
@@ -621,10 +697,10 @@
 			chart = $('#performanceChart[data-highcharts-chart]');
 			chart.highcharts().reflow();
 
-			drawBox(90, 'max', 0, 10, '#dff0d8', 'performanceChart', 'greenBox');
-			drawBox(90, 'max', 10, 'max', '#d9edf7', 'performanceChart', 'blueBox');
+			drawBox(90, 100, 0, 10, '#dff0d8', 'performanceChart', 'greenBox');
+			drawBox(90, 100, 10, 30, '#d9edf7', 'performanceChart', 'blueBox');
 			drawBox(0, 90, 0, 10, '#fcf8e3', 'performanceChart', 'yellowBox');
-			drawBox(0, 90, 10, 'max', '#f2dede', 'performanceChart', 'redBox');
+			drawBox(0, 90, 10, 30, '#f2dede', 'performanceChart', 'redBox');
 
 		}
 
@@ -664,6 +740,7 @@
 			//Data
 			self.current.indicators = self.selectedVaccines;
 			self.current.target = self.selectedMonitoringReport.id === 'allVac' ? self.selectedTarget.id : self.current.indicators.denominator;
+			self.current.denominatorIds = self.selectedMonitoringReport.id === 'allVac' ? [] : [self.current.indicators.denominator];
 
 			self.current.dataIds = monitoringReportDataIds();
 
@@ -675,17 +752,25 @@
 
 			var dx = self.current.dataIds;
 
+
+			//fetch metadata and data
+			//Need to check whether denominator is annualized, or if we should annualize it
+			var promises = [];
+			promises.push(d2Meta.objects('indicators', self.current.denominatorIds, 'id,annualized', 'annualized:eq:true', false))
+
 			//fetch data - one year at the time
 			for (var i = 0; i < self.current.timeSeries.length; i++) {
 				d2Data.addRequest(dx, self.current.timeSeries[i].periods, self.selectedOrgunit.boundary.id, null, null);
 			}
+			promises.push(d2Data.fetch());
 
-			d2Data.fetch().then(
-				function(data) {
-					self.current.d2meta = data;
-					monitoringReportProcessData();
-				}
-			);
+			$q.all(promises).then(function(datas) {
+
+				self.current.annualizedDenominators = datas[0];
+
+				self.current.d2meta = datas[1];
+				monitoringReportProcessData();
+			});
 		}
 
 
@@ -766,8 +851,7 @@
 				//Get data for current month
 				value = d2Data.value(dataId, periods[i], orgunit, null, null);
 
-				//TODO: should check is annualized indicator
-				if (annualize) value = Math.round(value/12);
+				if (annualize && !annualized(dataId)) value = Math.round(value/12);
 
 				cumulatedValue += !value ? 0 : value;
 				dataSeries.push(cumulatedValue);
@@ -938,7 +1022,7 @@
 			var year = metaData.names[metaData.pe[0]].split(' ')[1];
 
 			//Month
-			var month = metaData.names[metaData.pe[0]].split(' ')[0];
+			var month = metaData.pe[0].substr(4,2);
 
 			//Country_Code
 			var countryCode = d2Map.rimMeta().countryCode;
@@ -965,6 +1049,7 @@
 				row.push(year);
 				row.push(month);
 
+
 				//Add completeness
 				row.push(d2Data.value(rimMeta.dataSetId + '.EXPECTED_REPORTS', pe, districtId, null, null));
 				row.push(d2Data.value(rimMeta.dataSetId + '.ACTUAL_REPORTS', pe, districtId, null, null));
@@ -978,13 +1063,14 @@
 				table.push(row);
 			}
 
-			makeExportFile(table);
+			makeExportFile(table, "RIM_export");
 			self.rim.done = true;
+			self.showLeftMenu();
 		}
 
 
 
-		/** ADMIN **/
+		/** GENERAL CONFIGURATION **/
 		self.adm = {
 			indicators: function(code) {return d2Map.indicators(code)},
 			indicatorDelete: function (code) { return d2Map.indicatorDelete(code)},
@@ -992,6 +1078,9 @@
 				d2Map.indicatorAddEdit(indicator.displayName, indicator.vaccineAll.id, indicator.vaccineTarget.id,
 				indicator.denominator.id, indicator.code);
 				self.adm.i = null;
+
+				self.vaccines = d2Map.indicatorsConfigured();
+
 			},
 			i: null,
 			dropouts: function (code) {return d2Map.dropouts(code)},
@@ -1004,12 +1093,21 @@
 			performanceSave: function (perf) {
 				d2Map.performanceAddEdit(perf.indicator.code, perf.dropout.code, perf.code);
 			},
+			performanceLoad: function() {
+				console.log(self.adm.p);
+				if (typeof self.adm.p.dropout === 'string') {
+					self.adm.p.dropout = d2Map.dropouts(self.adm.p.dropout);
+					self.adm.p.indicator = d2Map.indicators(self.adm.p.indicator);
+				}
+
+			},
 			name: function (id) {return d2Map.d2NameFromID(id)}
 		}
 
 
-		/** RIM ADMIN **/
+		/** RIM CONFIGURATION **/
 		self.rimConfig = function () {
+			var currentMeta = d2Map.rimMeta();
 			if (!self.rim) {
 				self.rim = {
 					"stock": true,
@@ -1022,39 +1120,45 @@
 					"overwrite": false
 				};
 			}
-
 			self.rim.options = {
 				orgunitLevelsDistrict: [],
 				orgunitLevelsProvince: [],
 				dataSets: []
 			};
+			self.rim.countryCode = currentMeta.countryCode;
+
+			//Fetch required metadata for configuration options
 			d2Meta.objects('dataSets', null, null, null, false).then(function (datasets) {
 				self.rim.options.dataSets = datasets;
+				if (currentMeta.dataSetId) {
+					for (var i = 0; i < datasets.length; i++) {
+						if (datasets[i].id === currentMeta.dataSetId) self.rim.dataset = datasets[i];
+					}
+				}
 			});
 			d2Meta.objects('organisationUnitLevels', null, 'displayName,id,level', null, false).then(function (ouLevels) {
-
 				ouLevels = d2Utils.arraySortByProperty(ouLevels, 'level', true, true);
 
 				self.rim.options.orgunitLevelsDistrict = ouLevels;
 				self.rim.options.orgunitLevelsProvince = ouLevels;
+
+				if (currentMeta.provinceLevel) {
+					for (var i = 0; i < ouLevels.length; i++) {
+						if (ouLevels[i].level === currentMeta.provinceLevel) self.rim.provinceLevel = ouLevels[i];
+						if (ouLevels[i].level === currentMeta.districtLevel) self.rim.districtLevel = ouLevels[i];
+					}
+				}
 			});
 
 			//Get codes
 			d2Map.rimVaccineCodes().then(function (vaccines) {
-
-					console.log(vaccines);
-					self.rim.vaccineCodes = vaccines;
-
-				}
-			);
+				self.rim.vaccineCodes = vaccines;
+			});
 
 			//Get indicator templates
 			d2Map.rimIndicatorTemplate().then(function (indicators) {
-
-					console.log(indicators);
-					self.rim.indicatorTemplate = indicators;
-				}
-			);
+				self.rim.indicatorTemplate = indicators;
+			});
 
 			//Get current user id
 			d2Meta.currentUser().then(function(user) {
@@ -1099,11 +1203,15 @@
 			});
 		}
 
+
 		self.rimUpdate = function() {
 			console.log("Updating RIM setting");
 
 			d2Map.rimUpdateConfig(self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level,
-				self.rim.countryCode);
+				self.rim.countryCode).then(function(result) {
+
+				if (result.status === 200) alert("Update done");
+			});
 		}
 
 
@@ -1207,12 +1315,19 @@
 			if (self.rim.overwrite) strategy = 'CREATE_AND_UPDATE';
 			var ugid = self.rim.userGroup.id;
 			d2Meta.postMetadata(metaData, strategy).then(function(data){
-				d2Map.rimImported(ugid);
-				console.log(data.data.importTypeSummaries);
+				d2Map.rimImported(ugid, self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level,
+					self.rim.countryCode);
+
+				var result = 'Import done. Imported ' + data.data.importCount.imported + ", updated " +
+					data.data.importCount.updated + ", ignored " + data.data.importCount.ignored + " [RIM] indicators.";
+				alert(result);
+
+				//Temporary sharing workaround
+				shareQueuePop();
 			});
 
 
-			//Temporary workaround until sharing issue is resolved
+			//Temporary sharing workaround
 			self.shareQueue = [];
 			var shareObject = {
 				"object": {
@@ -1244,8 +1359,6 @@
 				});
 			}
 
-			shareQueuePop();
-
 		}
 
 
@@ -1258,6 +1371,7 @@
 				shareQueuePop();
 			});
 		}
+
 
 
 		/** COMMON **/
@@ -1295,6 +1409,13 @@
 			return series;
 		}
 
+
+		function annualized(id) {
+			for (var i = 0; i < self.current.annualizedDenominators.length; i++) {
+				if (self.current.annualizedDenominators[i].id === id) return true;
+			}
+			return false;
+		}
 
 
 		/** NAVIGATION **/
@@ -1340,10 +1461,9 @@
 
 
 		/** CSV EXPORT **/
-		function makeExportFile(table) {
+		function makeExportFile(table, fileName) {
 			var string, csvContent = '';
 			var s = self.file.separator;
-			var fileName = self.file.fileName;
 
 			//Header
 			var headers = table[0];
@@ -1371,17 +1491,17 @@
 			}
 
 			var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
-			saveAs(blob, self.file.fileName + '.csv');
+			saveAs(blob, fileName + '.csv');
 		}
 
 
-		/** UTILITIES */
 		function isNumeric(string){
 			return !isNaN(string)
 		}
 
 
 		function fixDecimalsForExport(value) {
+			if (!value) return value;
 			value = value.toString();
 			if (value.length > 3 && value.indexOf('.0') === (value.length - 2)) {
 				value = value.slice(0, - 2);
@@ -1406,6 +1526,36 @@
 
 		/** INIT **/
 		function init() {
+
+			//Vaccine options
+			self.vaccines = d2Map.indicatorsConfigured();
+			self.selectedVaccines;
+
+			//Target options
+			self.targets = [];
+			self.selectedTarget;
+
+
+			//Period options
+			self.periods = [{"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
+				{"displayName": "2014", "id": "2014"},{"displayName": "2013", "id": "2013"}];
+			self.selectedPeriod = self.periods[0];
+
+
+			self.months = [ {"displayName": "January", "id": "01"}, {"displayName": "February", "id": "02"}, {"displayName": "March", "id": "03"}, {"displayName": "April", "id": "04"}, {"displayName": "May", "id": "05"}, {"displayName": "June", "id": "06"}, {"displayName": "July", "id": "07"}, {"displayName": "August", "id": "08"}, {"displayName": "September", "id": "09"}, {"displayName": "October", "id": "10"}, {"displayName": "November", "id": "11"}, {"displayName": "December", "id": "12"} ];
+			self.selectedMonth = null;
+
+
+			//Parameters
+			self.current = {
+				"title": "[No data]"
+			};
+
+
+			self.file = {
+				"separator": ",",
+				"decimal": "."
+			}
 
 			//Report type
 			self.reportTypes = [
@@ -1451,38 +1601,6 @@
 			];
 			self.selectedMonitoringReport = self.monitoringReportTypes[0];
 
-
-			//Vaccine options
-			self.vaccines = d2Map.indicators();
-			self.selectedVaccines;
-
-			//Target options
-			self.targets = [];
-			self.selectedTarget;
-
-
-			//Period options
-			self.periods = [{"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
-				{"displayName": "2014", "id": "2014"},{"displayName": "2013", "id": "2013"}];
-			self.selectedPeriod = self.periods[0];
-
-
-			self.months = [ {"displayName": "January", "id": "01"}, {"displayName": "February", "id": "02"}, {"displayName": "March", "id": "03"}, {"displayName": "April", "id": "04"}, {"displayName": "May", "id": "05"}, {"displayName": "June", "id": "06"}, {"displayName": "July", "id": "07"}, {"displayName": "August", "id": "08"}, {"displayName": "September", "id": "09"}, {"displayName": "October", "id": "10"}, {"displayName": "November", "id": "11"}, {"displayName": "December", "id": "12"} ];
-			self.selectedMonth = null;
-
-
-			//Parameters
-			self.current = {
-				"title": "[No data]"
-			};
-
-
-			self.file = {
-				"separator": ",",
-				"decimal": ".",
-				"fileName": "epi_export"
-			}
-
 		}
 
 
@@ -1496,9 +1614,6 @@
 						"id": "rim"
 					}
 				);
-
-				self.selectedReport = self.reportTypes[3];
-
 			});
 		}
 

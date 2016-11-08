@@ -12,6 +12,9 @@
 
 			$http.get('manifest.webapp').then(
 				function(response) {
+
+
+
 					app.constant("BASE_URL", response.data.activities.dhis.href);
 					angular.bootstrap(document, ['epiApp']);
 				}

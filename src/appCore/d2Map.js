@@ -23,9 +23,11 @@
 					rimAccess: rimAccess,
 					rimCodes: rimCodes,
 					indicators: indicators,
+					indicatorsConfigured: indicatorsConfigured,
 					indicatorAddEdit: indicatorAddEdit,
 					indicatorDelete: indicatorDelete,
 					dropouts: dropouts,
+					dropoutsConfigured: dropoutsConfigured,
 					dropoutAddEdit: dropoutAddEdit,
 					dropoutDelete: dropoutDelete,
 					performance: performance,
@@ -228,9 +230,7 @@
 				function rimAccess() {
 					var deferred = $q.defer();
 
-					console.log(_map.rim);
-
-					if (!_map || !_map.rim.imported) deferred.resolve(false);
+					if (!_map.rim || !_map.rim.imported) deferred.resolve(false);
 					else {
 						d2Meta.currentUser().then(function(response) {
 							var groups = response.userGroups;
@@ -255,7 +255,7 @@
 					_map.rim.provinceLevel = provinceLevel;
 					_map.rim.countryCode = countryCode;
 
-					save();
+					return save();
 				}
 
 
@@ -268,7 +268,7 @@
 						"provinceLevel": provinceLevel,
 						"countryCode": countryCode
 					}
-					save();
+					return save();
 				}
 
 
@@ -355,6 +355,32 @@
 					else {
 						return _map.indicators;
 					}
+				}
+
+
+				function indicatorsConfigured(code) {
+					if (code) {
+						for (var i = 0; i < _map.indicators.length; i++) {
+							if (_map.indicators[i].code === code) {
+								if (_map.indicators[i].vaccineAll && _map.indicators[i].vaccineAll != "") {
+									return _map.indicators[i];
+								}
+								else {
+									return false;
+								}
+
+							}
+						}
+					}
+					else {
+						var indicators = [];
+						for (var i = 0; i < _map.indicators.length; i++) {
+							if (_map.indicators[i].vaccineAll && _map.indicators[i].vaccineAll != "") {
+								indicators.push(_map.indicators[i]);
+							}
+						}
+					}
+					return indicators;
 				}
 
 
@@ -446,6 +472,31 @@
 					else {
 						return _map.dropout;
 					}
+				}
+
+				function dropoutsConfigured(code) {
+					if (code) {
+						for (var i = 0; i < _map.dropout.length; i++) {
+							if (_map.dropout[i].code === code) {
+								if (indicatorsConfigured(_map.dropout[i].vaccineFrom) && indicatorsConfigured(_map.dropout[i].vaccineTo)) {
+									return _map.dropout[i];
+								}
+								else {
+									return false;
+								}
+
+							}
+						}
+					}
+					else {
+						var dropout = [];
+						for (var i = 0; i < _map.dropout.length; i++) {
+							if (indicatorsConfigured(_map.dropout[i].vaccineFrom) && indicatorsConfigured(_map.dropout[i].vaccineTo)) {
+								dropout.push(_map.dropout[i]);
+							}
+						}
+					}
+					return dropout;
 				}
 
 
@@ -544,36 +595,36 @@
 				function performanceAddEdit(indicatorCode, dropoutCode, code) {
 					if (!indicatorCode || !dropoutCode) return false;
 
-					var performance;
+					var perf;
 					if (code) {
-						performance = performance(code);
+						perf = performance(code);
 					}
 					else {
-						performance = {
+						perf = {
 							'code': newPerformanceCode()
 						}
 					}
 
-					performance.indicator = indicatorCode;
-					performance.dropout = dropoutCode;
+					perf.indicator = indicatorCode;
+					perf.dropout = dropoutCode;
 
 					//Add to map
 					if (code) {
 						for (var i = 0; i < _map.performance.length; i++) {
-							if (_map.performance[i].code === performance.code) {
-								_map.performance[i] = performance;
+							if (_map.performance[i].code === perf.code) {
+								_map.performance[i] = perf;
 								break;
 							}
 						}
 					}
 					else {
-						_map.performance.push(performance);
+						_map.performance.push(perf);
 					}
 
 					//Save
 					save();
 
-					return performance.code;
+					return perf.code;
 				}
 
 

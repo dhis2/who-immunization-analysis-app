@@ -1,0 +1,57 @@
+<div ng-if="rCtrl.current.type === 'vac'" class="reportContent">
+
+	<button class="btn btn-success" style="float: right; margin-bottom: 10px;" ng-click="rCtrl.vaccineReportDownload()">Download CSV</button>
+
+	<table id="vaccineDataTable"
+		   class="table table-striped table-bordered dataTable no-footer table-condensed"
+		   style="margin-top: 20px;"
+		   st-table="rCtrl.current.dataTable"
+		   st-safe-src="rCtrl.current.data"
+		   ng-if="rCtrl.current.data">
+		<thead>
+		<tr>
+			<th ng-repeat="header in rCtrl.current.headerColumns"
+				id="{{header.id}}"
+				st-sort="{{header.id}}"
+				ng-if="(rCtrl.current.ouFilter && header.id != 'ou') || (!rCtrl.current.ouFilter && header.id != 'vaccine')"
+				rowspan="3">
+				{{header.title}}
+			</th>
+			<th>Data</th>
+			<th ng-repeat="header in rCtrl.current.dataColumns">
+				{{header.title}}
+			</th>
+		</tr>
+		</thead>
+		<tbody ng-repeat="row in rCtrl.current.dataTable track by $index">
+		<tr>
+			<!--Header-->
+			<td ng-repeat="header in rCtrl.current.headerColumns"
+				ng-if="(rCtrl.current.ouFilter && header.id != 'ou') || (!rCtrl.current.ouFilter && header.id != 'vaccine')"
+				rowspan="3">
+				{{row[header.id]}}
+			</td>
+
+			<!--Data-->
+			<td>All ages</td>
+			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+				{{row[header.id].vaccineAll | number : 0}}
+			</td>
+		</tr>
+		<tr>
+			<!--Data-->
+			<td>Target age group</td>
+			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+				{{row[header.id].vaccineTarget | number : 0}}
+			</td>
+		</tr>
+		<tr>
+			<!--Data-->
+			<td>Coverage</td>
+			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+				{{row[header.id].coverage}}<span ng-if="row[header.id].coverage">%</span>
+			</td>
+		</tr>
+		</tbody ng-repeat="row in rCtrl.current.dataTable track by $index">
+	</table>
+</div>
