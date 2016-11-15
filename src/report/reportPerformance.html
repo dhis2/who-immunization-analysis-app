@@ -2,52 +2,6 @@
 
 	<div id="performanceChart" style="height: 600px; margin-bottom: 20px"></div>
 
-	<table id="perfromanceDataTable"
-		   class="table table-bordered dataTable no-footer table-condensed"
-		   style="margin-top: 20px;"
-		   st-table="rCtrl.current.dataTable"
-		   st-safe-src="rCtrl.current.data"
-		   ng-if="rCtrl.current.data">
-		<thead>
-		<tr>
-			<th ng-repeat="header in rCtrl.current.dataHeader"
-				id="{{header.id}}"
-				st-sort="{{header.id}}">
-				{{header.title}}
-			</th>
-			<th ng-repeat="header in rCtrl.current.dataHeaderData"
-				id="{{header.id}}">
-				{{header.title}}
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr></tr>
-		<tr ng-repeat="row in rCtrl.current.dataTable track by $index">
-			<td ng-repeat="header in rCtrl.current.dataHeader">
-				{{row[header.id]}}
-			</td>
-			<td ng-repeat="header in rCtrl.current.dataHeaderData"
-				ng-class="{success:row[header.id].category === 'A' && row[header.id].coverage <= 100,
-					info:row[header.id].category === 'B' && row[header.id].coverage <= 100,
-					warning:row[header.id].category === 'C' && row[header.id].dropout >= 0,
-					danger:row[header.id].category === 'D' && row[header.id].dropout >= 0}">
-				<table ng-if="row[header.id].category">
-					<tr>
-						<th rowspan=2 style="padding-right: 5px">
-							{{row[header.id].category}}</th>
-						<td ng-class="{redText:row[header.id].coverage > 100}">{{row[header.id].coverage}}%</td>
-					</tr>
-					<tr>
-						<td ng-class="{redText:row[header.id].dropout < 0}">{{row[header.id].dropout}}%</td>
-					</tr>
-				</table>
-
-			</td>
-		</tr>
-		</tbody>
-	</table>
-
 	<table id="performanceLegendTable" class="table table-bordered no-footer table-condensed">
 		<tr>
 			<td class="success">
@@ -100,5 +54,55 @@
 			</td>
 		</tr>
 	</table>
+
+	<table id="perfromanceDataTable"
+		   class="table table-bordered dataTable no-footer table-condensed"
+		   style="margin-top: 20px;"
+		   st-table="rCtrl.current.dataTable"
+		   st-safe-src="rCtrl.current.data"
+		   ng-if="rCtrl.current.data">
+		<thead>
+		<tr>
+			<th ng-repeat="header in rCtrl.current.dataHeader"
+				id="{{header.id}}"
+				st-sort="{{header.id}}">
+				{{header.title}}
+			</th>
+			<th ng-repeat="header in rCtrl.current.dataHeaderData"
+				id="{{header.id}}">
+				{{header.title}}
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr></tr>
+		<tr ng-repeat="row in rCtrl.current.dataTable track by $index">
+			<td ng-repeat="header in rCtrl.current.dataHeader">
+				{{row[header.id]}}
+			</td>
+			<td ng-repeat="header in rCtrl.current.dataHeaderData track by $index"
+				ng-class="{success:row[header.id].category === 'A' && row[header.id].coverage <= 100,
+					info:row[header.id].category === 'B' && row[header.id].coverage <= 100,
+					warning:row[header.id].category === 'C' && row[header.id].dropout >= 0,
+					danger:row[header.id].category === 'D' && row[header.id].dropout >= 0}">
+				<table ng-if="row[header.id].category && $index < rCtrl.currentReportingMonth()">
+					<tr>
+						<th rowspan=2 style="padding-right: 5px">
+							{{row[header.id].category}}</th>
+						<td ng-class="{redText:row[header.id].coverage > 100}">{{row[header.id].coverage}}%</td>
+					</tr>
+					<tr>
+						<td ng-class="{redText:row[header.id].dropout < 0}">{{row[header.id].dropout}}%</td>
+					</tr>
+				</table>
+
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<div id="performanceChartTimeSummary" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
+
+	<div id="performanceChartDataSummary" ng-if="(rCtrl.current.orgunits.level.level - rCtrl.current.orgunits.boundary.level) >= 2" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
 
 </div>

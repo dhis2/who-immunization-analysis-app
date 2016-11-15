@@ -15,7 +15,8 @@
 			self.current = {
 				"type": self.selectedReport.id,
 				"ouFilter": ((self.selectedReport.id === 'vac' && self.selectedVaccineReport.id === 'allVac') ||
-							self.selectedReport.id === 'mon')
+							self.selectedReport.id === 'mon'),
+				"year": self.selectedPeriod.id
 			};
 
 			switch (self.selectedReport.id) {
@@ -443,6 +444,8 @@
 
 			performanceSetCategory();
 			performanceChart();
+			performanceTimeSummaryChart();
+			performanceOrgunitSummaryChart();
 
 			self.current.dataTable = angular.copy(self.current.data);
 
@@ -561,15 +564,7 @@
 			var datapoints = [];
 
 			//Find the latest period with data, which we use for the chart
-			var hasData = false, period;
-			for (var i = 0; i < self.current.data.length; i++) {
-				for (var j = self.current.periods.length; j > 0 && !hasData; j--) {
-					period = self.current.periods[j-1];
-					var value = self.current.data[i][period];
-
-					hasData = value.coverage && value.dropout;
-				}
-			}
+			var period = performanceChartPeriod();
 
 			for (var i = 0; i < self.current.data.length; i++) {
 				var value = self.current.data[i][period];
@@ -674,6 +669,217 @@
 				performanceChartFixSize()
 			}, 1000);
 			watchPerformanceChart();
+		}
+
+
+		function performanceTimeSummaryChart() {
+
+			var seriesA = [], seriesB = []
+			seriesC = [], seriesD = [];
+
+			var j;
+			for (var j = 0; j < self.current.periods.length; j++) {
+				for (var i = 0; i < self.current.data.length; i++) {
+					var value = self.current.data[i][self.current.periods[j]];
+
+					if (i === 0) {
+						seriesA.push(0);
+						seriesB.push(0);
+						seriesC.push(0);
+						seriesD.push(0);
+					}
+
+					if (value.category === 'A') seriesA[j]++;
+					if (value.category === 'B') seriesB[j]++;
+					if (value.category === 'C') seriesC[j]++;
+					if (value.category === 'D') seriesD[j]++;
+
+				}
+				if (self.current.periods[j] === performanceChartPeriod()) break;
+			}
+
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].slice(0, ++j);
+
+			console.log(seriesA);
+			console.log(seriesB);
+			console.log(seriesC);
+			console.log(seriesD);
+
+			$('#performanceChartTimeSummary').highcharts({
+				chart: {
+					type: 'column'
+				},
+				title: {
+					text: 'Summary by month'
+				},
+				xAxis: {
+					categories: months
+				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: 'Orgunits (%)'
+					}
+				},
+				tooltip: {
+					pointFormat: '<span>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+					shared: true
+				},
+				plotOptions: {
+					column: {
+						stacking: 'percent'
+					}
+				},
+				series: [{
+					name: 'Category A',
+					data: seriesA,
+					color: '#dff0d8'
+				}, {
+					name: 'Category B',
+					data: seriesB,
+					color: '#d9edf7'
+				}, {
+					name: 'Category C',
+					data: seriesC,
+					color: '#fcf8e3'
+				}, {
+					name: 'Category D',
+					data: seriesD,
+					color: '#f2dede'
+					}]
+			});
+
+			setTimeout(function () {
+				chart = $('#performanceChartTimeSummary[data-highcharts-chart]');
+				chart.highcharts().reflow();
+			}, 1000);
+
+		}
+
+
+		function performanceOrgunitSummaryChart() {
+			performanceChartPeriod();
+			var parentIdIndex;
+
+			//1: is this relevant, e.g. is there a level between boundary and selected level
+			if ((self.current.orgunits.level.level - self.current.orgunits.boundary.level) < 2) {
+				console.log("No orgunit summary");
+				return;
+			}
+			else {
+				//Find what level we are showing - should be one below boundary
+				parentIdIndex = self.current.orgunits.boundary.level-1;
+			}
+
+			var hierarhcySummary = {};
+			var lastPeriod = performanceChartPeriod();
+			for (var i = 0; i < self.current.data.length; i++) {
+				var value = self.current.data[i][lastPeriod];
+				var topParent = self.current.data[i]['parentIds'].split('/')[parentIdIndex];
+				if (!hierarhcySummary.hasOwnProperty(topParent)) {
+					hierarhcySummary[topParent] = {
+						'A': 0,
+						'B': 0,
+						'C': 0,
+						'D': 0
+					};
+				}
+
+				if (value.category === 'A') hierarhcySummary[topParent]['A']++;
+				if (value.category === 'B') hierarhcySummary[topParent]['B']++;
+				if (value.category === 'C') hierarhcySummary[topParent]['C']++;
+				if (value.category === 'D') hierarhcySummary[topParent]['D']++;
+			}
+
+
+			var seriesA = [];
+			var seriesB = [];
+			var seriesC = [];
+			var seriesD = [];
+			var parents = [];
+			for (ouId in hierarhcySummary) {
+				parents.push(d2Data.name(ouId));
+				seriesA.push(hierarhcySummary[ouId]['A']);
+				seriesB.push(hierarhcySummary[ouId]['B']);
+				seriesC.push(hierarhcySummary[ouId]['C']);
+				seriesD.push(hierarhcySummary[ouId]['D']);
+			}
+
+			$('#performanceChartDataSummary').highcharts({
+				chart: {
+					type: 'column'
+				},
+				title: {
+					text: 'Summary by orgunit'
+				},
+				xAxis: {
+					categories: parents
+				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: 'Orgunits (%)'
+					}
+				},
+				tooltip: {
+					pointFormat: '<span>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+					shared: true
+				},
+				plotOptions: {
+					column: {
+						stacking: 'percent'
+					}
+				},
+				series: [{
+					name: 'Category A',
+					data: seriesA,
+					color: '#dff0d8'
+				}, {
+					name: 'Category B',
+					data: seriesB,
+					color: '#d9edf7'
+				}, {
+					name: 'Category C',
+					data: seriesC,
+					color: '#fcf8e3'
+				}, {
+					name: 'Category D',
+					data: seriesD,
+					color: '#f2dede'
+				}]
+			});
+
+			setTimeout(function () {
+				chart = $('#performanceChartDataSummary[data-highcharts-chart]');
+				chart.highcharts().reflow();
+			}, 1000);
+
+		}
+
+
+		function performanceChartPeriod() {
+			console.log("test");
+			if (self.current.year === new Date().getFullYear().toString()) {
+				//First week/7 days into new month, show reporting period two months back
+				var p = self.current.year;
+				if (new Date().getDate() <= 7) {
+					if (new Date().getMonth()-1 < 10) p += '0';
+					return p + (new Date().getMonth()-1).toString();
+				}
+				//Else show last month
+				else {
+					if (new Date().getMonth() < 10) p += '0';
+					return p + (new Date().getMonth()).toString();
+				}
+			}
+			else {
+				return self.current.year + '12';
+			}
+		}
+
+		//Returns latest month number where data can be entered, e.g.
+		self.currentReportingMonth = function() {
+			return new Date().getMonth();
 		}
 
 
