@@ -71,48 +71,6 @@
 	<!-- endbuild -->
 
 
-	<!-- DHIS2 menu -->
-	<script type="text/javascript">
-		window.dhis2 = window.dhis2 || {};
-		dhis2.settings = dhis2.settings || {};
-
-		var manifest = $.ajax({
-			type: "GET",
-			dataType: "json",
-			url: 'manifest.webapp',
-			async: false
-		}).responseText;
-
-		var baseUrl = $.parseJSON(manifest).activities.dhis.href;
-
-		//To make the dhis2 menu work, we need to use '' as base when running off root, or instance name otherwise
-		var urlParts = baseUrl.split('/');
-		dhis2.settings.baseUrl = urlParts.length > 3 ? urlParts[urlParts.length-1] : '';
-
-		$.getScript(baseUrl + "/dhis-web-commons/javascripts/dhis2/dhis2.translate.js");
-		$.getScript(baseUrl + "/dhis-web-commons/javascripts/dhis2/dhis2.menu.js");
-		$.getScript(baseUrl + "/dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js");
-		$.getScript(baseUrl + "/dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js");
-		$.getScript(baseUrl + "/main.js");
-
-		var linkCss = function(url, mediatype) {
-			$('<link/>', {
-				rel: 'stylesheet',
-				type: 'text/css',
-				href: baseUrl + url,
-				media: mediatype
-			}).appendTo('head');
-		};
-
-		linkCss("/dhis-web-commons/font-awesome/css/font-awesome.min.css", null);
-		linkCss("/dhis-web-commons/css/widgets.css", "screen");
-		linkCss("/dhis-web-commons/css/menu.css", "screen");
-		linkCss("/dhis-web-commons/css/print.css", "print");
-		linkCss("/dhis-web-commons/javascripts/angular/plugins/select.css", null);
-		linkCss("/dhis-web-commons/javascripts/angular/plugins/select2.css", null);
-
-	</script>
-
 	<!--
 		IE8 support, see AngularJS Internet Explorer Compatibility http://docs.angularjs.org/guide/ie
 		For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
