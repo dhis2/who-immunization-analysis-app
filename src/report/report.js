@@ -1814,12 +1814,14 @@
 			d2Map.rimAccess().then(function(rimAccess) {
 				self.rimAccess = rimAccess;
 
-				self.reportTypes.push(
-					{
-						"displayName": "RIM Export",
-						"id": "rim"
-					}
-				);
+				if (self.rimAccess) {
+					self.reportTypes.push(
+						{
+							"displayName": "RIM Export",
+							"id": "rim"
+						}
+					);
+				}
 			});
 		}
 
