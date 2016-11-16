@@ -583,9 +583,6 @@
 
 			}
 
-			var title = self.current.cumulative ? ' (cumulative)' : '';
-			title = d2Data.name(period) + title;
-
 			yMax = Math.ceil(yMax/10)*10;
 			yMin = Math.floor(yMin/10)*10;
 			xMax = Math.ceil(xMax/10)*10;
@@ -612,7 +609,7 @@
 						}
 					},
 					title: {
-						text: title
+						text: d2Data.name(period)
 					},
 					tooltip: {
 						formatter: function() {
@@ -810,7 +807,7 @@
 					type: 'column'
 				},
 				title: {
-					text: 'Summary by orgunit'
+					text: 'Summary by orgunit - ' + d2Data.name(period)
 				},
 				xAxis: {
 					categories: parents
@@ -1644,10 +1641,9 @@
 			document.getElementById("leftNav").style.width = "0px";
 			document.getElementById("content").style.marginLeft = "10px";
 
-			var chart = $('#monitoringChart[data-highcharts-chart]');
-			if (chart.length > 0) {
-				chart.highcharts().reflow();
-			}
+			$('[data-highcharts-chart]').each(function () {
+				$(this).highcharts().reflow();
+			});
 			chart = $('#performanceChart[data-highcharts-chart]');
 			if (chart.length > 0) {
 				performanceChartFixSize();
