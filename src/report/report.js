@@ -587,8 +587,8 @@
 			yMin = Math.floor(yMin/10)*10;
 			xMax = Math.ceil(xMax/10)*10;
 
-			if (yMax > 30) yMax = 30;
-			if (yMin < -30) yMax = -30;
+			if (yMax > 30) yMax = 50;
+			if (yMin < -50) yMin = -50;
 			if (xMax > 200) xMax = 200;
 
 			$('#performanceChart').highcharts({
@@ -625,7 +625,7 @@
 						lineWidth: 1,
 						name: 'Coverage = 90%',
 						color: '#000000',
-						data: [[90, 0], [90, yMax]],
+						data: [[90, yMin], [90, yMax]],
 						marker: {
 							enabled: false
 						},
@@ -769,9 +769,9 @@
 			}
 
 			var hierarhcySummary = {};
-			var lastPeriod = performanceChartPeriod();
+			var period = performanceChartPeriod();
 			for (var i = 0; i < self.current.data.length; i++) {
-				var value = self.current.data[i][lastPeriod];
+				var value = self.current.data[i][period];
 				var topParent = self.current.data[i]['parentIds'].split('/')[parentIdIndex];
 				if (!hierarhcySummary.hasOwnProperty(topParent)) {
 					hierarhcySummary[topParent] = {
