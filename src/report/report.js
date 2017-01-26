@@ -879,6 +879,14 @@
 			return new Date().getMonth();
 		}
 
+		self.isPreviousMonth = function(month) {
+			if (self.current.year != new Date().getFullYear().toString()) return true;
+			else {
+				if (month < new Date().getMonth()) return tru;
+				else return false;
+			}
+		}
+
 
 		function watchPerformanceChart() {
 			var resizeTimer;
