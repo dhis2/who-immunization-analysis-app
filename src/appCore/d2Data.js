@@ -190,7 +190,7 @@
 					else if (ouGroup) ouDisaggregation += ';OU_GROUP-' + ouGroup;
 
 					var requestURLs = [];
-					var requestURL = '/api/analytics.json';
+					var requestURL = '/api/25/analytics.json';
 					requestURL += '?dimension=dx:' + dx.join(';');
 					requestURL += '&dimension=ou:' + ouBoundary.join(';');
 					requestURL += ouDisaggregation;

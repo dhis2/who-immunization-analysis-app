@@ -56,7 +56,7 @@
 				function load() {
 					var deferred = $q.defer();
 
-					requestService.getSingle('/api/dataStore/epiApp/settings').then(
+					requestService.getSingle('/api/25/dataStore/epiApp/settings').then(
 						function(response) {
 							_map = response.data;
 							console.log("Loaded map");
@@ -121,14 +121,14 @@
 					var currentIDs = d2IDs().join('');
 					var previousIDs = _dataIDs ? _dataIDs.join('') : '';
 					if (currentIDs != previousIDs) d2CoreMeta();
-					//requestService.post('/api/systemSettings', {'dq': angular.toJson(_map)});
-					return requestService.put('/api/dataStore/epiApp/settings', angular.toJson(_map));
+					//requestService.post('/api/25/systemSettings', {'dq': angular.toJson(_map)});
+					return requestService.put('/api/25/dataStore/epiApp/settings', angular.toJson(_map));
 				}
 
 
 				function admin() {
 					var deferred = $q.defer();
-					requestService.getSingle('/api/currentUser.json?fields=userCredentials[userRoles]').then(
+					requestService.getSingle('/api/25/currentUser.json?fields=userCredentials[userRoles]').then(
 						function(response) { //success
 							var data = response.data.userCredentials.userRoles;
 							var IDs = [];
@@ -136,7 +136,7 @@
 								IDs.push(data[i].id);
 							}
 
-							requestService.getSingle('/api/userRoles.json?fields=authorities&filter=id:in:[' + IDs.join(',') + ']')
+							requestService.getSingle('/api/25/userRoles.json?fields=authorities&filter=id:in:[' + IDs.join(',') + ']')
 								.then(function(response) {
 									var authorized = false;
 
@@ -203,7 +203,7 @@
 									_map = response.data;
 
 									//Save template to systemSettings
-									requestService.post('/api/dataStore/epiApp/settings', angular.toJson(_map)).then(
+									requestService.post('/api/25/dataStore/epiApp/settings', angular.toJson(_map)).then(
 										function (data) {
 											_ready = true;
 											deferred.resolve(true);

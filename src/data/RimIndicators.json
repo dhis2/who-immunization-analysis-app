@@ -9,7 +9,7 @@
       "description": "", 
       "id": "cL9tyIjLvai", 
       "name": "[RIM] Static sessions planned", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Static sessions planned", 
       "publicAccess": "--------", 
       "shortName": "Static sessions planned"
@@ -23,7 +23,7 @@
       "description": "", 
       "id": "bAJJ6MHQeTf", 
       "name": "[RIM] Static sessions implemented", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Static sessions implemented", 
       "publicAccess": "--------", 
       "shortName": "Static sessions implemented"
@@ -37,7 +37,7 @@
       "description": "", 
       "id": "lubEdoe0URO", 
       "name": "[RIM] Outreach sessions planned", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Outreach sessions planned", 
       "publicAccess": "--------", 
       "shortName": "Outreach sessions planned"
@@ -51,7 +51,7 @@
       "description": "", 
       "id": "Hb1YGJgpWTC", 
       "name": "[RIM] Outreach sessions implemented", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Outreach sessions implemented", 
       "publicAccess": "--------", 
       "shortName": "Outreach sessions implemented"
@@ -65,7 +65,7 @@
       "description": "", 
       "id": "LsUX1rJm2po", 
       "name": "[RIM] BCG doses given < 1 year static",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses given < 1 year static",
       "publicAccess": "--------", 
       "shortName": "BCG doses < 1 year stat"
@@ -79,7 +79,7 @@
       "description": "", 
       "id": "AiZozDheqhs", 
       "name": "[RIM] BCG doses given >= 1 year static",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses given >= 1 year static",
       "publicAccess": "--------", 
       "shortName": "BCG doses >= 1 year stat"
@@ -93,7 +93,7 @@
       "description": "", 
       "id": "Tltt5rQq3Vf", 
       "name": "[RIM] BCG doses given < 1 year outreach",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses given < 1 year outreach",
       "publicAccess": "--------", 
       "shortName": "BCG doses < 1 year out"
@@ -107,7 +107,7 @@
       "description": "", 
       "id": "knX5ZPm1m11", 
       "name": "[RIM] BCG doses given >= 1 year outreach",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses given >= 1 year outreach",
       "publicAccess": "--------", 
       "shortName": "BCG doses >= 1 year out"
@@ -121,7 +121,7 @@
       "description": "", 
       "id": "hun2GOiJVuc", 
       "name": "[RIM] BCG doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "BCG doses < 1 year"
@@ -135,7 +135,7 @@
       "description": "Hepatitis B", 
       "id": "JU7lhUXYIP3", 
       "name": "[RIM] HepB birth dose given <= 24 hours of birth static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HepB birth dose given <= 24 hours of birth static", 
       "publicAccess": "--------", 
       "shortName": "HepB birth dose <= 24 hours of birth stat"
@@ -149,7 +149,7 @@
       "description": "Hepatitis B", 
       "id": "xa5pa40kMjn", 
       "name": "[RIM] HepB birth dose given > 24 hours of birth static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HepB birth dose given > 24 hours of birth static", 
       "publicAccess": "--------", 
       "shortName": "HepB birth dose > 24 hours of birth stat"
@@ -163,7 +163,7 @@
       "description": "Hepatitis B", 
       "id": "ld2ojzGHbjL", 
       "name": "[RIM] HepB birth dose given <= 24 hours of birth outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HepB birth dose given <= 24 hours of birth outreach", 
       "publicAccess": "--------", 
       "shortName": "HepB birth dose <= 24 hours of birth out"
@@ -177,7 +177,7 @@
       "description": "Hepatitis B", 
       "id": "ivDo4mMGL1r", 
       "name": "[RIM] HepB birth dose given > 24 hours of birth outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HepB birth dose given > 24 hours of birth outreach", 
       "publicAccess": "--------", 
       "shortName": "HepB birth dose > 24 hours of birth out"
@@ -191,7 +191,7 @@
       "description": "Hepatitis B", 
       "id": "cxioCSe4OSW", 
       "name": "[RIM] HepB birth dose given <= 24 hours of birth", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HepB birth dose given <= 24 hours of birth", 
       "publicAccess": "--------", 
       "shortName": "HepB birth dose <= 24 hours of birth"
@@ -205,7 +205,7 @@
       "description": "Pentavalent", 
       "id": "KSfcSUDNwZo", 
       "name": "[RIM] DPT-Hib-HepB 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 1 doses < 1 year stat"
@@ -219,7 +219,7 @@
       "description": "Pentavalent", 
       "id": "OaXEbCXZaZt", 
       "name": "[RIM] DPT-Hib-HepB 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 1 doses >= 1 year stat"
@@ -233,7 +233,7 @@
       "description": "Pentavalent", 
       "id": "wl1Q9T0BjpM", 
       "name": "[RIM] DPT-Hib-HepB 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 1 doses < 1 year out"
@@ -247,7 +247,7 @@
       "description": "Pentavalent", 
       "id": "MlQI1Gvnz8I", 
       "name": "[RIM] DPT-Hib-HepB 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 1 doses >= 1 year out"
@@ -261,7 +261,7 @@
       "description": "Pentavalent", 
       "id": "DqxwsjR4Hvg", 
       "name": "[RIM] DPT-Hib-HepB 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 1 doses < 1 year"
@@ -275,7 +275,7 @@
       "description": "Pentavalent", 
       "id": "JSrAOv91aKV", 
       "name": "[RIM] DPT-Hib-HepB 2 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 2 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 2 doses < 1 year stat"
@@ -289,7 +289,7 @@
       "description": "Pentavalent", 
       "id": "Nf98NRPqeWp", 
       "name": "[RIM] DPT-Hib-HepB 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 2 doses >= 1 year stat"
@@ -303,7 +303,7 @@
       "description": "Pentavalent", 
       "id": "zVjhQgXGNVM", 
       "name": "[RIM] DPT-Hib-HepB 2 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 2 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 2 doses < 1 year out"
@@ -317,7 +317,7 @@
       "description": "Pentavalent", 
       "id": "hdE5sUACqoZ", 
       "name": "[RIM] DPT-Hib-HepB 2 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 2 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 2 doses >= 1 year out"
@@ -331,7 +331,7 @@
       "description": "Pentavalent", 
       "id": "ecYdJwVS2j3", 
       "name": "[RIM] DPT-Hib-HepB 2 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 2 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 2 doses < 1 year"
@@ -345,7 +345,7 @@
       "description": "Pentavalent", 
       "id": "aIIcF7oAggx", 
       "name": "[RIM] DPT-Hib-HepB 3 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 3 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 3 doses < 1 year stat"
@@ -359,7 +359,7 @@
       "description": "Pentavalent", 
       "id": "Vf6Ov2CJctk", 
       "name": "[RIM] DPT-Hib-HepB 3 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 3 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 3 doses >= 1 year stat"
@@ -373,7 +373,7 @@
       "description": "Pentavalent", 
       "id": "Iac5a8SeG7l", 
       "name": "[RIM] DPT-Hib-HepB 3 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 3 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 3 doses < 1 year out"
@@ -387,7 +387,7 @@
       "description": "Pentavalent", 
       "id": "gENd4XKn5nH", 
       "name": "[RIM] DPT-Hib-HepB 3 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 3 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 3 doses >= 1 year out"
@@ -401,7 +401,7 @@
       "description": "Pentavalent", 
       "id": "gVEXRQWZSFi", 
       "name": "[RIM] DPT-Hib-HepB 3 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPT-Hib-HepB 3 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "DPT-Hib-HepB 3 doses < 1 year"
@@ -415,7 +415,7 @@
       "description": "Oral polio vaccine", 
       "id": "s5ooLDQLk2z", 
       "name": "[RIM] OPV 0/birth doses given static",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 0/birth doses given static",
       "publicAccess": "--------", 
       "shortName": "OPV 0/birth doses stat"
@@ -429,7 +429,7 @@
       "description": "Oral polio vaccine", 
       "id": "TDBbPfgTKjo", 
       "name": "[RIM] OPV 0/birth doses given outreach",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 0/birth doses given outreach",
       "publicAccess": "--------", 
       "shortName": "OPV 0/birth doses out"
@@ -443,7 +443,7 @@
       "description": "Oral polio vaccine", 
       "id": "xNBFN0rNIMF", 
       "name": "[RIM] OPV 0/birth doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 0/birth doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "OPV 0/birth doses < 1 year"
@@ -457,7 +457,7 @@
       "description": "Oral polio vaccine", 
       "id": "iiDEUNaOEbz", 
       "name": "[RIM] OPV 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "OPV 1 doses < 1 year stat"
@@ -471,7 +471,7 @@
       "description": "Oral polio vaccine", 
       "id": "oHk9XaXZ0hS", 
       "name": "[RIM] OPV 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "OPV 1 doses >= 1 year stat"
@@ -485,7 +485,7 @@
       "description": "Oral polio vaccine", 
       "id": "taRRqMcgz3v", 
       "name": "[RIM] OPV 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "OPV 1 doses < 1 year out"
@@ -499,7 +499,7 @@
       "description": "Oral polio vaccine", 
       "id": "AHjm7EOYQNz", 
       "name": "[RIM] OPV 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "OPV 1 doses >= 1 year out"
@@ -513,7 +513,7 @@
       "description": "Oral polio vaccine", 
       "id": "WQEaeeF4O2y", 
       "name": "[RIM] OPV 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "OPV 1 doses < 1 year"
@@ -527,7 +527,7 @@
       "description": "Oral polio vaccine", 
       "id": "X4rdaKPJeHM", 
       "name": "[RIM] OPV 2 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 2 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "OPV 2 doses < 1 year stat"
@@ -541,7 +541,7 @@
       "description": "Oral polio vaccine", 
       "id": "hw9vx59UOW1", 
       "name": "[RIM] OPV 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "OPV 2 doses >= 1 year stat"
@@ -555,7 +555,7 @@
       "description": "Oral polio vaccine", 
       "id": "JGcRZaLTGWQ", 
       "name": "[RIM] OPV 2 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 2 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "OPV 2 doses < 1 year out"
@@ -569,7 +569,7 @@
       "description": "Oral polio vaccine", 
       "id": "fT0HI3idWb0", 
       "name": "[RIM] OPV 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "OPV 1 doses >= 1 year out"
@@ -583,7 +583,7 @@
       "description": "Oral polio vaccine", 
       "id": "DnrhEG3CeVB", 
       "name": "[RIM] OPV 2 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 2 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "OPV 2 doses < 1 year"
@@ -597,7 +597,7 @@
       "description": "Oral polio vaccine", 
       "id": "U10I3EWAGYT", 
       "name": "[RIM] OPV 3 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 3 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "OPV 3 doses < 1 year stat"
@@ -611,7 +611,7 @@
       "description": "Oral polio vaccine", 
       "id": "BzQd66Reb6q", 
       "name": "[RIM] OPV 3 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 3 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "OPV 3 doses >= 1 year stat"
@@ -625,7 +625,7 @@
       "description": "Oral polio vaccine", 
       "id": "RSkkUP8WFEy", 
       "name": "[RIM] OPV 3 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 3 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "OPV 3 doses < 1 year out"
@@ -639,7 +639,7 @@
       "description": "Oral polio vaccine", 
       "id": "h4LJHIeggCx", 
       "name": "[RIM] OPV 3 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 3 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "OPV 3 doses >= 1 year out"
@@ -653,7 +653,7 @@
       "description": "Oral polio vaccine", 
       "id": "bUp3SSHPcpX", 
       "name": "[RIM] OPV 3 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV 3 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "OPV 3 doses < 1 year"
@@ -667,7 +667,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "kh1kRqDfUnP", 
       "name": "[RIM] IPV 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "IPV 1 doses < 1 year stat"
@@ -681,7 +681,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "vdrQuCtT4EK", 
       "name": "[RIM] IPV 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "IPV 1 doses >= 1 year stat"
@@ -695,7 +695,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "RHVzbDKbSr8", 
       "name": "[RIM] IPV 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "IPV 1 doses < 1 year out"
@@ -709,7 +709,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "px9h9wXjaqU", 
       "name": "[RIM] IPV 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "IPV 1 doses >= 1 year out"
@@ -723,7 +723,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "Z37s4oBxViN", 
       "name": "[RIM] IPV 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "IPV 1 doses < 1 year"
@@ -737,7 +737,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "dXCFELhrnJj", 
       "name": "[RIM] IPV 2 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 2 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "IPV 2 doses < 1 year stat"
@@ -751,7 +751,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "ANkB62x88dr", 
       "name": "[RIM] IPV 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "IPV 2 doses >= 1 year stat"
@@ -765,7 +765,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "cILcr39LId7", 
       "name": "[RIM] IPV 2 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 2 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "IPV 2 doses < 1 year out"
@@ -779,7 +779,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "SUlKLxmlqBN", 
       "name": "[RIM] IPV 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "IPV 1 doses >= 1 year out"
@@ -793,7 +793,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "sgUPs0YNJoC", 
       "name": "[RIM] IPV 2 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 2 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "IPV 2 doses < 1 year"
@@ -807,7 +807,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "mOZn5JXTIFM", 
       "name": "[RIM] IPV 3 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 3 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "IPV 3 doses < 1 year stat"
@@ -821,7 +821,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "mIdy3m4B3Et", 
       "name": "[RIM] IPV 3 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 3 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "IPV 3 doses >= 1 year stat"
@@ -835,7 +835,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "ddvujcLYWpe", 
       "name": "[RIM] IPV 3 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 3 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "IPV 3 doses < 1 year out"
@@ -849,7 +849,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "wy2MeFjHwR4", 
       "name": "[RIM] IPV 3 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 3 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "IPV 3 doses >= 1 year out"
@@ -863,7 +863,7 @@
       "description": "Inactivated polio vaccine", 
       "id": "bDQJeQ01vZK", 
       "name": "[RIM] IPV 3 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV 3 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "IPV 3 doses < 1 year"
@@ -877,7 +877,7 @@
       "description": "", 
       "id": "etjawo3ieJq", 
       "name": "[RIM] Measles 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles 1 doses < 1 year stat"
@@ -891,7 +891,7 @@
       "description": "", 
       "id": "zHe7kVcMlI6", 
       "name": "[RIM] Measles 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles 1 doses >= 1 year stat"
@@ -905,7 +905,7 @@
       "description": "", 
       "id": "Uuz02DQ96uO", 
       "name": "[RIM] Measles 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles 1 doses < 1 year out"
@@ -919,7 +919,7 @@
       "description": "", 
       "id": "PEPQ3uxTsug", 
       "name": "[RIM] Measles 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles 1 doses >= 1 year out"
@@ -933,7 +933,7 @@
       "description": "", 
       "id": "FBvsqHJCV6P", 
       "name": "[RIM] Measles 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Measles 1 doses < 1 year"
@@ -947,7 +947,7 @@
       "description": "", 
       "id": "lpBY7pArhu1", 
       "name": "[RIM] Measles 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles 2 doses >= 1 year stat"
@@ -961,7 +961,7 @@
       "description": "", 
       "id": "R7vib8fE7xX", 
       "name": "[RIM] Measles 2 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 2 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles 2 doses >= 1 year out"
@@ -975,7 +975,7 @@
       "description": "", 
       "id": "ENifFGJjz3R", 
       "name": "[RIM] Measles 2 doses given >= 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles 2 doses given >= 1 year", 
       "publicAccess": "--------", 
       "shortName": "Measles 2 doses >= 1 year"
@@ -989,7 +989,7 @@
       "description": "", 
       "id": "EFkxaBpoJYt", 
       "name": "[RIM] Yellow fever doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Yellow fever doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Yellow fever doses < 1 year stat"
@@ -1003,7 +1003,7 @@
       "description": "", 
       "id": "dkDmIm1aJ0e", 
       "name": "[RIM] Yellow fever doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Yellow fever doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Yellow fever doses >= 1 year stat"
@@ -1017,7 +1017,7 @@
       "description": "", 
       "id": "rOWnUFEBRtR", 
       "name": "[RIM] Yellow fever doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Yellow fever doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Yellow fever doses < 1 year out"
@@ -1031,7 +1031,7 @@
       "description": "", 
       "id": "gSu1b6zIiaQ", 
       "name": "[RIM] Yellow fever doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Yellow fever doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Yellow fever doses >= 1 year out"
@@ -1045,7 +1045,7 @@
       "description": "", 
       "id": "sfDZRsWMFz6", 
       "name": "[RIM] Yellow fever doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Yellow fever doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Yellow fever doses < 1 year"
@@ -1059,7 +1059,7 @@
       "description": "", 
       "id": "jVunM5gKMiP", 
       "name": "[RIM] Vitamin A doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Vitamin A doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Vitamin A doses < 1 year stat"
@@ -1073,7 +1073,7 @@
       "description": "", 
       "id": "qHbMgA4JQHs", 
       "name": "[RIM] Vitamin A doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Vitamin A doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Vitamin A doses < 1 year out"
@@ -1087,7 +1087,7 @@
       "description": "", 
       "id": "DfqZhVXZEf9", 
       "name": "[RIM] Vitamin A doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Vitamin A doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Vitamin A doses >= 1 year stat"
@@ -1101,7 +1101,7 @@
       "description": "", 
       "id": "x0QlUWXCfNb", 
       "name": "[RIM] Vitamin A doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Vitamin A doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Vitamin A doses >= 1 year out"
@@ -1115,7 +1115,7 @@
       "description": "", 
       "id": "jqZIg2SM65g", 
       "name": "[RIM] Vitamin A doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Vitamin A doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Vitamin A doses < 1 year"
@@ -1129,7 +1129,7 @@
       "description": "", 
       "id": "ZtohCZw6nkp", 
       "name": "[RIM] VitaminA doses given post partum static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] VitaminA doses given post partum static", 
       "publicAccess": "--------", 
       "shortName": "VitaminA doses post partum stat"
@@ -1143,7 +1143,7 @@
       "description": "", 
       "id": "oipAG2x3aUQ", 
       "name": "[RIM] VitaminA doses given post partum outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] VitaminA doses given post partum outreach", 
       "publicAccess": "--------", 
       "shortName": "VitaminA doses post partum out"
@@ -1157,7 +1157,7 @@
       "description": "", 
       "id": "mJTX2tiD7VY", 
       "name": "[RIM] VitaminA doses given post partum", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] VitaminA doses given post partum", 
       "publicAccess": "--------", 
       "shortName": "VitaminA doses post partum"
@@ -1171,7 +1171,7 @@
       "description": "Rotavirus", 
       "id": "t3PPrEr2PiI", 
       "name": "[RIM] Rota 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Rota 1 doses < 1 year stat"
@@ -1185,7 +1185,7 @@
       "description": "Rotavirus", 
       "id": "lta65ifRycA", 
       "name": "[RIM] Rota 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Rota 1 doses >= 1 year stat"
@@ -1199,7 +1199,7 @@
       "description": "Rotavirus", 
       "id": "yKAafRiEkAI", 
       "name": "[RIM] Rota 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Rota 1 doses < 1 year out"
@@ -1213,7 +1213,7 @@
       "description": "Rotavirus", 
       "id": "mgvTEJEePdW", 
       "name": "[RIM] Rota 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Rota 1 doses >= 1 year out"
@@ -1227,7 +1227,7 @@
       "description": "Rotavirus", 
       "id": "Mnyh7QXnjTm", 
       "name": "[RIM] Rota 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Rota 1 doses < 1 year"
@@ -1241,7 +1241,7 @@
       "description": "Rotavirus", 
       "id": "tQCPjBjVl2V", 
       "name": "[RIM] Rota 2 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 2 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Rota 2 doses < 1 year stat"
@@ -1255,7 +1255,7 @@
       "description": "Rotavirus", 
       "id": "ldWGyTd6cWe", 
       "name": "[RIM] Rota 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Rota 2 doses >= 1 year stat"
@@ -1269,7 +1269,7 @@
       "description": "Rotavirus", 
       "id": "llwxdz6mUXi", 
       "name": "[RIM] Rota 2 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 2 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Rota 2 doses < 1 year out"
@@ -1283,7 +1283,7 @@
       "description": "Rotavirus", 
       "id": "iaqKK80Xset", 
       "name": "[RIM] Rota 2 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 2 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Rota 2 doses >= 1 year out"
@@ -1297,7 +1297,7 @@
       "description": "Rotavirus", 
       "id": "UjC5QALmAwP", 
       "name": "[RIM] Rota 2 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota 2 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Rota 2 doses < 1 year"
@@ -1311,7 +1311,7 @@
       "description": "Rotavirus", 
       "id": "mjIGfPwYvwZ", 
       "name": "[RIM] Rota last doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota last doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Rota last doses < 1 year stat"
@@ -1325,7 +1325,7 @@
       "description": "Rotavirus", 
       "id": "uniM1gehN0N", 
       "name": "[RIM] Rota last doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota last doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Rota last doses >= 1 year stat"
@@ -1339,7 +1339,7 @@
       "description": "Rotavirus", 
       "id": "bVdqhHZ70rb", 
       "name": "[RIM] Rota last doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota last doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Rota last doses < 1 year out"
@@ -1353,7 +1353,7 @@
       "description": "Rotavirus", 
       "id": "SYYKg4bTChd", 
       "name": "[RIM] Rota last doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota last doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Rota last doses >= 1 year out"
@@ -1367,7 +1367,7 @@
       "description": "Rotavirus", 
       "id": "k9LBwRZzFh3", 
       "name": "[RIM] Rota last doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota last doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Rota last doses < 1 year"
@@ -1381,7 +1381,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "QGPrMqSnpyv", 
       "name": "[RIM] Pneumo 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 1 doses < 1 year stat"
@@ -1395,7 +1395,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "zgADZsDgxRp", 
       "name": "[RIM] Pneumo 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 1 doses >= 1 year stat"
@@ -1409,7 +1409,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "bdVUBDze4gJ", 
       "name": "[RIM] Pneumo 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 1 doses < 1 year out"
@@ -1423,7 +1423,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "wbDkKRxwp7A", 
       "name": "[RIM] Pneumo 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 1 doses >= 1 year out"
@@ -1437,7 +1437,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "tLOdbrEKEav", 
       "name": "[RIM] Pneumo 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 1 doses < 1 year"
@@ -1451,7 +1451,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "NeRUHarETk5", 
       "name": "[RIM] Pneumo 2 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 2 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 2 doses < 1 year stat"
@@ -1465,7 +1465,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "c3EqXWiuDck", 
       "name": "[RIM] Pneumo 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 2 doses >= 1 year stat"
@@ -1479,7 +1479,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "opPHQSbboJs", 
       "name": "[RIM] Pneumo 2 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 2 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 2 doses < 1 year out"
@@ -1493,7 +1493,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "H5ZWVQimRZJ", 
       "name": "[RIM] Pneumo 2 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 2 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 2 doses >= 1 year out"
@@ -1507,7 +1507,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "ak1UQkYUVcF", 
       "name": "[RIM] Pneumo 2 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 2 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 2 doses < 1 year"
@@ -1521,7 +1521,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "m5hBA2ezyxD", 
       "name": "[RIM] Pneumo 3 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 3 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 3 doses < 1 year stat"
@@ -1535,7 +1535,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "wrGpwSUfLQP", 
       "name": "[RIM] Pneumo 3 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 3 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 3 doses >= 1 year stat"
@@ -1549,7 +1549,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "fYU9Sj4WE7m", 
       "name": "[RIM] Pneumo 3 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 3 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 3 doses < 1 year out"
@@ -1563,7 +1563,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "tbDEnmb3J7f", 
       "name": "[RIM] Pneumo 3 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 3 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 3 doses >= 1 year out"
@@ -1577,7 +1577,7 @@
       "description": "Pneumococcal conjugate", 
       "id": "yrs8n6924Ax", 
       "name": "[RIM] Pneumo 3 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo 3 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Pneumo 3 doses < 1 year"
@@ -1591,7 +1591,7 @@
       "description": "", 
       "id": "rqf0LnZC32Z", 
       "name": "[RIM] Measles rubella 1 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 1 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 1 doses < 1 year stat"
@@ -1605,7 +1605,7 @@
       "description": "", 
       "id": "ovOQkUZWCGS", 
       "name": "[RIM] Measles rubella 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 1 doses >= 1 year stat"
@@ -1619,7 +1619,7 @@
       "description": "", 
       "id": "ZNCxtEEjkVq", 
       "name": "[RIM] Measles rubella 1 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 1 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 1 doses < 1 year out"
@@ -1633,7 +1633,7 @@
       "description": "", 
       "id": "sf37YHvRi96", 
       "name": "[RIM] Measles rubella 1 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 1 doses >= 1 year out"
@@ -1647,7 +1647,7 @@
       "description": "", 
       "id": "Imlx1wJ1NWL", 
       "name": "[RIM] Measles rubella 1 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 1 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 1 doses < 1 year"
@@ -1661,7 +1661,7 @@
       "description": "", 
       "id": "sYZPQWiRChG", 
       "name": "[RIM] Measles rubella 2 doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 2 doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 2 doses < 1 year stat"
@@ -1675,7 +1675,7 @@
       "description": "", 
       "id": "RFHOUivhjQW", 
       "name": "[RIM] Measles rubella 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 2 doses >= 1 year stat"
@@ -1689,7 +1689,7 @@
       "description": "", 
       "id": "zOenT9RYKWB", 
       "name": "[RIM] Measles rubella 2 doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 2 doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 2 doses < 1 year out"
@@ -1703,7 +1703,7 @@
       "description": "", 
       "id": "aKhDX9jspQI", 
       "name": "[RIM] Measles rubella 2 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 2 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 2 doses >= 1 year out"
@@ -1717,7 +1717,7 @@
       "description": "", 
       "id": "M4qo8KRrvde", 
       "name": "[RIM] Measles rubella 2 doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Measles rubella 2 doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "Measles rubella 2 doses < 1 year"
@@ -1731,7 +1731,7 @@
       "description": "Tetanus, diphteria", 
       "id": "QjRMYQaXrC3", 
       "name": "[RIM] TD doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TD doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "TD doses >= 1 year stat"
@@ -1745,7 +1745,7 @@
       "description": "Tetanus, diphteria", 
       "id": "Xbph9hW9uPo", 
       "name": "[RIM] TD doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TD doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "TD doses >= 1 year out"
@@ -1759,7 +1759,7 @@
       "description": "Tetanus, diphteria", 
       "id": "ttnfUJvWcmA", 
       "name": "[RIM] TD doses given >= 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TD doses given >= 1 year", 
       "publicAccess": "--------", 
       "shortName": "TD doses >= 1 year"
@@ -1773,7 +1773,7 @@
       "description": "Meningococcal group A ", 
       "id": "A5DRybNaXMG", 
       "name": "[RIM] MenA doses given < 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses given < 1 year static", 
       "publicAccess": "--------", 
       "shortName": "MenA doses < 1 year stat"
@@ -1787,7 +1787,7 @@
       "description": "Meningococcal group A ", 
       "id": "JG5S06rPD0i", 
       "name": "[RIM] MenA doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "MenA doses >= 1 year stat"
@@ -1801,7 +1801,7 @@
       "description": "Meningococcal group A ", 
       "id": "AsmqkYE3Owr", 
       "name": "[RIM] MenA doses given < 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses given < 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "MenA doses < 1 year out"
@@ -1815,7 +1815,7 @@
       "description": "Meningococcal group A ", 
       "id": "WMXvjZVQi28", 
       "name": "[RIM] MenA doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "MenA doses >= 1 year out"
@@ -1829,7 +1829,7 @@
       "description": "Meningococcal group A ", 
       "id": "oeFKSTziX8s", 
       "name": "[RIM] MenA doses given < 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses given < 1 year", 
       "publicAccess": "--------", 
       "shortName": "MenA doses < 1 year"
@@ -1843,7 +1843,7 @@
       "description": "Human papilloma virus", 
       "id": "B9Ue0mwD2tM", 
       "name": "[RIM] HPV 1 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 1 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "HPV 1 doses >= 1 year stat"
@@ -1857,7 +1857,7 @@
       "description": "Human papilloma virus", 
       "id": "HK6HSJvkLiF", 
       "name": "[RIM] HPV 1 doses given >= 1 year outreach",
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV1 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "HPV1 doses >= 1 year out"
@@ -1871,7 +1871,7 @@
       "description": "Human papilloma virus", 
       "id": "WwVbI8jfp1l", 
       "name": "[RIM] HPV 1 doses given >= 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 1 doses given >= 1 year", 
       "publicAccess": "--------", 
       "shortName": "HPV 1 doses >= 1 year"
@@ -1885,7 +1885,7 @@
       "description": "Human papilloma virus", 
       "id": "Z4Kd942auTi", 
       "name": "[RIM] HPV 2 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 2 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "HPV 2 doses >= 1 year stat"
@@ -1899,7 +1899,7 @@
       "description": "Human papilloma virus", 
       "id": "AhUpQHO32Qq", 
       "name": "[RIM] HPV 2 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 2 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "HPV 2 doses >= 1 year out"
@@ -1913,7 +1913,7 @@
       "description": "Human papilloma virus", 
       "id": "GUPD1Q6BXmH", 
       "name": "[RIM] HPV 2 doses given >= 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 2 doses given >= 1 year", 
       "publicAccess": "--------", 
       "shortName": "HPV 2 doses >= 1 year"
@@ -1927,7 +1927,7 @@
       "description": "Human papilloma virus", 
       "id": "K2LpVKzBRTD", 
       "name": "[RIM] HPV 3 doses given >= 1 year static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 3 doses given >= 1 year static", 
       "publicAccess": "--------", 
       "shortName": "HPV 3 doses >= 1 year stat"
@@ -1941,7 +1941,7 @@
       "description": "Human papilloma virus", 
       "id": "kvfMKlq23mP", 
       "name": "[RIM] HPV 3 doses given >= 1 year outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 3 doses given >= 1 year outreach", 
       "publicAccess": "--------", 
       "shortName": "HPV 3 doses >= 1 year out"
@@ -1955,7 +1955,7 @@
       "description": "Human papilloma virus", 
       "id": "O68S2cuB1lo", 
       "name": "[RIM] HPV 3 doses given >= 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV 3 doses given >= 1 year", 
       "publicAccess": "--------", 
       "shortName": "HPV 3 doses >= 1 year"
@@ -1969,7 +1969,7 @@
       "description": "Tetanus toxoid", 
       "id": "yZYWBA8QqyA", 
       "name": "[RIM] TT 1 doses given pregnant women static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 1 doses given pregnant women static", 
       "publicAccess": "--------", 
       "shortName": "TT 1 doses pregnant women stat"
@@ -1983,7 +1983,7 @@
       "description": "Tetanus toxoid", 
       "id": "kd7nclVDgFZ", 
       "name": "[RIM] TT 1 doses given pregnant women outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 1 doses given pregnant women outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 1 doses pregnant women out"
@@ -1997,7 +1997,7 @@
       "description": "Tetanus toxoid", 
       "id": "TsfdOuc2Muq", 
       "name": "[RIM] TT 1 doses given pregnant women", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 1 doses given pregnant women", 
       "publicAccess": "--------", 
       "shortName": "TT 1 doses pregnant women"
@@ -2011,7 +2011,7 @@
       "description": "Tetanus toxoid", 
       "id": "twHPrHEHWAI", 
       "name": "[RIM] TT 2 doses given pregnant women static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 2 doses given pregnant women static", 
       "publicAccess": "--------", 
       "shortName": "TT 2 doses pregnant women stat"
@@ -2025,7 +2025,7 @@
       "description": "Tetanus toxoid", 
       "id": "dSq1jjgyQUo", 
       "name": "[RIM] TT 2 doses given pregnant women outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 2 doses given pregnant women outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 2 doses pregnant women out"
@@ -2039,7 +2039,7 @@
       "description": "Tetanus toxoid", 
       "id": "E03YigeDOYF", 
       "name": "[RIM] TT 2 doses given pregnant women", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 2 doses given pregnant women", 
       "publicAccess": "--------", 
       "shortName": "TT 2 doses pregnant women"
@@ -2053,7 +2053,7 @@
       "description": "Tetanus toxoid", 
       "id": "K0Rcu3VGRQW", 
       "name": "[RIM] TT 3 doses given pregnant women static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 3 doses given pregnant women static", 
       "publicAccess": "--------", 
       "shortName": "TT 3 doses pregnant women stat"
@@ -2067,7 +2067,7 @@
       "description": "Tetanus toxoid", 
       "id": "ZXxvwuZ7G6G", 
       "name": "[RIM] TT 3 doses given pregnant women outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 3 doses given pregnant women outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 3 doses pregnant women out"
@@ -2081,7 +2081,7 @@
       "description": "Tetanus toxoid", 
       "id": "gREPGh2Kxfl", 
       "name": "[RIM] TT 3 doses given pregnant women", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 3 doses given pregnant women", 
       "publicAccess": "--------", 
       "shortName": "TT 3 doses pregnant women"
@@ -2095,7 +2095,7 @@
       "description": "Tetanus toxoid", 
       "id": "x18Pvlw9O54", 
       "name": "[RIM] TT 4 doses given pregnant women static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 4 doses given pregnant women static", 
       "publicAccess": "--------", 
       "shortName": "TT 4 doses pregnant women stat"
@@ -2109,7 +2109,7 @@
       "description": "Tetanus toxoid", 
       "id": "fmSwgALS1zM", 
       "name": "[RIM] TT 4 doses given pregnant women outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 4 doses given pregnant women outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 4 doses pregnant women out"
@@ -2123,7 +2123,7 @@
       "description": "Tetanus toxoid", 
       "id": "BlhKXpnyAVb", 
       "name": "[RIM] TT 4 doses given pregnant women", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 4 doses given pregnant women", 
       "publicAccess": "--------", 
       "shortName": "TT 4 doses pregnant women"
@@ -2137,7 +2137,7 @@
       "description": "Tetanus toxoid", 
       "id": "YdAjJEXgWGP", 
       "name": "[RIM] TT 5 doses given pregnant women static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 5 doses given pregnant women static", 
       "publicAccess": "--------", 
       "shortName": "TT 5 doses pregnant women stat"
@@ -2151,7 +2151,7 @@
       "description": "Tetanus toxoid", 
       "id": "ypeiz6n5C59", 
       "name": "[RIM] TT 5 doses given pregnant women outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 5 doses given pregnant women outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 5 doses pregnant women out"
@@ -2165,7 +2165,7 @@
       "description": "Tetanus toxoid", 
       "id": "KUvBMEqx61s", 
       "name": "[RIM] TT 5 doses given pregnant women", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 5 doses given pregnant women", 
       "publicAccess": "--------", 
       "shortName": "TT 5 doses pregnant women"
@@ -2179,7 +2179,7 @@
       "description": "Tetanus toxoid", 
       "id": "TUduKhbOMcO", 
       "name": "[RIM] TT 1 doses given women in child bearing age static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 1 doses given women in child bearing age static", 
       "publicAccess": "--------", 
       "shortName": "TT 1 doses women in child bearing age stat"
@@ -2193,7 +2193,7 @@
       "description": "Tetanus toxoid", 
       "id": "dE2G9yGWHpe", 
       "name": "[RIM] TT 1 doses given women in child bearing age outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 1 doses given women in child bearing age outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 1 doses women in child bearing age out"
@@ -2207,7 +2207,7 @@
       "description": "Tetanus toxoid", 
       "id": "vXoWSp5sSoJ", 
       "name": "[RIM] TT 1 doses given women in child bearing age", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 1 doses given women in child bearing age", 
       "publicAccess": "--------", 
       "shortName": "TT 1 doses women in child bearing age"
@@ -2221,7 +2221,7 @@
       "description": "Tetanus toxoid", 
       "id": "ha0ecZ1U4cM", 
       "name": "[RIM] TT 2 doses given women in child bearing age static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 2 doses given women in child bearing age static", 
       "publicAccess": "--------", 
       "shortName": "TT 2 doses women in child bearing age stat"
@@ -2235,7 +2235,7 @@
       "description": "Tetanus toxoid", 
       "id": "qyAPJ9F3pGg", 
       "name": "[RIM] TT 2 doses given women in child bearing age outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 2 doses given women in child bearing age outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 2 doses women in child bearing age out"
@@ -2249,7 +2249,7 @@
       "description": "Tetanus toxoid", 
       "id": "EjZNNroZTpI", 
       "name": "[RIM] TT 2 doses given women in child bearing age", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 2 doses given women in child bearing age", 
       "publicAccess": "--------", 
       "shortName": "TT 2 doses women in child bearing age"
@@ -2263,7 +2263,7 @@
       "description": "Tetanus toxoid", 
       "id": "rimuGY42FnZ", 
       "name": "[RIM] TT 3 doses given women in child bearing age static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 3 doses given women in child bearing age static", 
       "publicAccess": "--------", 
       "shortName": "TT 3 doses women in child bearing age stat"
@@ -2277,7 +2277,7 @@
       "description": "Tetanus toxoid", 
       "id": "RX5gwQBM7qP", 
       "name": "[RIM] TT 3 doses given women in child bearing age outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 3 doses given women in child bearing age outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 3 doses women in child bearing age out"
@@ -2291,7 +2291,7 @@
       "description": "Tetanus toxoid", 
       "id": "zZeXQeJh8Nc", 
       "name": "[RIM] TT 3 doses given women in child bearing age", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 3 doses given women in child bearing age", 
       "publicAccess": "--------", 
       "shortName": "TT 3 doses women in child bearing age"
@@ -2305,7 +2305,7 @@
       "description": "Tetanus toxoid", 
       "id": "vn0LBvCDZUd", 
       "name": "[RIM] TT 4 doses given women in child bearing age static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 4 doses given women in child bearing age static", 
       "publicAccess": "--------", 
       "shortName": "TT 4 doses women in child bearing age stat"
@@ -2319,7 +2319,7 @@
       "description": "Tetanus toxoid", 
       "id": "GdcCTZ3etIo", 
       "name": "[RIM] TT 4 doses given women in child bearing age outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 4 doses given women in child bearing age outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 4 doses women in child bearing age out"
@@ -2333,7 +2333,7 @@
       "description": "Tetanus toxoid", 
       "id": "ohSiiBudMBT", 
       "name": "[RIM] TT 4 doses given women in child bearing age", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 4 doses given women in child bearing age", 
       "publicAccess": "--------", 
       "shortName": "TT 4 doses women in child bearing age"
@@ -2347,7 +2347,7 @@
       "description": "Tetanus toxoid", 
       "id": "cJE8Od33RlU", 
       "name": "[RIM] TT 5 doses given women in child bearing age static", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 5 doses given women in child bearing age static", 
       "publicAccess": "--------", 
       "shortName": "TT 5 doses women in child bearing age stat"
@@ -2361,7 +2361,7 @@
       "description": "Tetanus toxoid", 
       "id": "ReMRRVdNBRK", 
       "name": "[RIM] TT 5 doses given women in child bearing age outreach", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 5 doses given women in child bearing age outreach", 
       "publicAccess": "--------", 
       "shortName": "TT 5 doses women in child bearing age out"
@@ -2375,7 +2375,7 @@
       "description": "Tetanus toxoid", 
       "id": "Rr9Z0XV828v", 
       "name": "[RIM] TT 5 doses given women in child bearing age", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT 5 doses given women in child bearing age", 
       "publicAccess": "--------", 
       "shortName": "TT 5 doses women in child bearing age"
@@ -2389,7 +2389,7 @@
       "description": "Tetanus toxoid", 
       "id": "Zxm1ZD27M3l", 
       "name": "[RIM] Children protected at birth against TT", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Children protected at birth against TT", 
       "publicAccess": "--------", 
       "shortName": "Children protected at birth against TT"
@@ -2403,7 +2403,7 @@
       "description": "", 
       "id": "ZHWoLEMGG0k", 
       "name": "[RIM] Fully immunized children <1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Fully immunized children <1 year", 
       "publicAccess": "--------", 
       "shortName": "Fully immunized children <1 year"
@@ -2417,7 +2417,7 @@
       "description": "", 
       "id": "t3tBWhkjEYT", 
       "name": "[RIM] Fully immunized children >= 1 year", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Fully immunized children >= 1 year", 
       "publicAccess": "--------", 
       "shortName": "Fully immunized children >= 1 year"
@@ -2431,7 +2431,7 @@
       "description": "", 
       "id": "RalHqIi1d4h", 
       "name": "[RIM] BCG doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses available", 
       "publicAccess": "--------", 
       "shortName": "BCG doses available"
@@ -2445,7 +2445,7 @@
       "description": "", 
       "id": "ujZoYIFmhNO", 
       "name": "[RIM] BCG doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] BCG doses used", 
       "publicAccess": "--------", 
       "shortName": "BCG doses used"
@@ -2459,7 +2459,7 @@
       "description": "", 
       "id": "WW62tg0sHiq", 
       "name": "[RIM] OPV doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV doses available", 
       "publicAccess": "--------", 
       "shortName": "OPV doses available"
@@ -2473,7 +2473,7 @@
       "description": "", 
       "id": "IZHqRhoI4q0", 
       "name": "[RIM] OPV doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] OPV doses used", 
       "publicAccess": "--------", 
       "shortName": "OPV doses used"
@@ -2487,7 +2487,7 @@
       "description": "", 
       "id": "h9gPhWFvSZP", 
       "name": "[RIM] IPV doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV doses available", 
       "publicAccess": "--------", 
       "shortName": "IPV doses available"
@@ -2501,7 +2501,7 @@
       "description": "", 
       "id": "iCtiKMBUFDI", 
       "name": "[RIM] IPV doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] IPV doses used", 
       "publicAccess": "--------", 
       "shortName": "IPV doses used"
@@ -2515,7 +2515,7 @@
       "description": "", 
       "id": "HDAI4qokNoY", 
       "name": "[RIM] DPTHibHepB doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPTHibHepB doses available", 
       "publicAccess": "--------", 
       "shortName": "DPTHibHepB doses available"
@@ -2529,7 +2529,7 @@
       "description": "", 
       "id": "SURIN2CPUQP", 
       "name": "[RIM] DPTHibHepB doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] DPTHibHepB doses used", 
       "publicAccess": "--------", 
       "shortName": "DPTHibHepB doses used"
@@ -2543,7 +2543,7 @@
       "description": "", 
       "id": "tLbwC2F10Ty", 
       "name": "[RIM] MonoHepB doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MonoHepB doses available", 
       "publicAccess": "--------", 
       "shortName": "MonoHepB doses available"
@@ -2557,7 +2557,7 @@
       "description": "", 
       "id": "daRbg8vhjsQ", 
       "name": "[RIM] MonoHepB doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MonoHepB doses used", 
       "publicAccess": "--------", 
       "shortName": "MonoHepB doses used"
@@ -2571,7 +2571,7 @@
       "description": "", 
       "id": "vqAkOq8UZlT", 
       "name": "[RIM] MCV doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MCV doses available", 
       "publicAccess": "--------", 
       "shortName": "MCV doses available"
@@ -2585,7 +2585,7 @@
       "description": "", 
       "id": "RBcGw8VgJKf", 
       "name": "[RIM] MCV doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MCV doses used", 
       "publicAccess": "--------", 
       "shortName": "MCV doses used"
@@ -2599,7 +2599,7 @@
       "description": "", 
       "id": "FCATXHE05pN", 
       "name": "[RIM] YF doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] YF doses available", 
       "publicAccess": "--------", 
       "shortName": "YF doses available"
@@ -2613,7 +2613,7 @@
       "description": "", 
       "id": "p8la6SNLfPX", 
       "name": "[RIM] YF doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] YF doses used", 
       "publicAccess": "--------", 
       "shortName": "YF doses used"
@@ -2627,7 +2627,7 @@
       "description": "", 
       "id": "mHTRlfRGU3N", 
       "name": "[RIM] TT doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT doses available", 
       "publicAccess": "--------", 
       "shortName": "TT doses available"
@@ -2641,7 +2641,7 @@
       "description": "", 
       "id": "Gd7H0lCXZRW", 
       "name": "[RIM] TT doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] TT doses used", 
       "publicAccess": "--------", 
       "shortName": "TT doses used"
@@ -2655,7 +2655,7 @@
       "description": "", 
       "id": "KwUo2MFOE28", 
       "name": "[RIM] Rota doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota doses available", 
       "publicAccess": "--------", 
       "shortName": "Rota doses available"
@@ -2669,7 +2669,7 @@
       "description": "", 
       "id": "lgZInhhaJeR", 
       "name": "[RIM] Rota doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Rota doses used", 
       "publicAccess": "--------", 
       "shortName": "Rota doses used"
@@ -2683,7 +2683,7 @@
       "description": "", 
       "id": "VLpQuFk6lRO", 
       "name": "[RIM] Pneumo doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo doses available", 
       "publicAccess": "--------", 
       "shortName": "Pneumo doses available"
@@ -2697,7 +2697,7 @@
       "description": "", 
       "id": "zqfeXzSLejF", 
       "name": "[RIM] Pneumo doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] Pneumo doses used", 
       "publicAccess": "--------", 
       "shortName": "Pneumo doses used"
@@ -2711,7 +2711,7 @@
       "description": "", 
       "id": "YvRjAe56zd6", 
       "name": "[RIM] MR doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MR doses available", 
       "publicAccess": "--------", 
       "shortName": "MR doses available"
@@ -2725,7 +2725,7 @@
       "description": "", 
       "id": "iOrgZgASJ5D", 
       "name": "[RIM] MR doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MR doses used", 
       "publicAccess": "--------", 
       "shortName": "MR doses used"
@@ -2739,7 +2739,7 @@
       "description": "", 
       "id": "jmRlopgQHOn", 
       "name": "[RIM] HPV doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV doses available", 
       "publicAccess": "--------", 
       "shortName": "HPV doses available"
@@ -2753,7 +2753,7 @@
       "description": "", 
       "id": "HqIrzOsYA0I", 
       "name": "[RIM] HPV doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] HPV doses used", 
       "publicAccess": "--------", 
       "shortName": "HPV doses used"
@@ -2767,7 +2767,7 @@
       "description": "", 
       "id": "jGE6lpm5IB5", 
       "name": "[RIM] MenA doses available", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses available", 
       "publicAccess": "--------", 
       "shortName": "MenA doses available"
@@ -2781,7 +2781,7 @@
       "description": "", 
       "id": "OS8tqtKG9QV", 
       "name": "[RIM] MenA doses used", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] MenA doses used", 
       "publicAccess": "--------", 
       "shortName": "MenA doses used"
@@ -2795,7 +2795,7 @@
       "description": "", 
       "id": "m5ADCiz7Atx", 
       "name": "[RIM] AEFI cases - BCG", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - BCG", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - BCG"
@@ -2809,7 +2809,7 @@
       "description": "", 
       "id": "xnbhgoMvF4A", 
       "name": "[RIM] AEFI cases - OPV", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - OPV", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - OPV"
@@ -2823,7 +2823,7 @@
       "description": "", 
       "id": "QQzCxUkbDvi", 
       "name": "[RIM] AEFI cases - IPV", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - IPV", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - IPV"
@@ -2837,7 +2837,7 @@
       "description": "", 
       "id": "Kt0DZj41lrv", 
       "name": "[RIM] AEFI cases - DPT-Hib-HepB", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - DPT-Hib-HepB", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - DPT-Hib-HepB"
@@ -2851,7 +2851,7 @@
       "description": "", 
       "id": "FDZHacbAsWs", 
       "name": "[RIM] AEFI cases - mHepB", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - mHepB", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - mHepB"
@@ -2865,7 +2865,7 @@
       "description": "", 
       "id": "IgUkJq6TB98", 
       "name": "[RIM] AEFI cases - Measles", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - Measles", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - Measles"
@@ -2879,7 +2879,7 @@
       "description": "", 
       "id": "QFaa8lAyxL9", 
       "name": "[RIM] AEFI cases - YF", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - YF", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - YF"
@@ -2893,7 +2893,7 @@
       "description": "", 
       "id": "gzK6PIPC8cT", 
       "name": "[RIM] AEFI cases - TT", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - TT", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - TT"
@@ -2907,7 +2907,7 @@
       "description": "", 
       "id": "fhuJz0P6d0c", 
       "name": "[RIM] AEFI cases - Rota", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - Rota", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - Rota"
@@ -2921,7 +2921,7 @@
       "description": "", 
       "id": "U7dg3fC4D4s", 
       "name": "[RIM] AEFI cases - Pneumo", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - Pneumo", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - Pneumo"
@@ -2935,7 +2935,7 @@
       "description": "", 
       "id": "IeOK3Lkz1S9", 
       "name": "[RIM] AEFI cases - MR", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - MR", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - MR"
@@ -2949,7 +2949,7 @@
       "description": "", 
       "id": "tdjTismLhNz", 
       "name": "[RIM] AEFI cases - HPV", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - HPV", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - HPV"
@@ -2963,7 +2963,7 @@
       "description": "", 
       "id": "yGzQcOpadH7", 
       "name": "[RIM] AEFI cases - MenA", 
-      "numerator": "", 
+      "numerator": "-1", 
       "numeratorDescription": "[RIM] AEFI cases - MenA", 
       "publicAccess": "--------", 
       "shortName": "AEFI cases - MenA"

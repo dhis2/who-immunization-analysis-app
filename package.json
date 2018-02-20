@@ -1,7 +1,8 @@
 {
   "name": "WHO-EPI-App",
-  "version": "0.1.0",
+  "version": "0.2.4",
   "description": "WHO EPI App",
+  "license": "GPL 3.0",
   "main": "grunt.js",
   "dependencies": {
     "grunt": "^0.4.5",

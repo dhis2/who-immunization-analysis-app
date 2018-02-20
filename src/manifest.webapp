@@ -1,15 +1,15 @@
 {
-    "version": "0.2.3",
+    "version": "0.2.5",
     "name": "Immunisation analysis",
     "description": "Immunisation analysis and export.",
     "icons": {
             "48": "img/icons/export.png"
     },
     "developer": {
-        "url": "http://who.int",
-        "name": "Olav Poppe",
-        "company": "WHO",
-        "email": "poppeo@who.int"
+        "url": "http://hisp.uio.no",
+        "name": "UiO",
+        "company": "UiO",
+        "email": "olavpo@ifi.uio.no"
     },
     "activities": {
         "dhis": {

@@ -882,7 +882,7 @@
 		self.isPreviousMonth = function(month) {
 			if (self.current.year != new Date().getFullYear().toString()) return true;
 			else {
-				if (month < new Date().getMonth()) return tru;
+				if (month < new Date().getMonth()) return true;
 				else return false;
 			}
 		}
@@ -1255,7 +1255,7 @@
 
 				//Add metadata
 				row.push(countryCode);
-				row.push(metaData.names[metaData.ouHierarchy[districtId].split('/')[rimMeta.provinceLevel]]);
+				row.push(metaData.names[metaData.ouHierarchy[districtId].split('/')[rimMeta.provinceLevel-1]]);
 				row.push(metaData.names[districtId]);
 				row.push(year);
 				row.push(month);
@@ -1502,7 +1502,9 @@
 					'id': self.rim.indicatorType.id
 				}
 				indicators[i].userGroupAccesses = [{
-					'id': self.rim.userGroup.id
+					'id': self.rim.userGroup.id,
+					"userGroupUid": self.rim.userGroup.id,
+					"access": "rw------"
 				}];
 
 				self.rim.indicatorGroup.indicators.push({
@@ -1529,8 +1531,8 @@
 				d2Map.rimImported(ugid, self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level,
 					self.rim.countryCode);
 
-				var result = 'Import done. Imported ' + data.data.importCount.imported + ", updated " +
-					data.data.importCount.updated + ", ignored " + data.data.importCount.ignored + " [RIM] indicators.";
+				var result = 'Import done. Imported ' + data.data.stats.created + ", updated " +
+					data.data.stats.updated + ", ignored " + data.data.stats.ignored + " [RIM] indicators.";
 				alert(result);
 
 				//Temporary sharing workaround
@@ -1546,6 +1548,7 @@
 					"userGroupAccesses": [
 						{
 							"id": self.rim.userGroup.id,
+							"userGroupUid": self.rim.userGroup.id,
 							"access": "rw------"
 						}
 					]
@@ -1725,7 +1728,7 @@
 
 
 		function checkExportValue(value, separator) {
-			var innerValue =	value === null ? '' : value.toString();
+			var innerValue = (value == null || value == undefined) ? '' : value.toString();
 			var result = innerValue.replace(/"/g, '""');
 			if (result.search(/("|separator|\n)/g) >= 0)
 				result = '"' + result + '"';
@@ -1747,7 +1750,7 @@
 
 
 			//Period options
-			self.periods = [{"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
+			self.periods = [{"displayName": "2017", "id": "2017"}, {"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
 				{"displayName": "2014", "id": "2014"},{"displayName": "2013", "id": "2013"}];
 			self.selectedPeriod = self.periods[0];
 
