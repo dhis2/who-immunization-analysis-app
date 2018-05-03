@@ -1,8 +1,4 @@
-(function(){
-
-	angular.module('d2').factory('d2Map',
-		['requestService', 'd2Meta', 'd2Utils', '$q',
-			function (requestService, d2Meta, d2Utils, $q) {
+export default function (requestService, d2Meta, d2Utils, $q) {
 
 				//Define factory API
 				var service = {
@@ -56,7 +52,7 @@
 				function load() {
 					var deferred = $q.defer();
 
-					requestService.getSingle('/api/25/dataStore/epiApp/settings').then(
+					requestService.getSingle('/dataStore/epiApp/settings').then(
 						function(response) {
 							_map = response.data;
 							console.log("Loaded map");
@@ -121,40 +117,27 @@
 					var currentIDs = d2IDs().join('');
 					var previousIDs = _dataIDs ? _dataIDs.join('') : '';
 					if (currentIDs != previousIDs) d2CoreMeta();
-					//requestService.post('/api/25/systemSettings', {'dq': angular.toJson(_map)});
-					return requestService.put('/api/25/dataStore/epiApp/settings', angular.toJson(_map));
+					return requestService.put('/dataStore/epiApp/settings', angular.toJson(_map));
 				}
 
 
 				function admin() {
 					var deferred = $q.defer();
-					requestService.getSingle('/api/25/currentUser.json?fields=userCredentials[userRoles]').then(
-						function(response) { //success
-							var data = response.data.userCredentials.userRoles;
-							var IDs = [];
-							for (var i = 0; i < data.length; i++) {
-								IDs.push(data[i].id);
-							}
-
-							requestService.getSingle('/api/25/userRoles.json?fields=authorities&filter=id:in:[' + IDs.join(',') + ']')
-								.then(function(response) {
-									var authorized = false;
-
-									var data = response.data.userRoles;
-									for (var i = 0; !authorized && i < data.length; i++) {
-										for (var j = 0; !authorized && j < data[i].authorities.length; j++) {
-											if (data[i].authorities[j] === 'F_INDICATOR_PUBLIC_ADD') {
+					d2Meta.authorizations().then(
+						function(auths) {
+							var authorized = false;
+							for (var j = 0; !authorized && j < auths.length; j++) {
+											if (auths[j] === 'F_INDICATOR_PUBLIC_ADD') {
 												authorized = true;
 											}
-											if (data[i].authorities[j] === 'ALL') {
+											if (auths[j] === 'ALL') {
 												authorized = true;
 											}
 										}
-									}
+									
 
 									deferred.resolve(authorized);
-								});
-						}
+								}
 					);
 
 					return deferred.promise;
@@ -203,7 +186,7 @@
 									_map = response.data;
 
 									//Save template to systemSettings
-									requestService.post('/api/25/dataStore/epiApp/settings', angular.toJson(_map)).then(
+									requestService.post('/dataStore/epiApp/settings', angular.toJson(_map)).then(
 										function (data) {
 											_ready = true;
 											deferred.resolve(true);
@@ -722,6 +705,5 @@
 
 				return service;
 
-			}]);
+			};
 
-})();

@@ -1,8 +1,10 @@
+
+
 <div>
 	<d2-select
 			ng-model="d2sCtrl.group"
 			options="d2sCtrl.groups"
-			placeholder="Indicator group..."
+			placeholder="{{ 'Indicator group' | i18next }}..."
 			on-select="d2sCtrl.getElements();">
 	</d2-select>
 </div>

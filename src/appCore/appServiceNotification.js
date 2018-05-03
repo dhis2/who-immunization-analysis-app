@@ -1,32 +1,28 @@
-(function(){
-	angular.module('epiApp').service('notificationService',
-	['$uibModal',
-	function ($uibModal) {
 
-		var self = this;
-		self.notify = notification;
+export default function($uibModal) {
 
-		function notification(title, message) {
-			console.log(title);
-			var modalInstance = $uibModal.open({
-				templateUrl: "appCommons/modalNotification.html",
-				controller: "ModalNotificationController",
-				controllerAs: 'nCtrl',
-				resolve: {
-					title: function () {
-						return title;
-					},
-					message: function () {
-						return message;
-					}
+	var self = this;
+	self.notify = notification;
+
+	function notification(title, message) {
+		console.log(title);
+		var modalInstance = $uibModal.open({
+			template: require("../appCommons/modalNotification.html"),
+			controller: "ModalNotificationController",
+			controllerAs: "nCtrl",
+			resolve: {
+				title: function () {
+					return title;
+				},
+				message: function () {
+					return message;
 				}
-			});
+			}
+		});
 
-			return modalInstance.result;
-		}
+		return modalInstance.result;
+	}
 
-		return self;
+	return self;
 
-	}]);
-
-})();
+}

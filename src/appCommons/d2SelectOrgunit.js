@@ -1,26 +1,27 @@
+
 (function() {
 
-	var app = angular.module('epiApp');
+	var app = angular.module("appCommons");
 
-	app.directive('d2SelectOrgunit', function () {
+	app.directive("d2SelectOrgunit", function () {
 		return {
 			scope: {
-				'ngModel': '=',
-				'onSelect': '&',
-				'defaultLevel': '=',
-				'maxLevel': '=',
-				'hideGroup': '=',
-				'hideLevel': '='
+				"ngModel": "=",
+				"onSelect": "&",
+				"defaultLevel": "=",
+				"maxLevel": "=",
+				"hideGroup": "=",
+				"hideLevel": "="
 			},
 			bindToController: true,
 			controller: "d2SelectOUController",
-			controllerAs: 'd2sCtrl',
-			templateUrl: 'appCommons/d2SelectOrgunit.html'
+			controllerAs: "d2sCtrl",
+			template: require("./d2SelectOrgunit.html")
 		};
 	});
 	
 	app.controller("d2SelectOUController",
-		['d2Meta', 'd2Utils', '$q',
+		["d2Meta", "d2Utils", "$q",
 			function(d2Meta, d2Utils, $q) {
 				var self = this;
 
@@ -43,13 +44,13 @@
 
 					var promises = [];
 					promises.push(d2Meta.userOrgunits());
-					promises.push(d2Meta.objects('organisationUnitLevels', null, 'displayName,id,level'));
-					promises.push(d2Meta.objects('organisationUnitGroups'));
+					promises.push(d2Meta.objects("organisationUnitLevels", null, "displayName,id,level"));
+					promises.push(d2Meta.objects("organisationUnitGroups"));
 					$q.all(promises).then(
 						function(data) {
 							self.userOrgunits = data[0];
-							self.orgunitLevels = d2Utils.arraySortByProperty(data[1], 'level', true, true);
-							self.orgunitGroups = d2Utils.arraySortByProperty(data[2], 'displayName', false);
+							self.orgunitLevels = d2Utils.arraySortByProperty(data[1], "level", true, true);
+							self.orgunitGroups = d2Utils.arraySortByProperty(data[2], "displayName", false);
 
 							self.selectionType = 0;
 							self.selectedOrgunit = self.userOrgunits[0];
@@ -104,7 +105,8 @@
 							break;
 						}
 					}
-					self.ngModel.level = self.selectedLevel;
+					if (self.ngModel) self.ngModel.level = self.selectedLevel;
+					
 				}
 
 
@@ -132,22 +134,31 @@
 						group: self.selectedGroup
 					};
 
-					if (self.selectedOrgunit) {
-						self.onSelect({'object': self.ngModel});
-					}
+					triggerOnSelect();
 
 				}
 
 				function selectLevel(object) {
 					self.selectedLevel = object;
 					self.ngModel.level = self.selectedLevel;
+
+					triggerOnSelect();
 				}
+
 
 				function selectGroup(object) {
 					self.selectedGroup = object;
 					self.ngModel.group = self.selectedGroup;
+
+					triggerOnSelect();
 				}
 
+
+				function triggerOnSelect() {
+					if (self.ngModel && self.ngModel.boundary) {
+						self.onSelect({"object": self.ngModel});
+					}
+				}
 
 				init();
 
