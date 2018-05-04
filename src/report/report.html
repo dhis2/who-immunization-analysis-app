@@ -13,7 +13,7 @@
 	</a>
 
 	<div class="navItem">
-		<h4>Report type</h4>
+		<h4>{{ 'Report type' | i18next }}</h4>
 		<d2-select on-select="rCtrl.selectedVaccines = undefined;" options="rCtrl.reportTypes" ng-model="rCtrl.selectedReport" placeholder="Select report type..."></d2-select>
 		<d2-select on-select="rCtrl.selectedVaccines = undefined;" ng-if="rCtrl.selectedReport.id === 'vac'" options="rCtrl.vaccineReportTypes" ng-model="rCtrl.selectedVaccineReport"></d2-select>
 		<d2-select on-select="rCtrl.selectedVaccines = undefined;" ng-if="rCtrl.selectedReport.id === 'mon'" options="rCtrl.monitoringReportTypes" ng-model="rCtrl.selectedMonitoringReport"></d2-select>
@@ -72,7 +72,7 @@
 	<hr/>
 
 	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'rim'">
-		<h4>Organisation unit</h4>
+		<h4>{{ 'Organisation unit' | i18next }}</h4>
 		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit"
 						   default-level="1"
 						   hide-group="true"
@@ -83,7 +83,7 @@
 	</div>
 
 	<div class="navItem" style="float:right;">
-		<button ng-disabled="!rCtrl.isReady()" ng-click="rCtrl.makeReport()" class="btn btn-success">Make report</button>
+		<button ng-disabled="!rCtrl.isReady()" ng-click="rCtrl.makeReport()" class="btn btn-success">{{ 'Make report' || i18next }} </button>
 
 	</div>
 
@@ -477,11 +477,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							Category A</th>
-						<td>Coverage >= 90%</td>
+							{{ 'Category A' || i18next }}</th>
+						<td>{{ 'Coverage' || i18next}} >= 90%</td>
 					</tr>
 					<tr>
-						<td>Dropout rate <= 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} <= 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -489,11 +489,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							Category B</th>
-						<td>Coverage >= 90%</td>
+							{{ 'Category B' || i18next }}</th>
+						<td>{{ 'Coverage' || i18next}} >= 90%</td>
 					</tr>
 					<tr>
-						<td>Dropout rate > 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} > 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -501,11 +501,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							Category C</th>
-						<td>Coverage < 90%</td>
+							{{ 'Category C' || i18next }}</th>
+						<td>{{ 'Coverage' || i18next}} < 90%</td>
 					</tr>
 					<tr>
-						<td>Dropout rate < 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} < 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -513,11 +513,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							Category D</th>
-						<td>Coverage < 90%</td>
+							{{ 'Category D' || i18next }}</th>
+						<td>{{ 'Coverage' || i18next}} < 90%</td>
 					</tr>
 					<tr>
-						<td>Dropout rate >= 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} >= 10%</td>
 					</tr>
 				</table>
 			</td>
