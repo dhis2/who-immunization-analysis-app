@@ -1236,10 +1236,10 @@ function(d2Map, d2Meta, d2Data, d2Utils, d2Map, $q) {
 		var pe = metaData.pe[0];
 
 		//Year
-		var year = metaData.names[metaData.pe[0]].split(' ')[1];
+		var year = pe.substr(0,4);
 
 		//Month
-		var month = metaData.pe[0].substr(4,2);
+		var month = pe.substr(4,2);
 
 		//Country_Code
 		var countryCode = d2Map.rimMeta().countryCode;
@@ -1261,8 +1261,8 @@ function(d2Map, d2Meta, d2Data, d2Utils, d2Map, $q) {
 
 			//Add metadata
 			row.push(countryCode);
-			row.push(metaData.names[metaData.ouHierarchy[districtId].split('/')[rimMeta.provinceLevel-1]]);
-			row.push(metaData.names[districtId]);
+			row.push(metaData.items[metaData.ouHierarchy[districtId].split('/')[rimMeta.provinceLevel-1]].name);
+			row.push(metaData.items[districtId].name);
 			row.push(year);
 			row.push(month);
 
