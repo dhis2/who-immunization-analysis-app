@@ -2,7 +2,8 @@
 
 const dhisDevConfig = DHIS_CONFIG; // eslint-disable-line
 
-import $ from "jquery";
+//Already imported from dhis2-commons (for menu bar) 
+//import $ from "jquery";
 
 import "angular";
 import "angular-animate";
