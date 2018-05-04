@@ -265,7 +265,7 @@
 				<p>RIM export is done by district (admin 2) level, and also includes the province (admin 1) level and a
 					country code. Please enter country code and select province, district levels here:</p>
 				<div style="width: 400px">
-					<span ">Country code: <input style="width: 100px; margin-bottom: 5px;" type="text" ng-model="rCtrl.rim.countryCode"></span>
+					<span>{{ 'Country code:' || i18next }}<input style="width: 100px; margin-bottom: 5px;" type="text" ng-model="rCtrl.rim.countryCode"></span>
 					<d2-select placeholder="Select province level..."
 							   options="rCtrl.rim.options.orgunitLevelsProvince" ng-model="rCtrl.rim.provinceLevel"
 							   style="width: 400px"></d2-select>
@@ -423,7 +423,7 @@
 
 	<div id="performanceChartTimeSummary" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
 
-	<div id="performanceChartDataSummary" ng-if="(rCtrl.current.orgunits.level.level - rCtrl.current.orgunits.boundary.level) >= 2" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
+	<div id="performanceChartDataSummary" ng-if="(rCtrl.current.orgunits.level.level - rCtrl.current.orgunits.boundary.level) ≥ 2" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
 
 	<table id="perfromanceDataTable"
 		   class="table table-bordered dataTable no-footer table-condensed"
@@ -451,10 +451,10 @@
 				{{row[header.id]}}
 			</td>
 			<td ng-repeat="header in rCtrl.current.dataHeaderData track by $index"
-				ng-class="{success:row[header.id].category === 'A' && row[header.id].coverage <= 100 && rCtrl.isPreviousMonth($index),
-					info:row[header.id].category === 'B' && row[header.id].coverage <= 100 && rCtrl.isPreviousMonth($index),
-					warning:row[header.id].category === 'C' && row[header.id].dropout >= 0 && rCtrl.isPreviousMonth($index),
-					danger:row[header.id].category === 'D' && row[header.id].dropout >= 0 && rCtrl.isPreviousMonth($index)}">
+				ng-class="{success:row[header.id].category === 'A' && row[header.id].coverage ≤ 100 && rCtrl.isPreviousMonth($index),
+					info:row[header.id].category === 'B' && row[header.id].coverage ≤ 100 && rCtrl.isPreviousMonth($index),
+					warning:row[header.id].category === 'C' && row[header.id].dropout ≥ 0 && rCtrl.isPreviousMonth($index),
+					danger:row[header.id].category === 'D' && row[header.id].dropout ≥ 0 && rCtrl.isPreviousMonth($index)}">
 				<table ng-if="row[header.id].category && rCtrl.isPreviousMonth($index)">
 					<tr>
 						<th rowspan=2 style="padding-right: 5px">
@@ -478,10 +478,10 @@
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
 							{{ 'Category A' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} >= 90%</td>
+						<td>{{ 'Coverage' || i18next}} ≥ 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} <= 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} ≤ 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -490,10 +490,10 @@
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
 							{{ 'Category B' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} >= 90%</td>
+						<td>{{ 'Coverage' || i18next}} ≥ 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} > 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} %gt; 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -502,10 +502,10 @@
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
 							{{ 'Category C' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} < 90%</td>
+						<td>{{ 'Coverage' || i18next}} %lt; 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} < 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} %lt; 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -514,10 +514,10 @@
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
 							{{ 'Category D' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} < 90%</td>
+						<td>{{ 'Coverage' || i18next}} %lt; 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} >= 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} ≥ 10%</td>
 					</tr>
 				</table>
 			</td>
