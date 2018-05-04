@@ -5,10 +5,10 @@
 	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Stylesheets related to the menu -->
-    <link type="text/css" rel="stylesheet" href="../dhis-web-commons/font-awesome/css/font-awesome.min.css"/>
-    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/css/menu.css">
-    <link href="../dhis-web-commons/fonts/roboto.css" rel="stylesheet" type="text/css">
-    <link href="../dhis-web-commons/material-design-icons/material-icons.css" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="../../../dhis-web-commons/font-awesome/css/font-awesome.min.css"/>
+    <link type="text/css" rel="stylesheet" media="screen" href="../../../dhis-web-commons/css/menu.css">
+    <link href="../../../dhis-web-commons/fonts/roboto.css" rel="stylesheet" type="text/css">
+    <link href="../../../dhis-web-commons/material-design-icons/material-icons.css" rel="stylesheet" type="text/css">
 	
 </head>
 
@@ -23,13 +23,13 @@
             font-family: 'Roboto';
         }
     </style>
-	<script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/react-15/react-15.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/lodash-functional/lodash-functional.js"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/header-bar.js"></script>
+	<script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-core-resource/react-15/react-15.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-core-resource/lodash-functional/lodash-functional.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/header-bar/babel-polyfill.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/header-bar/header-bar.js"></script>
     
     <script>
     	
@@ -38,7 +38,7 @@
             try {
                 if ('Dhis2HeaderBar' in window) {
                     Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), 
-                    	undefined, 
+                    	"../../../api", 
                     	{noLoadingIndicator: true}
                     );
                 }
