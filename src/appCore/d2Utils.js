@@ -1,5 +1,5 @@
 
-export default function ($q) {
+export default function () {
 
 	var utils = {
 		isNumber: isNumber,
@@ -119,7 +119,7 @@ export default function ($q) {
 		var factor = Math.pow(10,decimals);
 		return Math.round(value*factor)/factor;
 
-	};
+	}
 	
 	
 	

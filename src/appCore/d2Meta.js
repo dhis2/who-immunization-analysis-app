@@ -700,7 +700,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 	function currentUser() {
 		var deferred = $q.defer();
 
-		var requestURL = '/me.json';
+		var requestURL = "/me.json";
 		requestService.getSingleData(requestURL).then(
 			function(data) {
 				deferred.resolve(data);
@@ -718,7 +718,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 	function authorizations() {
 		var deferred = $q.defer();
 
-		var requestURL = '/me/authorization.json';
+		var requestURL = "/me/authorization.json";
 		requestService.getSingleData(requestURL).then(
 			function(data) {
 				deferred.resolve(data);
@@ -730,7 +730,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 		);
 
 		return deferred.promise;
-				}
+	}
 
 
 	/** ===== SYSTEM ===== */
@@ -756,8 +756,8 @@ export default function (requestService, periodService, d2Utils, $q) {
 	function postMetadata(payload, strategy) {
 		var deferred = $q.defer();
 
-		var requestURL = '/metadata';
-		if (strategy) requestURL += '?strategy=' + strategy;
+		var requestURL = "/metadata";
+		if (strategy) requestURL += "?strategy=" + strategy;
 		requestService.post(requestURL, payload).then(
 			function(data) {
 				deferred.resolve(data);
@@ -776,7 +776,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 	function setSharing(id, type, sharing) {
 		var deferred = $q.defer();
 
-		var requestURL = '/sharing?type=' + type + '&id=' + id;
+		var requestURL = "/sharing?type=" + type + "&id=" + id;
 		requestService.post(requestURL, sharing).then(
 			function(data) {
 				deferred.resolve(data);

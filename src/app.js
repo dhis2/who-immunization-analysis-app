@@ -14,9 +14,9 @@ import "angular-ui-bootstrap";
 import "angular-smart-table";
 import "ui-select";
 
-import 'highcharts';
+import "highcharts";
 
-import 'file-saver';
+import "file-saver";
 import "blob";
 
 import i18next from "i18next";
@@ -43,23 +43,23 @@ import "./report/report.js";
 import "./css/style.css";
 
 
-var app = angular.module('epiApp',
-['smart-table', 'ngAnimate', 'ngSanitize', 'ngRoute', 'ui.bootstrap', 'ui.select', 'angularBootstrapNavTree', 'd2',
-	'report', 'appService', 'appCommons', 'jm.i18next']);
+var app = angular.module("epiApp",
+	["smart-table", "ngAnimate", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.select", "angularBootstrapNavTree", "d2",
+		"report", "appService", "appCommons", "jm.i18next"]);
 
 var $q;
 /**Bootstrap*/
 angular.element(document).ready( 
 	function() {
 
-		var initInjector = angular.injector(['ng']);
-		var $http = initInjector.get('$http');
-		$q = initInjector.get('$q');
+		var initInjector = angular.injector(["ng"]);
+		var $http = initInjector.get("$http");
+		$q = initInjector.get("$q");
 
-		$http.get('manifest.webapp').then(
+		$http.get("manifest.webapp").then(
 			function(response) {
-					window.dhis2 = window.dhis2 || {};
-					dhis2.settings = dhis2.settings || {};
+				window.dhis2 = window.dhis2 || {};
+				dhis2.settings = dhis2.settings || {};
 				
 				//Not production => rely on webpack-dev-server proxy
 				const baseUrl = process.env.NODE_ENV === "production" ?
@@ -67,7 +67,7 @@ angular.element(document).ready(
 				app.constant("BASE_URL", baseUrl);
 				app.constant("API_VERSION", "27");
 
-				angular.bootstrap(document, ['epiApp']);
+				angular.bootstrap(document, ["epiApp"]);
 
 
 
@@ -86,21 +86,21 @@ angular.element(document).ready(
 );
 
 /**Config*/
-app.config(['uiSelectConfig', function(uiSelectConfig) {
-	uiSelectConfig.theme = 'bootstrap';
+app.config(["uiSelectConfig", function(uiSelectConfig) {
+	uiSelectConfig.theme = "bootstrap";
 	uiSelectConfig.resetSearchInput = true;
 }]);
 
-app.config(['$routeProvider',
+app.config(["$routeProvider",
 	function($routeProvider) {
 		$routeProvider.
-			when('/report', {
+			when("/report", {
 				template: require("./report/report.html"),
-				controller: 'ReportController',
-				controllerAs: 'rCtrl'
+				controller: "ReportController",
+				controllerAs: "rCtrl"
 			}).
 			otherwise({
-				redirectTo: '/report'
+				redirectTo: "/report"
 			});
 	}]
 );
@@ -108,14 +108,14 @@ app.config(['$routeProvider',
 
 /**Controller: Navigation*/
 app.controller("NavigationController",
-['BASE_URL', '$location', '$window', 'notificationService',
-function(BASE_URL, $location, $window, notificationService) {
-	var self = this;
+	["BASE_URL", "$location", "$window", "notificationService",
+		function(BASE_URL, $location, $window, notificationService) {
+			var self = this;
 
 
 
-	return self;
-}]);
+			return self;
+		}]);
 
 
 app.run(["BASE_URL", "$http", function(BASE_URL, $http) {

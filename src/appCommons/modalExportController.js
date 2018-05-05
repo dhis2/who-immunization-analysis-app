@@ -70,7 +70,7 @@ angular.module("appCommons").controller("ModalExportController",
 
 				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
 				//saveAs
-				saveAs(blob, self.options.fileName + ".csv");
+				FileSaver.saveAs(blob, self.options.fileName + ".csv");
 			}
 
 

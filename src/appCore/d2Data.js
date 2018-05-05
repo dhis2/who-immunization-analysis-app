@@ -225,7 +225,7 @@ export default function (requestService, d2Utils, $q) {
 			requestURL += "&dimension=ou:" + ouBoundary.join(";");
 			requestURL += ouDisaggregation;
 			requestURL += "&dimension=pe:" + pe.join(";");
-			requestURL += '&hierarchyMeta=true'; //TODO - should be option
+			requestURL += "&hierarchyMeta=true"; //TODO - should be option
 			requestURL + "&displayProperty=NAME";
 			if (aggregationType) {
 				requestURL += "&aggregationType=" + aggregationType;
