@@ -1,0 +1,257 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"POT-Creation-Date: 2018-05-05T05:32:25.429Z\n"
+"PO-Revision-Date: 2018-05-07 14:05+0200\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.0.7\n"
+"Last-Translator: \n"
+"Language: fr\n"
+
+msgid "Totals"
+msgstr "Totaux"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Indicator group"
+msgstr "Groupe d’indicateurs"
+
+msgid "Boundary"
+msgstr "Frontière"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Disaggregation"
+msgstr "Désagrégation"
+
+msgid "Organisation unit level"
+msgstr "Niveau de l’unité d’organisation"
+
+msgid "Organisation unit group"
+msgstr "Groupe d’unités d’organisation"
+
+msgid "Selected"
+msgstr "Choisi"
+
+msgid "Report type"
+msgstr "Type de rapport"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "Cumulative"
+msgstr "Cumulatif"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "Previous years for comparison"
+msgstr "Années précédentes pour comparaison"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Organisation unit"
+msgstr "Unité d’organisation"
+
+msgid "Make report"
+msgstr "Faire un rapport"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Vaccine (total)"
+msgstr "Vaccin (total)"
+
+msgid "Data element"
+msgstr "Élément de données"
+
+msgid "Indicator"
+msgstr "Indicateur"
+
+msgid "Vaccine (target age)"
+msgstr "Vaccin (âge cible)"
+
+msgid "Denominator"
+msgstr "Dénominateur"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Vaccine from"
+msgstr "Vaccin de"
+
+msgid "Vaccine to"
+msgstr "Vaccin à"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Indicator (coverage)"
+msgstr "Indicateur (couverture)"
+
+msgid "Dropout rate"
+msgstr "Taux d’abandon"
+
+msgid "RIM export configuration"
+msgstr "Configuration d’exportation RIM"
+
+msgid ""
+"Configuration: used for changing general export parameters (existing "
+"parameters will be\n"
+"\t\t\t\t\toverwritten)"
+msgstr ""
+"Configuration: utilisé pour modifier les paramètres généraux d’exportation "
+"(les paramètres existants seront écrasé)"
+
+msgid "Import: used for the initial import of RIM metadata only."
+msgstr ""
+"Import: utilisé pour l’importation initiale des métadonnées RIM uniquement."
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Organisation unit levels"
+msgstr "Niveaux d’unité organisation"
+
+msgid ""
+"RIM export is done by district (admin 2) level, and also includes the "
+"province (admin 1) level and a\n"
+"\t\t\t\t\tcountry code. Please enter country code and select province, "
+"district levels here:"
+msgstr ""
+"L’exportation RIM se fait par le niveau district (admin 2), et comprend "
+"également le niveau de la province (admin 1) et un code pays. S’il vous "
+"plaît entrer le code du pays et sélectionnez la province, les niveaux de "
+"district ici:"
+
+msgid "Country code:"
+msgstr "Code pays:"
+
+msgid "Completeness"
+msgstr "Complétude"
+
+msgid ""
+"Select the EPI data set/reporting form to use for reporting on completeness:"
+msgstr ""
+"Sélectionnez l’ensemble de données/formulaire PEV à utiliser pour le rapport "
+"de complétude:"
+
+msgid "Update configuration"
+msgstr "Mise à jour la configuration"
+
+msgid "Import settings"
+msgstr "Importer les parametres"
+
+msgid ""
+"RIM export relies on configuration of a set of DHIS 2 indicators. This page "
+"is used for selecting the relevant\n"
+"\t\t\t\t\tindicators and importing them into the DHIS 2. Administrators must "
+"then configure the indicator formulas\n"
+"\t\t\t\t\tto map each indicator to the appropriate data elements."
+msgstr ""
+"L’exportation RIM repose sur la configuration d’un ensemble d’indicateurs "
+"DHIS 2. Cette page est utilisée pour sélectionner les indicateurs appropriés "
+"et les importer dans le DHIS 2. Les administrateurs doivent ensuite "
+"configurer les formules des indicateurs avec les éléments de données "
+"appropriés."
+
+msgid ""
+"Indicators will be added to an indicator group called RIM Export, and the "
+"indicators will have [RIM] as prefix."
+msgstr ""
+"Les indicateurs seront ajoutés à un groupe d’indicateurs appelé Exportation "
+"RIM, et les indicateurs auront [RIM] comme préfixe."
+
+msgid ""
+"A new user group will be imported with the current users as member, and the "
+"RIM indicators will be visible\n"
+"\t\t\t\t\tonly to user in that group. Only users in this group can thus "
+"configure the RIM indicators, and export\n"
+"\t\t\t\t\tdata in RIM format. Additional users can be added to this group in "
+"the DHIS 2 user management app."
+msgstr ""
+"Un nouveau groupe d’utilisateurs sera importé avec les utilisateurs actuels "
+"en tant que membre, et les indicateurs RIM seront visibles seulement à "
+"l’utilisateur dans ce groupe. Seuls les utilisateurs de ce groupe peuvent "
+"ainsi configurer les indicateurs RIM et exporter les données au format RIM. "
+"Des utilisateurs supplémentaires peuvent être ajoutés à ce groupe dans "
+"l’application de gestion des utilisateurs DHIS 2."
+
+msgid "Stock"
+msgstr "Stock"
+
+msgid "Is information on stock (doses available and doses used) available?"
+msgstr ""
+"L’information sur le stock (doses disponibles et doses utilisées) est-elle "
+"disponible?"
+
+msgid "AEFI"
+msgstr "MAPI"
+
+msgid "Is information on AEFIs <em>by vaccine</em> available?"
+msgstr "L’information sur les MAPI <em> par vaccin </ em> est-elle disponible?"
+
+msgid "Vaccine disaggregation"
+msgstr "Désagrégation des vaccins"
+
+msgid ""
+"Is vaccination data disaggregated by static/outreach, or static/outreach/"
+"mobile?"
+msgstr ""
+"Les données de vaccination sont-elles désagrégées par fixe / avancé, ou "
+"fixe / avancé / mobile?"
+
+msgid "Vaccines"
+msgstr "Vaccins"
+
+msgid "Overwrite previously imported RIM indicators?"
+msgstr "Remplacer les indicateurs RIM précédemment importés?"
+
+msgid "Import RIM metadata and update configuration"
+msgstr "Importer des métadonnées RIM et mettre à jour la configuration"
+
+msgid "Download CSV"
+msgstr "Télécharger CSV"
+
+msgid "Data"
+msgstr "Données"
+
+msgid "All ages"
+msgstr "Tous  les ages"
+
+msgid "Target age group"
+msgstr "Groupe d’âge cible"
+
+msgid "Coverage"
+msgstr "Couverture"
+
+msgid "Category A"
+msgstr "Catégorie A"
+
+msgid "Category B"
+msgstr "Catégorie B"
+
+msgid "Category C"
+msgstr "Category C"
+
+msgid "Category D"
+msgstr "Catégorie D"
