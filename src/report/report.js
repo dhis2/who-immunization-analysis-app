@@ -1784,8 +1784,6 @@ angular.module("report").controller("ReportController",
 					"title": "[No data]"
 				};
 
-//				self.selectedOrgunit = {};
-
 
 				self.file = {
 					"separator": ",",
