@@ -76,7 +76,7 @@
 		<d2-select-orgunit ng-model="rCtrl.selectedOrgunit"
 						   default-level="1"
 						   hide-group="true"
-						   on-select="dashCtrl.selectedOrgunit = object;"
+						   on-select="rCtrl.selectedOrgunit = object;"
 						   hide-level="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac')
 						   || rCtrl.selectedReport.id === 'mon'">
 		</d2-select-orgunit>
