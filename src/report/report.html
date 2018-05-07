@@ -22,7 +22,7 @@
 	<hr ng-if="rCtrl.selectedReport.id != 'perf' && rCtrl.selectedReport.id != 'rim'"/>
 
 	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'perf' && rCtrl.selectedReport.id != 'rim'">
-		<h4>Data</h4>
+		<h4>{{ 'Data' || i18next }}</h4>
 		<d2-select
 				options="rCtrl.vaccines"
 				ng-model="rCtrl.selectedVaccines"

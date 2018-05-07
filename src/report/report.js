@@ -163,11 +163,11 @@ angular.module("report").controller("ReportController",
 				var headerColumns = [];
 
 				//Add column headers
-				headerColumns.push({ id: "ou", title: "Organisation unit" });
-				headerColumns.push({ id: "vaccine", title: "Vaccine" });
+				headerColumns.push({ id: "ou", title: i18next.t('Organisation unit') });
+				headerColumns.push({ id: "vaccine", title: i18next.t('Vaccine') });
 				if (self.current.hieararchy) {
 					d2Utils.arraySortByProperty(self.current.data, "parents", false, false);
-					headerColumns.unshift({ id: "parents", title: "Hierarchy" });
+					headerColumns.unshift({ id: "parents", title: i18next.t('Hierarchy') });
 				}
 				if (self.current.ouFilter) {
 					//Sort data
@@ -286,15 +286,15 @@ angular.module("report").controller("ReportController",
 				for (var i = 0; i < self.current.headerColumns.length; i++) {
 					headerRow.push(self.current.headerColumns[i].title);
 				}
-				headerRow.push("Data");
+				headerRow.push(i18next.t('Data'));
 				for (var i = 0; i < self.current.dataColumns.length; i++) {
 					headerRow.push(self.current.dataColumns[i].title);
 					periods.push(self.current.dataColumns[i].id);
 				}
 				table.push(headerRow);
 
-				var dataFields = [{"id": "vaccineAll", "name": "all ages"}, {"id": "vaccineTarget", "name": "target age"},
-					{"id": "coverage", "name": "coverage"}];
+				var dataFields = [{"id": "vaccineAll", "name": i18next.t('all ages')}, {"id": "vaccineTarget", "name": i18next.t('target age')},
+					{"id": "coverage", "name": i18next.t('coverage')}];
 				for (var i = 0; i < self.current.dataTable.length; i++) {
 
 					for (j = 0; j < dataFields.length; j++) {
@@ -329,7 +329,7 @@ angular.module("report").controller("ReportController",
 			function performanceReport() {
 				console.log("Making performance report");
 
-				if (!performanceReportPossible()) alert("Performance report has not been configured, contact the administrators.");
+				if (!performanceReportPossible()) alert(i18next.t('Performance report has not been configured, contact the administrators.'));
 
 				//Save misc parameters for report we are making
 				self.current.cumulative = self.aggregationType === "cumulative";
@@ -422,11 +422,11 @@ angular.module("report").controller("ReportController",
 				var columnsData = [];
 
 				//Add column headers
-				columns.push({ id: "ou", title: "Organisation unit" });
+				columns.push({ id: "ou", title: i18next.t('Organisation unit') });
 				d2Utils.arraySortByProperty(self.current.data, "ou", false, false);
 				if (self.current.hieararchy) {
 					d2Utils.arraySortByProperty(self.current.data, "parents", false, false);
-					columns.unshift({ id: "parents", title: "Hierarchy" });
+					columns.unshift({ id: "parents", title: i18next.t('Hierarchy') });
 					d2Utils.arraySortByProperty(self.current.data, "parents", false, false);
 				}
 
@@ -600,7 +600,7 @@ angular.module("report").controller("ReportController",
 						max: xMax,
 						title: {
 							enabled: true,
-							text: "DPT 1 coverage (%)"
+							text: $18next.t('DPT 1 coverage') + " (%)"
 						}
 					},
 					yAxis: {
@@ -608,7 +608,7 @@ angular.module("report").controller("ReportController",
 						max: yMax,
 						title: {
 							enabled: true,
-							text: "DPT 1 to 3 dropout rate (%)"
+							text: $18next.t('DPT 1 to 3 dropout rate') + ' (%)'
 						}
 					},
 					title: {
@@ -617,8 +617,8 @@ angular.module("report").controller("ReportController",
 					tooltip: {
 						formatter: function() {
 							return "<b>"+ this.point.name +"</b><br/>" +
-							"Coverage: " + this.point.x +
-								"% <br/>Dropout rate: " +
+							$18next.t('Coverage') + ": " + this.point.x +
+								"% <br/>" + $18next.t('Dropout rate') + ": " +
 								this.point.y + "%";
 						}
 					},
@@ -626,7 +626,7 @@ angular.module("report").controller("ReportController",
 						{
 							type: "line",
 							lineWidth: 1,
-							name: "Coverage = 90%",
+							name: $18next.t('Coverage') + " = 90%",
 							color: "#000000",
 							data: [[90, yMin], [90, yMax]],
 							marker: {
@@ -641,7 +641,7 @@ angular.module("report").controller("ReportController",
 						},{
 							type: "line",
 							lineWidth: 1,
-							name: "Dropout rate = 10%",
+							name: $18next.t('Dropout rate') + " = 10%",
 							color: "#000000",
 							data: [[0, 10], [xMax, 10]],
 							marker: {
@@ -655,7 +655,7 @@ angular.module("report").controller("ReportController",
 							enableMouseTracking: false
 						},{
 							type: "scatter",
-							name: "Orgunits",
+							name: $18next.t('Orgunits'),
 							color: "#000000",
 							data: datapoints,
 							marker: {
@@ -710,7 +710,7 @@ angular.module("report").controller("ReportController",
 						type: "column"
 					},
 					title: {
-						text: "Summary by month"
+						text: $18next.t('Summary by month')
 					},
 					xAxis: {
 						categories: months
@@ -718,7 +718,7 @@ angular.module("report").controller("ReportController",
 					yAxis: {
 						min: 0,
 						title: {
-							text: "Orgunits (%)"
+							text: $18next.t('Orgunits') + " (%)"
 						}
 					},
 					tooltip: {
@@ -731,19 +731,19 @@ angular.module("report").controller("ReportController",
 						}
 					},
 					series: [{
-						name: "Category A",
+						name: $18next.t('Category A'),
 						data: seriesA,
 						color: "#dff0d8"
 					}, {
-						name: "Category B",
+						name: $18next.t('Category B'),
 						data: seriesB,
 						color: "#d9edf7"
 					}, {
-						name: "Category C",
+						name: $18next.t('Category C'),
 						data: seriesC,
 						color: "#fcf8e3"
 					}, {
-						name: "Category D",
+						name: $18next.t('Category D'),
 						data: seriesD,
 						color: "#f2dede"
 					}]
@@ -810,7 +810,7 @@ angular.module("report").controller("ReportController",
 						type: "column"
 					},
 					title: {
-						text: "Summary by orgunit - " + d2Data.name(period)
+						text: $18next.t('Summary by orgunit') + ' - ' + d2Data.name(period)
 					},
 					xAxis: {
 						categories: parents
@@ -831,19 +831,19 @@ angular.module("report").controller("ReportController",
 						}
 					},
 					series: [{
-						name: "Category A",
+						name: $18next.t('Category A'),
 						data: seriesA,
 						color: "#dff0d8"
 					}, {
-						name: "Category B",
+						name: $18next.t('Category B'),
 						data: seriesB,
 						color: "#d9edf7"
 					}, {
-						name: "Category C",
+						name: $18next.t('Category C'),
 						data: seriesC,
 						color: "#fcf8e3"
 					}, {
-						name: "Category D",
+						name: $18next.t('Category D'),
 						data: seriesD,
 						color: "#f2dede"
 					}]
@@ -1156,7 +1156,7 @@ angular.module("report").controller("ReportController",
 
 				self.rim = {
 					done: false,
-					activity: "Identifying data"
+					activity: $18next.t('Identifying data')
 				};
 				//First get all RIM variables (codes)
 				d2Map.rimCodes().then(function(codes) {
@@ -1205,7 +1205,7 @@ angular.module("report").controller("ReportController",
 							end += 10;
 							if (end > indicatorIds.length) end = indicatorIds.length;
 						}
-						self.rim.activity = "Downloading data";
+						self.rim.activity = $18next.t('Downloading data');
 						d2Data.fetch().then(function (meta) {
 							rimProcessData(meta, indicatorIds);
 						});
@@ -1280,7 +1280,7 @@ angular.module("report").controller("ReportController",
 					table.push(row);
 				}
 
-				makeExportFile(table, "RIM_export");
+				makeExportFile(table, $18next.t('RIM_export'));
 				self.rim.done = true;
 				self.showLeftMenu();
 			}
@@ -1775,7 +1775,7 @@ angular.module("report").controller("ReportController",
 				self.selectedPeriod = self.periods[0];
 
 
-				self.months = [ {"displayName": "January", "id": "01"}, {"displayName": "February", "id": "02"}, {"displayName": "March", "id": "03"}, {"displayName": "April", "id": "04"}, {"displayName": "May", "id": "05"}, {"displayName": "June", "id": "06"}, {"displayName": "July", "id": "07"}, {"displayName": "August", "id": "08"}, {"displayName": "September", "id": "09"}, {"displayName": "October", "id": "10"}, {"displayName": "November", "id": "11"}, {"displayName": "December", "id": "12"} ];
+				self.months = [ {"displayName": i18next.t('January'), "id": "01"}, {"displayName": i18next.t('February'), "id": "02"}, {"displayName": i18next.t('March'), "id": "03"}, {"displayName": i18next.t('April'), "id": "04"}, {"displayName": i18next.t('May'), "id": "05"}, {"displayName": i18next.t('June'), "id": "06"}, {"displayName": i18next.t('July'), "id": "07"}, {"displayName": i18next.t('August'), "id": "08"}, {"displayName": i18next.t('September'), "id": "09"}, {"displayName": i18next.t('October'), "id": "10"}, {"displayName": i18next.t('November'), "id": "11"}, {"displayName": i18next.t('December'), "id": "12"} ];
 				self.selectedMonth = null;
 
 
@@ -1795,15 +1795,15 @@ angular.module("report").controller("ReportController",
 				//Report type
 				self.reportTypes = [
 					{
-						"displayName": "Vaccines - doses and coverage",
+						"displayName": i18next.t('Vaccines - doses and coverage'),
 						"id": "vac"
 					},
 					{
-						"displayName": "Performance - coverage vs dropout rate",
+						"displayName": i18next.t('Performance - coverage vs dropout rate'),
 						"id": "perf"
 					},
 					{
-						"displayName": "Monitoring chart",
+						"displayName": i18next.t('Monitoring chart'),
 						"id": "mon"
 					}
 				];
@@ -1813,11 +1813,11 @@ angular.module("report").controller("ReportController",
 				//Report subtype
 				self.vaccineReportTypes = [
 					{
-						"displayName": "Multiple vaccines for one orgunit",
+						"displayName": i18next.t('Multiple vaccines for one orgunit'),
 						"id": "allVac"
 					},
 					{
-						"displayName": "One vaccine for multiple orgunits",
+						"displayName": i18next.t('One vaccine for multiple orgunits'),
 						"id": "oneVac"
 					}
 				];
@@ -1826,11 +1826,11 @@ angular.module("report").controller("ReportController",
 				//Report subtype
 				self.monitoringReportTypes = [
 					{
-						"displayName": "Multiple vaccines for one year",
+						"displayName": i18next.t('Multiple vaccines for one year'),
 						"id": "allVac"
 					},
 					{
-						"displayName": "One vaccine for multiple years",
+						"displayName": i18next.t('One vaccine for multiple years'),
 						"id": "oneVac"
 					}
 				];
@@ -1846,7 +1846,7 @@ angular.module("report").controller("ReportController",
 					if (self.rimAccess) {
 						self.reportTypes.push(
 							{
-								"displayName": "RIM Export",
+								"displayName": i18next.t('RIM Export'),
 								"id": "rim"
 							}
 						);

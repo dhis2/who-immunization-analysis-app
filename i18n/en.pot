@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-05-07T12:10:57.188Z\n"
-"PO-Revision-Date: 2018-05-07T12:10:57.188Z\n"
+"POT-Creation-Date: 2018-05-07T13:02:56.000Z\n"
+"PO-Revision-Date: 2018-05-07T13:02:56.000Z\n"
 
 msgid "Totals"
 msgstr ""
@@ -14,7 +14,28 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
+msgid "Select data element"
+msgstr ""
+
+msgid "Loading"
+msgstr ""
+
+msgid "No data elements in"
+msgstr ""
+
+msgid "All data elements"
+msgstr ""
+
 msgid "Indicator group"
+msgstr ""
+
+msgid "Select indicator"
+msgstr ""
+
+msgid "No indicators in"
+msgstr ""
+
+msgid "All indicators"
 msgstr ""
 
 msgid "Boundary"
@@ -35,7 +56,16 @@ msgstr ""
 msgid "Selected"
 msgstr ""
 
+msgid "Select level"
+msgstr ""
+
+msgid "Select group"
+msgstr ""
+
 msgid "Report type"
+msgstr ""
+
+msgid "Data"
 msgstr ""
 
 msgid "Period"
@@ -197,9 +227,6 @@ msgstr ""
 msgid "Download CSV"
 msgstr ""
 
-msgid "Data"
-msgstr ""
-
 msgid "All ages"
 msgstr ""
 
@@ -219,4 +246,82 @@ msgid "Category C"
 msgstr ""
 
 msgid "Category D"
+msgstr ""
+
+msgid "Vaccine"
+msgstr ""
+
+msgid "Hierarchy"
+msgstr ""
+
+msgid "all ages"
+msgstr ""
+
+msgid "target age"
+msgstr ""
+
+msgid "coverage"
+msgstr ""
+
+msgid "Performance report has not been configured, contact the administrators."
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Vaccines - doses and coverage"
+msgstr ""
+
+msgid "Performance - coverage vs dropout rate"
+msgstr ""
+
+msgid "Monitoring chart"
+msgstr ""
+
+msgid "Multiple vaccines for one orgunit"
+msgstr ""
+
+msgid "One vaccine for multiple orgunits"
+msgstr ""
+
+msgid "Multiple vaccines for one year"
+msgstr ""
+
+msgid "One vaccine for multiple years"
+msgstr ""
+
+msgid "RIM Export"
 msgstr ""

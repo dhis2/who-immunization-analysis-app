@@ -29,8 +29,8 @@
 				self.selectLevel = selectLevel;
 				self.selectGroup = selectGroup;
 
-				self.levelPlaceholder = "Select level...";
-				self.groupPlaceholder = "Select group...";
+				self.levelPlaceholder = i18next.t('Select level') + '...';
+				self.groupPlaceholder = i18next.t('Select group') + '...';
 				self.selectionType = 0;
 
 				self.ngModel = {};
