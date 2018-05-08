@@ -600,7 +600,7 @@ angular.module("report").controller("ReportController",
 						max: xMax,
 						title: {
 							enabled: true,
-							text: $18next.t('DPT 1 coverage') + " (%)"
+							text: i18next.t('DPT 1 coverage') + ' (%)'
 						}
 					},
 					yAxis: {
@@ -608,7 +608,7 @@ angular.module("report").controller("ReportController",
 						max: yMax,
 						title: {
 							enabled: true,
-							text: $18next.t('DPT 1 to 3 dropout rate') + ' (%)'
+							text: i18next.t('DPT 1 to 3 dropout rate') + ' (%)'
 						}
 					},
 					title: {
@@ -616,17 +616,17 @@ angular.module("report").controller("ReportController",
 					},
 					tooltip: {
 						formatter: function() {
-							return "<b>"+ this.point.name +"</b><br/>" +
-							$18next.t('Coverage') + ": " + this.point.x +
-								"% <br/>" + $18next.t('Dropout rate') + ": " +
-								this.point.y + "%";
+							return '<b>'+ this.point.name +'</b><br/>' +
+							i18next.t('Coverage') + ': ' + this.point.x +
+								'% <br/>' + i18next.t('Dropout rate') + ': ' +
+								this.point.y + '%';
 						}
 					},
 					series: [
 						{
 							type: "line",
 							lineWidth: 1,
-							name: $18next.t('Coverage') + " = 90%",
+							name: i18next.t('Coverage') + " = 90%",
 							color: "#000000",
 							data: [[90, yMin], [90, yMax]],
 							marker: {
@@ -641,7 +641,7 @@ angular.module("report").controller("ReportController",
 						},{
 							type: "line",
 							lineWidth: 1,
-							name: $18next.t('Dropout rate') + " = 10%",
+							name: i18next.t('Dropout rate') + " = 10%",
 							color: "#000000",
 							data: [[0, 10], [xMax, 10]],
 							marker: {
@@ -655,7 +655,7 @@ angular.module("report").controller("ReportController",
 							enableMouseTracking: false
 						},{
 							type: "scatter",
-							name: $18next.t('Orgunits'),
+							name: i18next.t('Orgunits'),
 							color: "#000000",
 							data: datapoints,
 							marker: {
@@ -710,7 +710,7 @@ angular.module("report").controller("ReportController",
 						type: "column"
 					},
 					title: {
-						text: $18next.t('Summary by month')
+						text: i18next.t('Summary by month')
 					},
 					xAxis: {
 						categories: months
@@ -718,7 +718,7 @@ angular.module("report").controller("ReportController",
 					yAxis: {
 						min: 0,
 						title: {
-							text: $18next.t('Orgunits') + " (%)"
+							text: i18next.t('Orgunits') + " (%)"
 						}
 					},
 					tooltip: {
@@ -731,19 +731,19 @@ angular.module("report").controller("ReportController",
 						}
 					},
 					series: [{
-						name: $18next.t('Category A'),
+						name: i18next.t('Category A'),
 						data: seriesA,
 						color: "#dff0d8"
 					}, {
-						name: $18next.t('Category B'),
+						name: i18next.t('Category B'),
 						data: seriesB,
 						color: "#d9edf7"
 					}, {
-						name: $18next.t('Category C'),
+						name: i18next.t('Category C'),
 						data: seriesC,
 						color: "#fcf8e3"
 					}, {
-						name: $18next.t('Category D'),
+						name: i18next.t('Category D'),
 						data: seriesD,
 						color: "#f2dede"
 					}]
@@ -810,7 +810,7 @@ angular.module("report").controller("ReportController",
 						type: "column"
 					},
 					title: {
-						text: $18next.t('Summary by orgunit') + ' - ' + d2Data.name(period)
+						text: i18next.t('Summary by orgunit') + ' - ' + d2Data.name(period)
 					},
 					xAxis: {
 						categories: parents
@@ -831,19 +831,19 @@ angular.module("report").controller("ReportController",
 						}
 					},
 					series: [{
-						name: $18next.t('Category A'),
+						name: i18next.t('Category A'),
 						data: seriesA,
 						color: "#dff0d8"
 					}, {
-						name: $18next.t('Category B'),
+						name: i18next.t('Category B'),
 						data: seriesB,
 						color: "#d9edf7"
 					}, {
-						name: $18next.t('Category C'),
+						name: i18next.t('Category C'),
 						data: seriesC,
 						color: "#fcf8e3"
 					}, {
-						name: $18next.t('Category D'),
+						name: i18next.t('Category D'),
 						data: seriesD,
 						color: "#f2dede"
 					}]
@@ -1156,7 +1156,7 @@ angular.module("report").controller("ReportController",
 
 				self.rim = {
 					done: false,
-					activity: $18next.t('Identifying data')
+					activity: i18next.t('Identifying data')
 				};
 				//First get all RIM variables (codes)
 				d2Map.rimCodes().then(function(codes) {
@@ -1205,7 +1205,7 @@ angular.module("report").controller("ReportController",
 							end += 10;
 							if (end > indicatorIds.length) end = indicatorIds.length;
 						}
-						self.rim.activity = $18next.t('Downloading data');
+						self.rim.activity = i18next.t('Downloading data');
 						d2Data.fetch().then(function (meta) {
 							rimProcessData(meta, indicatorIds);
 						});
@@ -1280,7 +1280,7 @@ angular.module("report").controller("ReportController",
 					table.push(row);
 				}
 
-				makeExportFile(table, $18next.t('RIM_export'));
+				makeExportFile(table, i18next.t('RIM_export'));
 				self.rim.done = true;
 				self.showLeftMenu();
 			}
@@ -1770,7 +1770,7 @@ angular.module("report").controller("ReportController",
 
 
 				//Period options
-				self.periods = [{"displayName": "2017", "id": "2017"}, {"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
+				self.periods = [{"displayName": "2018", "id": "2018"}, {"displayName": "2017", "id": "2017"}, {"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
 					{"displayName": "2014", "id": "2014"},{"displayName": "2013", "id": "2013"}];
 				self.selectedPeriod = self.periods[0];
 

@@ -264,7 +264,7 @@
 
 				<h3>{{ 'Configuration' | i18next }}</h3>
 				<label>{{ 'Organisation unit levels' | i18next }}</label>
-				<p>{{ 'RIM export is done by district (admin 2) level, and also includes the province (admin 1) level and a country code. Please enter country code and select province, district levels here:' | i18next }}</p>
+				<p>{{ 'RIM export is done by district (admin 2) level, and also includes the province (admin 1) level and a country code. Please enter country code and select province, district levels here' | i18next }}.</p>
 				<div style="width: 400px">
 					<span>{{ 'Country code:' || i18next }}<input style="width: 100px; margin-bottom: 5px;" type="text" ng-model="rCtrl.rim.countryCode"></span>
 					<d2-select placeholder="Select province level..."
@@ -278,7 +278,7 @@
 				<br />
 
 				<label>{{ 'Completeness' | i18next }}</label>
-				<p>{{ 'Select the EPI data set/reporting form to use for reporting on completeness:' | i18next }}</p>
+				<p>{{ 'Select the EPI data set/reporting form to use for reporting on completeness' | i18next }}:</p>
 				<div style="width: 400px">
 					<d2-select placeholder="Select dataset..."
 							   options="rCtrl.rim.options.dataSets" ng-model="rCtrl.rim.dataset"
@@ -499,10 +499,10 @@
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
 							{{ 'Category C' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} %lt; 90%</td>
+						<td>{{ 'Coverage' || i18next}} &lt; 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} %lt; 10%</td>
+						<td>{{ 'Dropout rate' || i18next }} &lt; 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -511,7 +511,7 @@
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
 							{{ 'Category D' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} %lt; 90%</td>
+						<td>{{ 'Coverage' || i18next}} &lt; 90%</td>
 					</tr>
 					<tr>
 						<td>{{ 'Dropout rate' || i18next }} ≥ 10%</td>
