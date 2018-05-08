@@ -5,14 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-05-07T13:02:56.000Z\n"
-"PO-Revision-Date: 2018-05-07T13:02:56.000Z\n"
-
-msgid "Totals"
-msgstr ""
-
-msgid "Details"
-msgstr ""
+"POT-Creation-Date: 2018-05-08T08:33:28.209Z\n"
+"PO-Revision-Date: 2018-05-08T08:33:28.209Z\n"
 
 msgid "Select data element"
 msgstr ""
@@ -27,6 +21,12 @@ msgid "All data elements"
 msgstr ""
 
 msgid "Indicator group"
+msgstr ""
+
+msgid "Totals"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "Select indicator"
@@ -157,7 +157,7 @@ msgstr ""
 msgid ""
 "RIM export is done by district (admin 2) level, and also includes the "
 "province (admin 1) level and a country code. Please enter country code and "
-"select province, district levels here:"
+"select province, district levels here"
 msgstr ""
 
 msgid "Country code:"
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Completeness"
 msgstr ""
 
-msgid "Select the EPI data set/reporting form to use for reporting on completeness:"
+msgid "Select the EPI data set/reporting form to use for reporting on completeness"
 msgstr ""
 
 msgid "Update configuration"
@@ -266,6 +266,27 @@ msgstr ""
 msgid "Performance report has not been configured, contact the administrators."
 msgstr ""
 
+msgid "DPT 1 coverage"
+msgstr ""
+
+msgid "DPT 1 to 3 dropout rate"
+msgstr ""
+
+msgid "Orgunits"
+msgstr ""
+
+msgid "Summary by month"
+msgstr ""
+
+msgid "Summary by orgunit"
+msgstr ""
+
+msgid "Identifying data"
+msgstr ""
+
+msgid "Downloading data"
+msgstr ""
+
 msgid "January"
 msgstr ""
 
@@ -324,4 +345,8 @@ msgid "One vaccine for multiple years"
 msgstr ""
 
 msgid "RIM Export"
+msgstr ""
+
+msgctxt "export"
+msgid "RIM"
 msgstr ""
