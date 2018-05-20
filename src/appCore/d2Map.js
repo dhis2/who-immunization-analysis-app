@@ -428,7 +428,7 @@ export default function (requestService, d2Meta, d2Utils, $q) {
 		for (var i = 0; i <= _map.indicators.length; i++) {
 
 			current = "I" + parseInt(i+1);
-			existing = false;
+			var existing = false;
 
 			for (var j = 0; j < _map.indicators.length; j++) {
 				if (_map.indicators[j].code === current) existing = true;
