@@ -1151,6 +1151,7 @@ angular.module("report").controller("ReportController",
 
 
 			/** RIM EXPORT **/
+			var chaine_cumule = [];
 			function rimExport() {
 				self.hideLeftMenu();
 
@@ -1185,9 +1186,22 @@ angular.module("report").controller("ReportController",
 								}
 							}
 						}
+						
+									var compt =  self.selectedMonth.id*1;
+									var pad = "00";
+									var str2 ="";
+									var zperiode = '';
+									var si_dernier = false;
+									
+									for (compte2 = compt; compte2 >= 1; compte2--){
+										str2 =pad+compte2;
+										str2 = str2.substring(str2.length-2,str2.length);
+										zperiode+=";"+self.selectedPeriod.id+str2;
+										periode = zperiode.substring(1,zperiode.length);
+								
 
 						var rimMeta = d2Map.rimMeta();
-						var pe = self.selectedPeriod.id + self.selectedMonth.id;
+						var pe = self.selectedPeriod.id + str2;
 						var ouLevel = rimMeta.districtLevel;
 
 						var completenessIds = [rimMeta.dataSetId + ".EXPECTED_REPORTS", rimMeta.dataSetId + ".ACTUAL_REPORTS",
@@ -1207,9 +1221,22 @@ angular.module("report").controller("ReportController",
 						}
 						self.rim.activity = i18next.t('Downloading data');
 						d2Data.fetch().then(function (meta) {
-							rimProcessData(meta, indicatorIds);
+							if(str2*1 == 1) si_dernier = true;
+							rimProcessData(meta, indicatorIds, str2);
 						});
-
+						
+										}  
+										monhorloge = setInterval(function(){
+											
+											if(compteur_fin_export == self.selectedMonth.id*1){
+												makeExportFile(i_tab, i18next.t("RIM_export"));
+												compteur_fin_export=0;
+												self.rim.done = !0; self.showLeftMenu();
+												clearTimeout(monhorloge);
+												
+											}
+										}, 2000);		
+						
 					});
 
 				});
@@ -1224,11 +1251,14 @@ angular.module("report").controller("ReportController",
 				return false;
 			}
 
-
-			function rimProcessData(metaData, indicatorIds) {
+			 i_tab = []; 
+			 compteur_fin_export = 0; 
+			 
+			function rimProcessData(metaData, indicatorIds, si_derniere_pe) {
+				compteur_fin_export++;
+				
 				//Store data in array of arrays, which we can covert to CSV
-				var table = [];
-
+				
 				//Rim metadata
 				var rimMeta = d2Map.rimMeta();
 
@@ -1252,8 +1282,8 @@ angular.module("report").controller("ReportController",
 				for (var i = 0; i < indicatorIds.length; i++) {
 					header.push(rimCodeFromId(indicatorIds[i]));
 				}
-				table.push(header);
-
+				
+				if(compteur_fin_export == 1 ) i_tab.push(header);
 				var districtId;
 				for (var i = 0; i < districts.length; i++) {
 					districtId = districts[i];
@@ -1277,12 +1307,10 @@ angular.module("report").controller("ReportController",
 						row.push(d2Data.value(indicatorIds[j], pe, districtId, null, null));
 					}
 
-					table.push(row);
+					i_tab.push(row);
 				}
-
-				makeExportFile(table, i18next.t('RIM_export'));
-				self.rim.done = true;
-				self.showLeftMenu();
+				
+				if(compteur_fin_export == self.selectedMonth.id*1) self.rim.done = !0; 
 			}
 
 
