@@ -1,4 +1,3 @@
-
 //Define module
 angular.module("report", []);
 
@@ -8,6 +7,8 @@ angular.module("report").controller("ReportController",
 		function(d2Map, d2Meta, d2Data, d2Utils, $q) {
 
 			var self = this;
+			self.monitorChart = null;
+			self.performanceChart = null;
 
 			self.makeReport = function() {
 				self.current = {
@@ -594,6 +595,90 @@ angular.module("report").controller("ReportController",
 				if (yMin < -50) yMin = -50;
 				if (xMax > 200) xMax = 200;
 
+				var chartJsConfig = {
+					type: "scatter",
+					options: {
+						scales: {
+							xAxes: [{
+								ticks: {
+									min: 0,
+									max: xMax
+								}
+							}],
+							yAxes: [{
+								ticks: {
+									min: yMin,
+									max: yMax,
+									stepSize: 10,
+									beginAtZero: true
+								}
+							}]
+						}
+					},
+					data: {
+						labels: [],
+						datasets: [
+							{
+								name: i18next.t('Orgunits'),
+								color: "#000000",
+								data: datapoints,
+								marker: {
+									radius: 3
+								}
+							}
+						]
+					},
+					annotation: {
+                        drawTime: "afterDraw",
+                        annotations: [{
+							type: 'box',
+                            xScaleID: 'x-axis-0',
+                            yScaleID: 'y-axis-0',
+                            xMin: -120,
+                            xMax: 80,
+                            yMin: -120,
+                            yMax: 80,
+                            backgroundColor: 'rgba(101, 33, 171, 0.5)'
+						}]
+					}
+				};
+				
+				/*
+{
+					name: i18next.t('Coverage') + " = 90%",
+					color: "#000000",
+					data: [[90, yMin], [90, yMax]],
+					marker: {
+						enabled: false
+					},
+					states: {
+						hover: {
+							lineWidth: 0
+						}
+					},
+					enableMouseTracking: false
+				},{ 
+					name: i18next.t('Dropout rate') + " = 10%",
+					color: "#000000",
+					data: [[0, 10], [xMax, 10]],
+					marker: {
+						enabled: false
+					},
+					states: {
+						hover: {
+							lineWidth: 0
+						}
+					},
+					enableMouseTracking: false
+				},
+				*/
+				var ctx = document.getElementById("performanceChart_chartjs").getContext("2d");
+				if ( self.performanceChart !== null ) {
+					self.performanceChart.destroy();
+				}
+				self.performanceChart = new Chart(ctx, chartJsConfig);
+
+
 				var chart = Highcharts.chart("performanceChart", {
 					xAxis: {
 						min: 0,
@@ -970,16 +1055,26 @@ angular.module("report").controller("ReportController",
 				var dx = self.current.dataIds;
 
 
+
+
 				//fetch metadata and data
 				//Need to check whether denominator is annualized, or if we should annualize it
 				var promises = [];
-				promises.push(d2Meta.objects("indicators", self.current.denominatorIds, "id,annualized", "annualized:eq:true", false));
+				var objectsPromise = d2Meta.objects("indicators", self.current.denominatorIds, "id,annualized", "annualized:eq:true", false);
+				objectsPromise.catch(function(){console.log("some promise failed");}).then(function(){console.log("d2Meta promise completed");});
+
+				promises.push();
 
 				//fetch data - one year at the time
 				for (var i = 0; i < self.current.timeSeries.length; i++) {
+					console.log("adding request to promise: " + self.current.timeSeries[i].periods);
 					d2Data.addRequest(dx, self.current.timeSeries[i].periods, self.selectedOrgunit.boundary.id, null, null);
 				}
-				promises.push(d2Data.fetch());
+
+				var prom = d2Data.fetch();
+				prom.catch(function(){console.log("some promise failed");}).then(function(){console.log("d2Data promise completed");});
+
+				promises.push(prom);
 
 				$q.all(promises).then(function(datas) {
 
@@ -1005,7 +1100,8 @@ angular.module("report").controller("ReportController",
 
 					chartSeries.push({
 						"name": "Target",
-						"dashStyle": "longdash",
+						"borderDash": [5, 5],
+						"radius": 0,
 						"color": "#FFA500",
 						"lineWidth": 4,
 						"marker": {
@@ -1031,7 +1127,8 @@ angular.module("report").controller("ReportController",
 
 					chartSeries.push({
 						"name": "Target (" + self.current.timeSeries[0].year + ")",
-						"dashStyle": "longdash",
+						"borderDash": [5, 5],
+						"radius": 0,
 						"color": "#FFA500",
 						"lineWidth": 4,
 						"marker": {
@@ -1039,7 +1136,7 @@ angular.module("report").controller("ReportController",
 						},
 						"data": monitoringReportValue(self.current.timeSeries[0].periods, ou, self.current.target, true)
 					});
-
+					
 
 					for (var i = 0; i < self.current.timeSeries.length; i++) {
 						var timeSeries = self.current.timeSeries[i];
@@ -1055,7 +1152,7 @@ angular.module("report").controller("ReportController",
 
 				monitoringChart(chartSeries);
 
-				self.hideLeftMenu();
+				//self.hideLeftMenu();
 			}
 
 
@@ -1087,7 +1184,7 @@ angular.module("report").controller("ReportController",
 				}
 
 				//Denominator to use (for all)
-				dataIds.push(self.current.target);
+				dataIds.push(self.current.target); 
 
 
 				return dataIds;
@@ -1096,11 +1193,53 @@ angular.module("report").controller("ReportController",
 
 			function monitoringChart(series) {
 
-				var monitoringChart = Highcharts.chart("monitoringChart", {
+				console.log(series);
+
+				var colors = ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
+				
+				let config = {
+					type: "line",
+					options: {
+						responsive: true,
+						legend: {
+							position: "right",
+							align: "center",
+							usePointStyle: true
+						},
+						maintainAspectRatio: false
+					},
+					data: {
+						labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+						datasets: series.map(function(item){
+							var color = item.color;
+							if ( !color ) {
+								var index = series.indexOf(item)-1;
+								color = colors[index]; //TODO: wrap around if more than 10
+								item.color = color;
+							}
+							
+							return Object.assign(item, {
+								label: item.name, 
+								fill: false,
+								borderColor: item.color,
+								backgroundColor: item.color
+							});
+						})
+					}
+				};
+				
+				var ctx = document.getElementById("monitoringChart").getContext("2d");
+				
+				if ( self.monitorChart !== null ) {
+					self.monitorChart.destroy();
+				}
+
+				self.monitorChart = new Chart(ctx, config);
+				/*var monitoringChart = Highcharts.chart("monitoringChart", {
 					title: {
 						text: ""
 					},
-					xAxis: {
+					xAxis: { 
 						title: {
 							text: "Month"
 						},
@@ -1124,9 +1263,9 @@ angular.module("report").controller("ReportController",
 						borderWidth: 0
 					},
 					series: series
-				});
+				});*/
 
-				setTimeout(function(){ monitoringChart.reflow(); }, 1000);
+				//setTimeout(function(){ monitoringChart.reflow(); }, 1000);
 			}
 
 
@@ -1251,8 +1390,8 @@ angular.module("report").controller("ReportController",
 				return false;
 			}
 
-			 i_tab = []; 
-			 compteur_fin_export = 0; 
+			 var i_tab = []; 
+			 var compteur_fin_export = 0; 
 			 
 			function rimProcessData(metaData, indicatorIds, si_derniere_pe) {
 				compteur_fin_export++;

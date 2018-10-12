@@ -29,6 +29,8 @@ import "angular-ui-bootstrap/dist/ui-bootstrap-csp.css";
 import "angular-bootstrap-nav-tree/dist/abn_tree.css";
 import "ui-select/dist/select.css";
 
+import "chart.js";
+import "chartjs-plugin-annotation";
 
 //Core services
 import "./appCommons/appCommons.js";
@@ -59,7 +61,7 @@ angular.element(document).ready(
 		$http.get("manifest.webapp").then(
 			function(response) {
 				window.dhis2 = window.dhis2 || {};
-				dhis2.settings = dhis2.settings || {};
+				window.dhis2.settings = window.dhis2.settings || {};
 				
 				//Not production => rely on webpack-dev-server proxy
 				const baseUrl = process.env.NODE_ENV === "production" ?

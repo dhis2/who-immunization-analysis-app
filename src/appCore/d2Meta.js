@@ -382,6 +382,9 @@ export default function (requestService, periodService, d2Utils, $q) {
 	function dataElementOrIndicator(id) {
 		var deferred = $q.defer();
 
+		debugger; 
+		console.log("dataElementOrIndicator:", id);
+
 		requestService.getSingleData("/dataElements.json?fields=displayName,id&filter=id:eq:" + id).then(
 			function(data) { //success
 				data = data.dataElements;
