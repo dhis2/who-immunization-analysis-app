@@ -40,6 +40,7 @@ import "./appCore/d2.js";
 
 //Modules
 import "./report/report.js";
+import "./report/charts/performanceChart.js";
 
 //CSS
 import "./css/style.css";

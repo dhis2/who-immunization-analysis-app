@@ -417,9 +417,8 @@
 	<div ng-if="rCtrl.current.type === 'perf'"  class="reportContent">
 
 	<div id="performanceChart" style="height: 600px; margin-bottom: 20px"></div>
-	<div style="height: 600px;">
-		<canvas id="performanceChart_chartjs" style="margin-bottom: 20px"></canvas>
-	</div>	
+	
+	<performance-chart performance-chart-data="rCtrl.performanceChartData"></performance-chart>
 
 	<div id="performanceChartTimeSummary" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
 

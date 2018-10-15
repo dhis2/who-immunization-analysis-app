@@ -1,14 +1,14 @@
 //Define module
-angular.module("report", []);
+const report = angular.module("report", []);
 
 //Define DashboardController
-angular.module("report").controller("ReportController",
+report.controller("ReportController",
 	["d2Map", "d2Meta", "d2Data", "d2Utils", "$q",
 		function(d2Map, d2Meta, d2Data, d2Utils, $q) {
 
 			var self = this;
 			self.monitorChart = null;
-			self.performanceChart = null;
+			self.performanceChartData = null;
 
 			self.makeReport = function() {
 				self.current = {
@@ -330,6 +330,7 @@ angular.module("report").controller("ReportController",
 			function performanceReport() {
 				console.log("Making performance report");
 
+				//TODO: add a better error message that DPT1-2-3 has to be configured instead.
 				if (!performanceReportPossible()) alert(i18next.t('Performance report has not been configured, contact the administrators.'));
 
 				//Save misc parameters for report we are making
@@ -595,88 +596,14 @@ angular.module("report").controller("ReportController",
 				if (yMin < -50) yMin = -50;
 				if (xMax > 200) xMax = 200;
 
-				var chartJsConfig = {
-					type: "scatter",
-					options: {
-						scales: {
-							xAxes: [{
-								ticks: {
-									min: 0,
-									max: xMax
-								}
-							}],
-							yAxes: [{
-								ticks: {
-									min: yMin,
-									max: yMax,
-									stepSize: 10,
-									beginAtZero: true
-								}
-							}]
-						}
-					},
-					data: {
-						labels: [],
-						datasets: [
-							{
-								name: i18next.t('Orgunits'),
-								color: "#000000",
-								data: datapoints,
-								marker: {
-									radius: 3
-								}
-							}
-						]
-					},
-					annotation: {
-                        drawTime: "afterDraw",
-                        annotations: [{
-							type: 'box',
-                            xScaleID: 'x-axis-0',
-                            yScaleID: 'y-axis-0',
-                            xMin: -120,
-                            xMax: 80,
-                            yMin: -120,
-                            yMax: 80,
-                            backgroundColor: 'rgba(101, 33, 171, 0.5)'
-						}]
-					}
+				self.performanceChartData = {
+					title: d2Data.name(period),
+					xMin: 0,
+					xMax: xMax,
+					yMin: yMin,
+					yMax: yMax,
+					datapoints: datapoints
 				};
-				
-				/*
-{
-					name: i18next.t('Coverage') + " = 90%",
-					color: "#000000",
-					data: [[90, yMin], [90, yMax]],
-					marker: {
-						enabled: false
-					},
-					states: {
-						hover: {
-							lineWidth: 0
-						}
-					},
-					enableMouseTracking: false
-				},{ 
-					name: i18next.t('Dropout rate') + " = 10%",
-					color: "#000000",
-					data: [[0, 10], [xMax, 10]],
-					marker: {
-						enabled: false
-					},
-					states: {
-						hover: {
-							lineWidth: 0
-						}
-					},
-					enableMouseTracking: false
-				},
-				*/
-				var ctx = document.getElementById("performanceChart_chartjs").getContext("2d");
-				if ( self.performanceChart !== null ) {
-					self.performanceChart.destroy();
-				}
-				self.performanceChart = new Chart(ctx, chartJsConfig);
 
 
 				var chart = Highcharts.chart("performanceChart", {
