@@ -2,6 +2,42 @@
  * Performance chart directive to be used in the report. It renders a scatter chart for coverage vs dropout rate.
  */
 
+// Define a plugin to provide data labels
+/*Chart.plugins.register({
+	afterDatasetsDraw: function(chart) {
+		var ctx = chart.ctx;
+
+		chart.data.datasets.forEach(function(dataset, i) {
+			var meta = chart.getDatasetMeta(i);
+
+			//debugger;
+			if (!meta.hidden) {
+				meta.data.forEach(function(element, index) {
+					// Draw the text in black, with the specified font
+					ctx.fillStyle = 'rgb(0, 0, 0)';
+
+					var fontSize = 16;
+					var fontStyle = 'normal';
+					var fontFamily = 'Helvetica Neue';
+					ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+					// Just naively convert to string for now
+					var dataString = dataset.data[index].name;
+
+					// Make sure alignment settings are correct
+					ctx.textAlign = 'center';
+					ctx.textBaseline = 'middle';
+
+					var padding = 5;
+					var position = element.tooltipPosition();
+					ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+				});
+			}
+		});
+	}
+});
+*/
+
 angular.module("report").directive("performanceChart", function () {
 
 	let chart = null;
@@ -51,78 +87,36 @@ angular.module("report").directive("performanceChart", function () {
 					}]
 				},
 				tooltips: {
-					enabled: false,
+					enabled: true,
 					mode: "nearest",
 					intersect: false,
-					custom: function (tooltip) {
-						var tooltipEl = document.getElementById("chartjs-tooltip");
-
-						if (!tooltipEl) {
-							tooltipEl = document.createElement("div");
-							tooltipEl.id = "chartjs-tooltip";
-							tooltipEl.innerHTML = "<table></table>";
-							this._chart.canvas.parentNode.appendChild(tooltipEl);
+					caretPadding: 8,
+					yAlign: "bottom",
+					xAlign: "center",
+					xPadding: 8,
+					yPadding: 8,
+					backgroundColor: "#ffffff",
+					titleFontSize: 14,
+					titleFontColor: "#000000",
+					bodyFontColor: "#000000",
+					displayColors: false,
+					borderColor: "#000000",
+					borderWidth: 1,
+					bodyFontSize: 14,
+					bodySpacing: 6,
+					callbacks: {
+						title: function(tooltipItem, data) {
+							var title = data.labels[tooltipItem[0]["index"]];
+							return title;
+						},
+						label: function(tooltipItem, data) {
+							var point = data.datasets[0]["data"][tooltipItem["index"]];
+							return [
+								i18next.t('Coverage') + ": " + point.x + "%", 
+								i18next.t('Dropout rate') + ": " + point.y + "%"
+							];
 						}
-
-						// Hide if no tooltip
-						if (tooltip.opacity === 0) {
-							tooltipEl.style.opacity = 0;
-							return;
-						}
-
-						// Set caret Position
-						tooltipEl.classList.remove("above", "below", "no-transform");
-						if (tooltip.yAlign) {
-							tooltipEl.classList.add(tooltip.yAlign);
-						} else {
-							tooltipEl.classList.add("no-transform");
-						}
-
-						function getBody(bodyItem) {
-							return bodyItem.lines;
-						}
-
-						// Set Text
-						if (tooltip.body) {
-							//debugger;
-
-							var titleLines = tooltip.title || [];
-							var bodyLines = tooltip.body.map(getBody);
-
-							var innerHtml = "<thead>";
-
-							titleLines.forEach(function (title) {
-								innerHtml += "<tr><th>" + title + "</th></tr>";
-							});
-							innerHtml += "</thead><tbody>";
-
-							bodyLines.forEach(function (body, i) {
-								var colors = tooltip.labelColors[i];
-								var style = "background:" + colors.backgroundColor;
-								style += "; border-color:" + colors.borderColor;
-								style += "; border-width: 2px";
-								var span = "<span class=\"chartjs-tooltip-key\" style=\"" + style + "\"></span>";
-								innerHtml += "<tr><td>" + span + body + "</td></tr>";
-							});
-							innerHtml += "</tbody>";
-
-							var tableRoot = tooltipEl.querySelector("table");
-							tableRoot.innerHTML = innerHtml;
-						}
-
-						var positionY = this._chart.canvas.offsetTop;
-						var positionX = this._chart.canvas.offsetLeft;
-
-						// Display, position, and set styles for font
-						tooltipEl.style.opacity = 1;
-						tooltipEl.style.left = positionX + tooltip.caretX + "px";
-						tooltipEl.style.top = positionY + tooltip.caretY + "px";
-						tooltipEl.style.fontFamily = tooltip._bodyFontFamily;
-						tooltipEl.style.fontSize = tooltip.bodyFontSize + "px";
-						tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
-						tooltipEl.style.padding = tooltip.yPadding + "px " + tooltip.xPadding + "px";
-						tooltipEl.style.zIndex = 5000;
-					}
+					},
 				},
 				annotation: {
 					drawTime: "beforeDatasetsDraw",
@@ -145,7 +139,7 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 100,
 							yMin: 10,
 							yMax: 30,
-							backgroundColor: "#D9EDF7aa"
+							backgroundColor: "rgba(190,230,255, 0.5)"
 						},
 						{
 							type: "box",
@@ -176,7 +170,12 @@ angular.module("report").directive("performanceChart", function () {
 							borderColor: "#000",
 							borderWidth: 1,
 							label: {
-								content: i18next.t("Coverage") + " = 90%"
+								content: i18next.t("Coverage") + " = 90%",
+								enabled: true,
+								position: "top",
+								backgroundColor: "rgba(0,0,0,0)",
+								fontColor: "#000",
+								xAdjust: 56
 							}
 						},
 						{
@@ -188,7 +187,12 @@ angular.module("report").directive("performanceChart", function () {
 							borderColor: "#000",
 							borderWidth: 1,
 							label: {
-								content: i18next.t("Dropout rate") + " = 10%"
+								content: i18next.t("Dropout rate") + " = 10%",
+								enabled: true,
+								position: "left",
+								backgroundColor: "rgba(0,0,0,0)",
+								fontColor: "#000",
+								yAdjust: -14
 							}
 						}
 					]
@@ -196,27 +200,25 @@ angular.module("report").directive("performanceChart", function () {
 			},
 			type: "scatter",
 			data: {
-				labels: [],
+				labels: data.datapoints.map(function(item) { return item.name; }),
 				datasets: [
 					{
 						label: i18next.t("Orgunits"),
 						color: "#000000",
 						pointStyle: "rect",
 						pointBackgroundColor: "#000000",
-						pointBorderWidth: 2,
-						pointBorderColor: "#000000",
-						pointHoverRadius: 6,
-						pointHoverBorderWidth: 6,
-						pointHitRadius: 12,
-						data: data.datapoints,
-						marker: {
-							radius: 3
-						}
+						pointBorderWidth: 0,
+						pointRadius: 5,
+						/*pointHoverRadius: 6,
+						pointHoverBorderWidth: 8,
+						pointHoverBorderColor: "rgba(0,0,0,0.2)",
+						pointHitRadius: 4,*/
+						data: data.datapoints
 					}
 				]
 			}
 		};
-
+		//var labels = data.datapoints.map(function(item) { return item.name; });
 		let ctx = document.getElementById("performanceChart_chartjs").getContext("2d");
 		chart = new Chart(ctx, chartJsConfig);
 	}

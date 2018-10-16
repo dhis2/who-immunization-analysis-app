@@ -185,12 +185,12 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 
 	/**
-				 * Returns user orgunit. If user has multiple orgunits, the one at the lowest level is
-				 * returned. If there are multiple orgunits at the same level, the first returned from the
-				 * server is return.
-				 *
-				 * @returns {*}		User orgunit object
-				 */
+	 * Returns user orgunit. If user has multiple orgunits, the one at the lowest level is
+	 * returned. If there are multiple orgunits at the same level, the first returned from the
+	 * server is return.
+	 *
+	 * @returns {*}		User orgunit object
+	 */
 	function userOrgunit() {
 		var deferred = $q.defer();
 
@@ -222,10 +222,10 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 
 	/**
-				 * Returns user orgunits, i.e. an array of all user orgunits.
-				 *
-				 * @returns {*}		Array of user orgunit objects
-				 */
+	 * Returns user orgunits, i.e. an array of all user orgunits.
+	 *
+	 * @returns {*}		Array of user orgunit objects
+	 */
 	function userOrgunits() {
 		var deferred = $q.defer();
 
@@ -248,11 +248,11 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 
 	/**
-				 * Returns user orgunits, i.e. an array of all user orgunits, including their childrena and
-				 * grandchildren. TODO: merge with userOrgunits, and have children as parameter
-				 *
-				 * @returns {*}
-				 */
+	 * Returns user orgunits, i.e. an array of all user orgunits, including their childrena and
+	 * grandchildren. TODO: merge with userOrgunits, and have children as parameter
+	 *
+	 * @returns {*}
+	 */
 	function userOrgunitsHierarchy() {
 		var deferred = $q.defer();
 
@@ -277,11 +277,11 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 
 	/**
-				 * Returns user view orgunits. Includes children, and a bool to indicate whether grandchildren
-				 * exists for each child.
-				 *
-				 * @returns {*}
-				 */
+	 * Returns user view orgunits. Includes children, and a bool to indicate whether grandchildren
+	 * exists for each child.
+	 *
+	 * @returns {*}
+	 */
 	function userAnalysisOrgunits() {
 		var deferred = $q.defer();
 
@@ -381,9 +381,6 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 	function dataElementOrIndicator(id) {
 		var deferred = $q.defer();
-
-		debugger; 
-		console.log("dataElementOrIndicator:", id);
 
 		requestService.getSingleData("/dataElements.json?fields=displayName,id&filter=id:eq:" + id).then(
 			function(data) { //success
