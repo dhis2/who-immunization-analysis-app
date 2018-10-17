@@ -63,7 +63,10 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
                 },
 				scales: {
 					xAxes: [{
-						id: "x-axis-0"
+						id: "x-axis-0",
+						gridLines: {
+							display: false
+						}
 					}],
 					yAxes: [{
 						id: "y-axis-0",
@@ -99,7 +102,7 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 		scope: {
 			"performanceChartTimeSummaryData": "="
 		},
-		template: "<div style='position: relative; margin-bottom: 20px'><canvas id='performanceChartTimeSummaryData_chartjs'></canvas></div>",
+		template: "<div style='position: relative;'><canvas height='100' id='performanceChartTimeSummaryData_chartjs'></canvas></div>",
 		link: function (scope, element, attrs) {
 			scope.$watch("performanceChartTimeSummaryData", function (newValue, oldValue) {
 				console.log("performanceChartTimeSummaryData changed: " + newValue + " | " + oldValue);

@@ -201,7 +201,7 @@ angular.module("report").directive("performanceChart", function () {
 		scope: {
 			"performanceChartData": "="
 		},
-		template: "<div style='position: relative; margin-bottom: 20px'><canvas id='performanceChart_chartjs'></canvas></div>",
+		template: "<div style='position: relative;'><canvas height='100' id='performanceChart_chartjs'></canvas></div>",
 		link: function (scope, element, attrs) {
 			scope.$watch("performanceChartData", function (newValue, oldValue) {
 				console.log("performanceChartData changed: " + newValue + " | " + oldValue);

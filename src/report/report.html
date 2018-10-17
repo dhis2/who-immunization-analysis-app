@@ -416,11 +416,13 @@
 	<!--PERFORMANCE-->
 	<div ng-if="rCtrl.current.type === 'perf'"  class="reportContent">
 
-	<performance-chart performance-chart-data="rCtrl.performanceChartData"></performance-chart>
+	<div style="margin: 40px 0;">
+		<performance-chart performance-chart-data="rCtrl.performanceChartData"></performance-chart>
+	</div>
 
-	<div id="performanceChartTimeSummary" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
-
-	<performance-chart-time-summary performance-chart-time-summary-data="rCtrl.performanceChartTimeSummaryData"></performance-chart-time-summary>
+	<div style="margin: 40px 0;">
+		<performance-chart-time-summary performance-chart-time-summary-data="rCtrl.performanceChartTimeSummaryData"></performance-chart-time-summary>
+	</div>
 
 	<div id="performanceChartDataSummary" ng-if="(rCtrl.current.orgunits.level.level - rCtrl.current.orgunits.boundary.level) >= 2" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
 

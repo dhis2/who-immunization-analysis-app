@@ -739,56 +739,6 @@ report.controller("ReportController",
 						backgroundColor: "#f2dede"
 					}]
 				};
-
-				Highcharts.chart("performanceChartTimeSummary", {
-					chart: {
-						type: "column"
-					},
-					title: {
-						text: i18next.t('Summary by month')
-					},
-					xAxis: {
-						categories: months
-					},
-					yAxis: {
-						min: 0,
-						title: {
-							text: i18next.t('Orgunits') + " (%)"
-						}
-					},
-					tooltip: {
-						pointFormat: "<span>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>",
-						shared: true
-					},
-					plotOptions: {
-						column: {
-							stacking: "percent"
-						}
-					},
-					series: [{
-						name: i18next.t('Category A'),
-						data: seriesA,
-						color: "#dff0d8"
-					}, {
-						name: i18next.t('Category B'),
-						data: seriesB,
-						color: "#d9edf7"
-					}, {
-						name: i18next.t('Category C'),
-						data: seriesC,
-						color: "#fcf8e3"
-					}, {
-						name: i18next.t('Category D'),
-						data: seriesD,
-						color: "#f2dede"
-					}]
-				});
-
-				/*setTimeout(function () {
-			chart = $('#performanceChartTimeSummary[data-highcharts-chart]');
-			chart.highcharts().reflow();
-		}, 1000);*/
-
 			}
 
 
