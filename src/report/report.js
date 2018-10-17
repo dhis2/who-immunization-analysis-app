@@ -606,83 +606,6 @@ report.controller("ReportController",
 					datapoints: datapoints
 				};
 
-
-				/*var chart = Highcharts.chart("performanceChart", {
-					xAxis: {
-						min: 0,
-						max: xMax,
-						title: {
-							enabled: true,
-							text: i18next.t('DPT 1 coverage') + ' (%)'
-						}
-					},
-					yAxis: {
-						min: yMin,
-						max: yMax,
-						title: {
-							enabled: true,
-							text: i18next.t('DPT 1 to 3 dropout rate') + ' (%)'
-						}
-					},
-					title: {
-						text: d2Data.name(period)
-					},
-					tooltip: {
-						formatter: function() {
-							return '<b>'+ this.point.name +'</b><br/>' +
-							i18next.t('Coverage') + ': ' + this.point.x +
-								'% <br/>' + i18next.t('Dropout rate') + ': ' +
-								this.point.y + '%';
-						}
-					},
-					series: [
-						{
-							type: "line",
-							lineWidth: 1,
-							name: i18next.t('Coverage') + " = 90%",
-							color: "#000000",
-							data: [[90, yMin], [90, yMax]],
-							marker: {
-								enabled: false
-							},
-							states: {
-								hover: {
-									lineWidth: 0
-								}
-							},
-							enableMouseTracking: false
-						},{
-							type: "line",
-							lineWidth: 1,
-							name: i18next.t('Dropout rate') + " = 10%",
-							color: "#000000",
-							data: [[0, 10], [xMax, 10]],
-							marker: {
-								enabled: false
-							},
-							states: {
-								hover: {
-									lineWidth: 0
-								}
-							},
-							enableMouseTracking: false
-						},{
-							type: "scatter",
-							name: i18next.t('Orgunits'),
-							color: "#000000",
-							data: datapoints,
-							marker: {
-								radius: 3
-							}
-						}
-					]
-				});
-
-				setTimeout(function () {
-					performanceChartFixSize();
-				}, 1000);
-				watchPerformanceChart();
-				*/
 			}
 
 
@@ -878,59 +801,6 @@ report.controller("ReportController",
 			};
 
 
-			function watchPerformanceChart() {
-				var resizeTimer;
-
-				$(window).on("resize", function(e) {
-
-					clearTimeout(resizeTimer);
-					resizeTimer = setTimeout(function() {
-
-						performanceChartFixSize();
-
-					}, 200);
-
-				});
-			}
-
-			//TODO: make function for getting chart by id (Highchart.charts[].renderTo == div#id)
-			function performanceChartFixSize() {
-				var chart = chartFromId("performanceChart");
-				if (!chart) return;
-		
-				chart.reflow();
-				drawBox(90, 100, 0, 10, "#dff0d8", "performanceChart", "greenBox");
-				drawBox(90, 100, 10, 30, "#d9edf7", "performanceChart", "blueBox");
-				drawBox(0, 90, 0, 10, "#fcf8e3", "performanceChart", "yellowBox");
-				drawBox(0, 90, 10, 30, "#f2dede", "performanceChart", "redBox");
-
-			}
-
-
-			function drawBox(xStart, xStop, yStart, yStop, color, chartId, boxId) {
-				//First remove existing box with same id:
-				$("#" + boxId).remove();
-
-				var chart = chartFromId(chartId);
-
-				if (xStart === "min") xStart = chart.axes[0].dataMin;
-				if (xStop === "max") xStop = chart.axes[0].dataMax;
-				if (yStart === "min") yStart = chart.axes[1].dataMin;
-				if (yStop === "max") yStop = chart.axes[1].dataMax;
-
-				var x1 = chart.xAxis[0].toPixels(xStart),
-					x2 = chart.xAxis[0].toPixels(xStop),
-					y1 = chart.yAxis[0].toPixels(yStart),
-					y2 = chart.yAxis[0].toPixels(yStop);
-
-				chart.renderer.rect(x1, y2, x2 - x1, y1 - y2)
-					.attr({
-						fill: color,
-						id: boxId ? boxId : "box_" + color
-					}).add();
-			}
-
-
 			/** MONITORING **/
 			function monitoringReport() {
 				console.log("Making monitoring report");
@@ -1051,8 +921,6 @@ report.controller("ReportController",
 				}
 
 				monitoringChart(chartSeries);
-
-				//self.hideLeftMenu();
 			}
 
 
@@ -1709,32 +1577,12 @@ report.controller("ReportController",
 			self.showLeftMenu = function () {
 				document.getElementById("leftNav").style.width = "350px";
 				document.getElementById("content").style.marginLeft = "360px";
-
-				for (var i = 0; i < Highcharts.charts.length; i++) {
-					if (Highcharts.charts[i]) {
-						Highcharts.charts[i].reflow();
-					}
-				}
-		
-				if (chartFromId("performanceChart")) {
-					performanceChartFixSize();
-				}
 			};
 
 
 			self.hideLeftMenu = function () {
 				document.getElementById("leftNav").style.width = "0px";
 				document.getElementById("content").style.marginLeft = "10px";
-		
-				for (var i = 0; i < Highcharts.charts.length; i++) {
-					if (Highcharts.charts[i]) {
-						Highcharts.charts[i].reflow();
-					}
-				}
-
-				if (chartFromId("performanceChart")) {
-					performanceChartFixSize();
-				}
 
 			};
 
@@ -1810,18 +1658,6 @@ report.controller("ReportController",
 					result = "\"" + result + "\"";
 				return result;
 			}
-	
-	
-			function chartFromId(id) {
-				for (var i = 0; i < Highcharts.charts.length; i++) {
-					if (Highcharts.charts[i] && Highcharts.charts[i].renderTo.id.endsWith(id)) {
-						return Highcharts.charts[i];
-					}
-				}
-				console.log("Chart " + id + " not found");
-				return null;
-			}
-
 
 
 			/** INIT **/
