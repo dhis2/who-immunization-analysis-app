@@ -1,43 +1,6 @@
 /**
  * Performance chart directive to be used in the report. It renders a scatter chart for coverage vs dropout rate.
  */
-
-// Define a plugin to provide data labels
-/*Chart.plugins.register({
-	afterDatasetsDraw: function(chart) {
-		var ctx = chart.ctx;
-
-		chart.data.datasets.forEach(function(dataset, i) {
-			var meta = chart.getDatasetMeta(i);
-
-			//debugger;
-			if (!meta.hidden) {
-				meta.data.forEach(function(element, index) {
-					// Draw the text in black, with the specified font
-					ctx.fillStyle = 'rgb(0, 0, 0)';
-
-					var fontSize = 16;
-					var fontStyle = 'normal';
-					var fontFamily = 'Helvetica Neue';
-					ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-
-					// Just naively convert to string for now
-					var dataString = dataset.data[index].name;
-
-					// Make sure alignment settings are correct
-					ctx.textAlign = 'center';
-					ctx.textBaseline = 'middle';
-
-					var padding = 5;
-					var position = element.tooltipPosition();
-					ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-				});
-			}
-		});
-	}
-});
-*/
-
 angular.module("report").directive("performanceChart", function () {
 
 	let chart = null;
@@ -53,7 +16,16 @@ angular.module("report").directive("performanceChart", function () {
 				responsive: true,
 				title: {
 					display: true,
-					text: data.title
+					text: data.title,
+					fontSize: 18,
+					fontColor: "#000000",
+					fontStyle: "normal",
+					fontFamily: "Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif"
+				},
+				legend: {
+					position: "bottom",
+					align: "center",
+					usePointStyle: false
 				},
 				scales: {
 					xAxes: [{
@@ -229,7 +201,7 @@ angular.module("report").directive("performanceChart", function () {
 		scope: {
 			"performanceChartData": "="
 		},
-		template: "<div style='margin-bottom: 20px'><canvas id='performanceChart_chartjs'></canvas></div>",
+		template: "<div style='position: relative; margin-bottom: 20px'><canvas id='performanceChart_chartjs'></canvas></div>",
 		link: function (scope, element, attrs) {
 			scope.$watch("performanceChartData", function (newValue, oldValue) {
 				console.log("performanceChartData changed: " + newValue + " | " + oldValue);

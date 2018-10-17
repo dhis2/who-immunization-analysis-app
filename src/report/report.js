@@ -9,6 +9,7 @@ report.controller("ReportController",
 			var self = this;
 			self.monitorChart = null;
 			self.performanceChartData = null;
+			self.performanceChartTimeSummaryData = null;
 
 			self.makeReport = function() {
 				self.current = {
@@ -606,7 +607,7 @@ report.controller("ReportController",
 				};
 
 
-				var chart = Highcharts.chart("performanceChart", {
+				/*var chart = Highcharts.chart("performanceChart", {
 					xAxis: {
 						min: 0,
 						max: xMax,
@@ -681,13 +682,14 @@ report.controller("ReportController",
 					performanceChartFixSize();
 				}, 1000);
 				watchPerformanceChart();
+				*/
 			}
 
 
 			function performanceTimeSummaryChart() {
 
-				var seriesA = [], seriesB = [];
-				seriesC = [], seriesD = [];
+				var seriesA = [], seriesB = [],
+					seriesC = [], seriesD = [];
 
 				var j;
 				for (var j = 0; j < self.current.periods.length; j++) {
@@ -716,6 +718,27 @@ report.controller("ReportController",
 				console.log(seriesB);
 				console.log(seriesC);
 				console.log(seriesD);
+
+				self.performanceChartTimeSummaryData = {
+					months: months,
+					series: [{
+						label: i18next.t('Category A'),
+						data: seriesA,
+						backgroundColor: "#dff0d8"
+					}, {
+						label: i18next.t('Category B'),
+						data: seriesB,
+						backgroundColor: "#d9edf7"
+					}, {
+						label: i18next.t('Category C'),
+						data: seriesC,
+						backgroundColor: "#fcf8e3"
+					}, {
+						label: i18next.t('Category D'),
+						data: seriesD,
+						backgroundColor: "#f2dede"
+					}]
+				};
 
 				Highcharts.chart("performanceChartTimeSummary", {
 					chart: {

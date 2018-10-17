@@ -31,6 +31,7 @@ import "ui-select/dist/select.css";
 
 import "chart.js";
 import "chartjs-plugin-annotation";
+import "chartjs-plugin-stacked100";
 
 //Core services
 import "./appCommons/appCommons.js";
@@ -41,6 +42,7 @@ import "./appCore/d2.js";
 //Modules
 import "./report/report.js";
 import "./report/charts/performanceChart.js";
+import "./report/charts/performanceChartTimeSummary.js";
 
 //CSS
 import "./css/style.css";
