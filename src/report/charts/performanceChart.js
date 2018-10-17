@@ -94,6 +94,7 @@ angular.module("report").directive("performanceChart", function () {
 					drawTime: "beforeDatasetsDraw",
 					annotations: [
 						{
+							//green box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
@@ -104,16 +105,18 @@ angular.module("report").directive("performanceChart", function () {
 							backgroundColor: "rgba(35,255,35,0.2)"
 						},
 						{
+							//blue box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
 							xMin: 90,
 							xMax: 100,
 							yMin: 10,
-							yMax: 30,
+							yMax: Math.max(100, data.yMax),
 							backgroundColor: "rgba(190,230,255, 0.5)"
 						},
 						{
+							//yellow box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
@@ -124,13 +127,14 @@ angular.module("report").directive("performanceChart", function () {
 							backgroundColor: "rgba(255,255,80,0.2)"
 						},
 						{
+							//red box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
 							xMin: 0,
 							xMax: 90,
 							yMin: 10,
-							yMax: 30,
+							yMax: Math.max(100, data.yMax),
 							backgroundColor: "rgba(255,35,35,0.2)"
 						},
 						{

@@ -22,7 +22,7 @@
 	<hr ng-if="rCtrl.selectedReport.id != 'perf' && rCtrl.selectedReport.id != 'rim'"/>
 
 	<div class="navItem" ng-if="rCtrl.selectedReport.id != 'perf' && rCtrl.selectedReport.id != 'rim'">
-		<h4>{{ 'Data' || i18next }}</h4>
+		<h4>{{ 'Data' | i18next }}</h4>
 		<d2-select
 				options="rCtrl.vaccines"
 				ng-model="rCtrl.selectedVaccines"
@@ -44,7 +44,7 @@
 	<hr/>
 
 	<div class="navItem">
-		<h4>{{ 'Period' || i18next }}</h4>
+		<h4>{{ 'Period' | i18next }}</h4>
 		<label ng-if="rCtrl.selectedReport.id === 'rim'">{{ 'Year' | i18next }}</label>
 		<d2-select options="rCtrl.periods" ng-model="rCtrl.selectedPeriod" placeholder="Select year..."></d2-select>
 		<div class="btn-group btn-group-justified"
@@ -52,10 +52,10 @@
 			 ng-init="rCtrl.aggregationType='cumulative';"
 			 ng-if="rCtrl.selectedReport.id === 'vac'">
 			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'cumulative'" uncheckable>{{ 'Cumulative' | i18next }}</label>
-			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'monthly'" uncheckable>{{ 'Monthly' || i18next }}</label>
+			<label class="btn btn-success" ng-model="rCtrl.aggregationType" uib-btn-radio="'monthly'" uncheckable>{{ 'Monthly' | i18next }}</label>
 		</div>
 		<div ng-if="rCtrl.selectedReport.id === 'mon' && rCtrl.selectedMonitoringReport.id != 'allVac'">
-			<label>{{ 'Previous years for comparison' || i18next }}</label>
+			<label>{{ 'Previous years for comparison' | i18next }}</label>
 			<input ng-init="rCtrl.selectedReferencePeriods = 3"
 				   ng-model="rCtrl.selectedReferencePeriods"
 				   type="number"
@@ -107,7 +107,7 @@
 					<th>{{ 'Vaccine (total)' | i18next }}</th>
 					<td>
 						<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.adm.i.typeA='de';">
-							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeA" uib-btn-radio="'de'" uncheckable>{{ 'Data element' || i18next }}</label>
+							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeA" uib-btn-radio="'de'" uncheckable>{{ 'Data element' | i18next }}</label>
 							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeA" uib-btn-radio="'in'" uncheckable>{{ 'Indicator' | i18next }}</label>
 						</div>
 						<d2-select-data-element ng-if="rCtrl.adm.i.typeA === 'de'" ng-model="rCtrl.adm.i.vaccineAll"></d2-select-data-element>
@@ -117,7 +117,7 @@
 					<th>{{ 'Vaccine (target age)' | i18next}}</th>
 					<td>
 						<div class="btn-group btn-group-justified" style="margin-bottom: 5px;" ng-init="rCtrl.adm.i.typeT='de';">
-							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeT" uib-btn-radio="'de'" uncheckable>{{ 'Data element' || i18next }}</label>
+							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeT" uib-btn-radio="'de'" uncheckable>{{ 'Data element' | i18next }}</label>
 							<label class="btn btn-success" ng-model="rCtrl.adm.i.typeT" uib-btn-radio="'in'" uncheckable>{{ 'Indicator' | i18next }}</label>
 						</div>
 						<d2-select-data-element ng-if="rCtrl.adm.i.typeT === 'de'" ng-model="rCtrl.adm.i.vaccineTarget"></d2-select-data-element>
@@ -266,7 +266,7 @@
 				<label>{{ 'Organisation unit levels' | i18next }}</label>
 				<p>{{ 'RIM export is done by district (admin 2) level, and also includes the province (admin 1) level and a country code. Please enter country code and select province, district levels here' | i18next }}.</p>
 				<div style="width: 400px">
-					<span>{{ 'Country code:' || i18next }}<input style="width: 100px; margin-bottom: 5px;" type="text" ng-model="rCtrl.rim.countryCode"></span>
+					<span>{{ 'Country code:' | i18next }}<input style="width: 100px; margin-bottom: 5px;" type="text" ng-model="rCtrl.rim.countryCode"></span>
 					<d2-select placeholder="Select province level..."
 							   options="rCtrl.rim.options.orgunitLevelsProvince" ng-model="rCtrl.rim.provinceLevel"
 							   style="width: 400px"></d2-select>
@@ -478,11 +478,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							{{ 'Category A' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} ≥ 90%</td>
+							{{ 'Category A' | i18next }}</th>
+						<td>{{ 'Coverage' | i18next}} ≥ 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} ≤ 10%</td>
+						<td>{{ 'Dropout rate' | i18next }} ≤ 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -490,11 +490,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							{{ 'Category B' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} ≥ 90%</td>
+							{{ 'Category B' | i18next }}</th>
+						<td>{{ 'Coverage' | i18next}} ≥ 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} %gt; 10%</td>
+						<td>{{ 'Dropout rate' | i18next }} &gt; 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -502,11 +502,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							{{ 'Category C' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} &lt; 90%</td>
+							{{ 'Category C' | i18next }}</th>
+						<td>{{ 'Coverage' | i18next}} &lt; 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} &lt; 10%</td>
+						<td>{{ 'Dropout rate' | i18next }} &lt; 10%</td>
 					</tr>
 				</table>
 			</td>
@@ -514,11 +514,11 @@
 				<table>
 					<tr>
 						<th rowspan=2 style="padding-right: 10px">
-							{{ 'Category D' || i18next }}</th>
-						<td>{{ 'Coverage' || i18next}} &lt; 90%</td>
+							{{ 'Category D' | i18next }}</th>
+						<td>{{ 'Coverage' | i18next}} &lt; 90%</td>
 					</tr>
 					<tr>
-						<td>{{ 'Dropout rate' || i18next }} ≥ 10%</td>
+						<td>{{ 'Dropout rate' | i18next }} ≥ 10%</td>
 					</tr>
 				</table>
 			</td>
