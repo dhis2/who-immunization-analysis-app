@@ -1,24 +1,26 @@
 /**
  * Performance chart directive to be used in the report. It renders a stacked bar chart for summary by months
  */
+import Chart from "chart.js";
+import i18next from "i18next";
+
 angular.module("report").directive("performanceChartTimeSummary", function () {
 
 	let chart = null;
 
 	function createChart(chartData) {
         
-        //debugger;
 		if ( chart !== null ) {
 			chart.destroy();
 		}
 
 		var chartJsConfig = {
-            type: "bar",
+			type: "bar",
 			options: {                
 				responsive: true,
 				title: {
 					display: true,
-					text: i18next.t('Summary by month'),
+					text: i18next.t("Summary by month"),
 					fontSize: 18,
 					fontColor: "#000000",
 					fontStyle: "normal",
@@ -30,8 +32,8 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 					usePointStyle: false,
 					reverse: true,
 					fontStyle: "bold"
-                },
-                tooltips: {
+				},
+				tooltips: {
 					mode: "index",
 					intersect: false,
 					caretPadding: 8,
@@ -49,8 +51,8 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 					itemSort: function(a,b) {
 						return 1;	//reverse Category D,C,B,A to become A,B,C,D
 					},
-                    callbacks: {
-                        label: function(tooltipItem, data) {
+					callbacks: {
+						label: function(tooltipItem, data) {
 							let label = data.datasets[tooltipItem.datasetIndex].label;
 							let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 
@@ -60,7 +62,7 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 							return label + ": " + value + " ("+ percentage +"%)";
 						}
 					}
-                },
+				},
 				scales: {
 					xAxes: [{
 						id: "x-axis-0",
@@ -72,30 +74,30 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 						id: "y-axis-0",
 						scaleLabel: {
 							display: true,
-							labelString: i18next.t('Orgunits') + " (%)"
+							labelString: i18next.t("Orgunits") + " (%)"
 						},
 						ticks: {
 							stepSize: 25,
 							beginAtZero: true
 						}
-                    }]
-                },
+					}]
+				},
 				plugins: {
 					stacked100: { 
 						enable: true,
 						replaceTooltipLabel: false
 					}
 				}
-            },
-            data: {
-                labels: chartData.months,
-                datasets: chartData.series.reverse()
-            }
-        };
+			},
+			data: {
+				labels: chartData.months,
+				datasets: chartData.series.reverse()
+			}
+		};
 
-        let ctx = document.getElementById("performanceChartTimeSummaryData_chartjs").getContext("2d");
+		let ctx = document.getElementById("performanceChartTimeSummaryData_chartjs").getContext("2d");
 		chart = new Chart(ctx, chartJsConfig);
-    }
+	}
 
 	return {
 		restrict: "E",
@@ -103,7 +105,7 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 			"performanceChartTimeSummaryData": "="
 		},
 		template: "<div style='position: relative;'><canvas height='100' id='performanceChartTimeSummaryData_chartjs'></canvas></div>",
-		link: function (scope, element, attrs) {
+		link: function (scope) {
 			scope.$watch("performanceChartTimeSummaryData", function (newValue, oldValue) {
 				console.log("performanceChartTimeSummaryData changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {

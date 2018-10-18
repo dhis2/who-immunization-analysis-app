@@ -1,4 +1,4 @@
-
+import FileSaver from "file-saver";
 
 /**Controller: Parameters*/
 angular.module("appCommons").controller("ModalExportController",
@@ -47,28 +47,36 @@ angular.module("appCommons").controller("ModalExportController",
 
 				//Header
 				string = "";
-				for (var i = 0; i < headers.length; i++) {
+				for (let i = 0; i < headers.length; i++) {
 					string += checkExportValue(headers[i]);
-					if (i+1 < headers.length) string += s;
-					else string += "\n";
+					if (i+1 < headers.length) {
+						string += s;
+					}
+					else {
+						string += "\n";
+					}
 				}
 				csvContent += string;
-				for (var i = 0; i < rows.length; i++) {
+				for (let i = 0; i < rows.length; i++) {
 					string = "";
-					var row = rows[i];
-					for (var j = 0; j < row.length; j++) {
-						var value = row[j];
+					let row = rows[i];
+					for (let j = 0; j < row.length; j++) {
+						let value = row[j];
 						if (isNumeric(value)) {
 							value = fixDecimalsForExport(value);
 						}
 						string += checkExportValue(value);
-						if (j+1 < row.length) string += s;
-						else string += "\n";
+						if (j+1 < row.length) {
+							string += s;
+						}
+						else {
+							string += "\n";
+						}
 					}
 					csvContent += string;
 				}
 
-				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+				let blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
 				//saveAs
 				FileSaver.saveAs(blob, self.options.fileName + ".csv");
 			}
@@ -95,8 +103,9 @@ angular.module("appCommons").controller("ModalExportController",
 			function checkExportValue(value, separator) {
 				var innerValue =	value === null ? "" : value.toString();
 				var result = innerValue.replace(/"/g, "\"\"");
-				if (result.search(/("|separator|\n)/g) >= 0)
+				if (result.search(/("|separator|\n)/g) >= 0) {
 					result = "\"" + result + "\"";
+				}
 				return result;
 			}
 

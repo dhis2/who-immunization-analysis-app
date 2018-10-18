@@ -1,3 +1,6 @@
+import i18next from "i18next";
+import FileSaver from "file-saver";
+
 //Define module
 const report = angular.module("report", []);
 
@@ -7,9 +10,11 @@ report.controller("ReportController",
 		function(d2Map, d2Meta, d2Data, d2Utils, $q) {
 
 			var self = this;
-			self.monitorChart = null;
+
 			self.performanceChartData = null;
 			self.performanceChartTimeSummaryData = null;
+			self.monitoringChartData = null;
+			self.performanceOrgunitSummaryChartData = null;
 
 			self.makeReport = function() {
 				self.current = {
@@ -128,10 +133,10 @@ report.controller("ReportController",
 				var cumulative = self.current.cumulative;
 
 				var orgunit, indicator, values, row;
-				for (var i = 0; i < orgunits.length; i++) {
+				for (let i = 0; i < orgunits.length; i++) {
 					orgunit = orgunits[i];
 
-					for (var j = 0; j < indicators.length; j++) {
+					for (let j = 0; j < indicators.length; j++) {
 						indicator = indicators[j];
 						values = vaccineReportValue(indicator, periods, orgunit);
 
@@ -153,7 +158,7 @@ report.controller("ReportController",
 							row.parents = parentNames.join(" - ");
 						}
 
-						for (var k = 0; k < periods.length; k++) {
+						for (let k = 0; k < periods.length; k++) {
 							row[periods[k]] = values[k];
 						}
 
@@ -165,11 +170,11 @@ report.controller("ReportController",
 				var headerColumns = [];
 
 				//Add column headers
-				headerColumns.push({ id: "ou", title: i18next.t('Organisation unit') });
-				headerColumns.push({ id: "vaccine", title: i18next.t('Vaccine') });
+				headerColumns.push({ id: "ou", title: i18next.t("Organisation unit") });
+				headerColumns.push({ id: "vaccine", title: i18next.t("Vaccine") });
 				if (self.current.hieararchy) {
 					d2Utils.arraySortByProperty(self.current.data, "parents", false, false);
-					headerColumns.unshift({ id: "parents", title: i18next.t('Hierarchy') });
+					headerColumns.unshift({ id: "parents", title: i18next.t("Hierarchy") });
 				}
 				if (self.current.ouFilter) {
 					//Sort data
@@ -190,7 +195,7 @@ report.controller("ReportController",
 
 
 				var dataColumns = [];
-				for (var i = 0; i < periods.length; i++) {
+				for (let i = 0; i < periods.length; i++) {
 					dataColumns.push({
 						id: periods[i], title: d2Data.name(periods[i]).split(" ")[0]
 					});
@@ -285,21 +290,21 @@ report.controller("ReportController",
 
 
 				var headerRow = [];
-				for (var i = 0; i < self.current.headerColumns.length; i++) {
+				for (let i = 0; i < self.current.headerColumns.length; i++) {
 					headerRow.push(self.current.headerColumns[i].title);
 				}
-				headerRow.push(i18next.t('Data'));
-				for (var i = 0; i < self.current.dataColumns.length; i++) {
+				headerRow.push(i18next.t("Data"));
+				for (let i = 0; i < self.current.dataColumns.length; i++) {
 					headerRow.push(self.current.dataColumns[i].title);
 					periods.push(self.current.dataColumns[i].id);
 				}
 				table.push(headerRow);
 
-				var dataFields = [{"id": "vaccineAll", "name": i18next.t('all ages')}, {"id": "vaccineTarget", "name": i18next.t('target age')},
-					{"id": "coverage", "name": i18next.t('coverage')}];
-				for (var i = 0; i < self.current.dataTable.length; i++) {
+				var dataFields = [{"id": "vaccineAll", "name": i18next.t("all ages")}, {"id": "vaccineTarget", "name": i18next.t("target age")},
+					{"id": "coverage", "name": i18next.t("coverage")}];
+				for (let i = 0; i < self.current.dataTable.length; i++) {
 
-					for (j = 0; j < dataFields.length; j++) {
+					for (let j = 0; j < dataFields.length; j++) {
 						var dataField = dataFields[j];
 						var row = [];
 
@@ -332,7 +337,7 @@ report.controller("ReportController",
 				console.log("Making performance report");
 
 				//TODO: add a better error message that DPT1-2-3 has to be configured instead.
-				if (!performanceReportPossible()) alert(i18next.t('Performance report has not been configured, contact the administrators.'));
+				if (!performanceReportPossible()) alert(i18next.t("Performance report has not been configured, contact the administrators."));
 
 				//Save misc parameters for report we are making
 				self.current.cumulative = self.aggregationType === "cumulative";
@@ -425,11 +430,11 @@ report.controller("ReportController",
 				var columnsData = [];
 
 				//Add column headers
-				columns.push({ id: "ou", title: i18next.t('Organisation unit') });
+				columns.push({ id: "ou", title: i18next.t("Organisation unit") });
 				d2Utils.arraySortByProperty(self.current.data, "ou", false, false);
 				if (self.current.hieararchy) {
 					d2Utils.arraySortByProperty(self.current.data, "parents", false, false);
-					columns.unshift({ id: "parents", title: i18next.t('Hierarchy') });
+					columns.unshift({ id: "parents", title: i18next.t("Hierarchy") });
 					d2Utils.arraySortByProperty(self.current.data, "parents", false, false);
 				}
 
@@ -614,8 +619,8 @@ report.controller("ReportController",
 				var seriesA = [], seriesB = [],
 					seriesC = [], seriesD = [];
 
-				var j;
-				for (var j = 0; j < self.current.periods.length; j++) {
+				let j = 0;
+				for (j = 0; j < self.current.periods.length; j++) {
 					for (var i = 0; i < self.current.data.length; i++) {
 						var value = self.current.data[i][self.current.periods[j]];
 
@@ -635,8 +640,9 @@ report.controller("ReportController",
 					if (self.current.periods[j] === performanceChartPeriod()) break;
 				}
 
-				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].slice(0, ++j);
+				let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].slice(0, ++j);
 
+				//debugger;
 				console.log(seriesA);
 				console.log(seriesB);
 				console.log(seriesC);
@@ -645,19 +651,19 @@ report.controller("ReportController",
 				self.performanceChartTimeSummaryData = {
 					months: months,
 					series: [{
-						label: i18next.t('Category A'),
+						label: i18next.t("Category A"),
 						data: seriesA,
 						backgroundColor: "#dff0d8"
 					}, {
-						label: i18next.t('Category B'),
+						label: i18next.t("Category B"),
 						data: seriesB,
 						backgroundColor: "#d9edf7"
 					}, {
-						label: i18next.t('Category C'),
+						label: i18next.t("Category C"),
 						data: seriesC,
 						backgroundColor: "#fcf8e3"
 					}, {
-						label: i18next.t('Category D'),
+						label: i18next.t("Category D"),
 						data: seriesD,
 						backgroundColor: "#f2dede"
 					}]
@@ -681,9 +687,9 @@ report.controller("ReportController",
 
 				var hierarhcySummary = {};
 				var period = performanceChartPeriod();
-				for (var i = 0; i < self.current.data.length; i++) {
-					var value = self.current.data[i][period];
-					var topParent = self.current.data[i]["parentIds"].split("/")[parentIdIndex];
+				for (let i = 0; i < self.current.data.length; i++) {
+					let value = self.current.data[i][period];
+					let topParent = self.current.data[i]["parentIds"].split("/")[parentIdIndex];
 					if (!hierarhcySummary.hasOwnProperty(topParent)) {
 						hierarhcySummary[topParent] = {
 							"A": 0,
@@ -700,12 +706,12 @@ report.controller("ReportController",
 				}
 
 
-				var seriesA = [];
-				var seriesB = [];
-				var seriesC = [];
-				var seriesD = [];
-				var parents = [];
-				for (ouId in hierarhcySummary) {
+				let seriesA = [];
+				let seriesB = [];
+				let seriesC = [];
+				let seriesD = [];
+				let parents = [];
+				for (let ouId in hierarhcySummary) {
 					parents.push(d2Data.name(ouId));
 					seriesA.push(hierarhcySummary[ouId]["A"]);
 					seriesB.push(hierarhcySummary[ouId]["B"]);
@@ -713,12 +719,33 @@ report.controller("ReportController",
 					seriesD.push(hierarhcySummary[ouId]["D"]);
 				}
 
+				self.performanceOrgunitSummaryChartData = {
+					title: i18next.t("Summary by orgunit") + " - " + d2Data.name(period),
+					series: [{
+						label: i18next.t("Category A"),
+						data: seriesA,
+						backgroundColor: "#dff0d8"
+					}, {
+						label: i18next.t("Category B"),
+						data: seriesB,
+						backgroundColor: "#d9edf7"
+					}, {
+						label: i18next.t("Category C"),
+						data: seriesC,
+						backgroundColor: "#fcf8e3"
+					}, {
+						label: i18next.t("Category D"),
+						data: seriesD,
+						backgroundColor: "#f2dede"
+					}]
+				};
+
 				Highcharts.chart("performanceChartDataSummary", {
 					chart: {
 						type: "column"
 					},
 					title: {
-						text: i18next.t('Summary by orgunit') + ' - ' + d2Data.name(period)
+						text: i18next.t("Summary by orgunit") + " - " + d2Data.name(period)
 					},
 					xAxis: {
 						categories: parents
@@ -739,19 +766,19 @@ report.controller("ReportController",
 						}
 					},
 					series: [{
-						name: i18next.t('Category A'),
+						name: i18next.t("Category A"),
 						data: seriesA,
 						color: "#dff0d8"
 					}, {
-						name: i18next.t('Category B'),
+						name: i18next.t("Category B"),
 						data: seriesB,
 						color: "#d9edf7"
 					}, {
-						name: i18next.t('Category C'),
+						name: i18next.t("Category C"),
 						data: seriesC,
 						color: "#fcf8e3"
 					}, {
-						name: i18next.t('Category D'),
+						name: i18next.t("Category D"),
 						data: seriesD,
 						color: "#f2dede"
 					}]
@@ -836,7 +863,7 @@ report.controller("ReportController",
 				promises.push();
 
 				//fetch data - one year at the time
-				for (var i = 0; i < self.current.timeSeries.length; i++) {
+				for (let i = 0; i < self.current.timeSeries.length; i++) {
 					console.log("adding request to promise: " + self.current.timeSeries[i].periods);
 					d2Data.addRequest(dx, self.current.timeSeries[i].periods, self.selectedOrgunit.boundary.id, null, null);
 				}
@@ -860,13 +887,13 @@ report.controller("ReportController",
 				//Iterate over periods / orgunits / data
 				self.current.data = [];
 
-				var ou = self.current.orgunits.boundary.id;
+				let ou = self.current.orgunits.boundary.id;
 
-				var chartSeries = [];
+				let chartSeries = [];
 
 				//multiple vaccines for one year
 				if (self.current.dataType === "allVac") {
-					var periods = self.current.timeSeries[0].periods;
+					let periods = self.current.timeSeries[0].periods;
 
 					chartSeries.push({
 						"name": "Target",
@@ -880,8 +907,8 @@ report.controller("ReportController",
 						"data": monitoringReportValue(periods, ou, self.current.target, true)
 					});
 
-					var indicators = d2Utils.toArray(self.current.indicators);
-					for (var i = 0; i < indicators.length; i++) {
+					let indicators = d2Utils.toArray(self.current.indicators);
+					for (let i = 0; i < indicators.length; i++) {
 						chartSeries.push({
 							"name": indicators[i].displayName,
 							"data": monitoringReportValue(periods, ou, indicators[i].vaccineTarget, false)
@@ -893,7 +920,7 @@ report.controller("ReportController",
 				}
 				//one vaccine for multiple years
 				else {
-					var dataId = self.current.indicators.vaccineTarget;
+					let dataId = self.current.indicators.vaccineTarget;
 
 					chartSeries.push({
 						"name": "Target (" + self.current.timeSeries[0].year + ")",
@@ -908,8 +935,8 @@ report.controller("ReportController",
 					});
 					
 
-					for (var i = 0; i < self.current.timeSeries.length; i++) {
-						var timeSeries = self.current.timeSeries[i];
+					for (let i = 0; i < self.current.timeSeries.length; i++) {
+						let timeSeries = self.current.timeSeries[i];
 						chartSeries.push({
 							"name": timeSeries.year,
 							"data": monitoringReportValue(timeSeries.periods, ou, dataId, false)
@@ -921,14 +948,16 @@ report.controller("ReportController",
 				}
 
 				monitoringChart(chartSeries);
+
+				self.hideLeftMenu();
 			}
 
 
 			function monitoringReportValue(periods, orgunit, dataId, annualize) {
 
-				var value, cumulatedValue = 0;
-				var dataSeries = [];
-				for (var i = 0; i < periods.length; i++) {
+				let value, cumulatedValue = 0;
+				let dataSeries = [];
+				for (let i = 0; i < periods.length; i++) {
 
 					//Get data for current month
 					value = d2Data.value(dataId, periods[i], orgunit, null, null);
@@ -944,10 +973,10 @@ report.controller("ReportController",
 
 
 			function monitoringReportDataIds() {
-				var dataIds = [];
+				let dataIds = [];
 
-				var indicators = d2Utils.toArray(self.current.indicators);
-				for (var i = 0; i < indicators.length; i++) {
+				let indicators = d2Utils.toArray(self.current.indicators);
+				for (let i = 0; i < indicators.length; i++) {
 					dataIds.push(indicators[i].vaccineTarget);
 				}
 
@@ -963,47 +992,13 @@ report.controller("ReportController",
 
 				console.log(series);
 
-				var colors = ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
-				
-				let config = {
-					type: "line",
-					options: {
-						responsive: true,
-						legend: {
-							position: "right",
-							align: "center",
-							usePointStyle: true
-						},
-						maintainAspectRatio: false
-					},
-					data: {
-						labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-						datasets: series.map(function(item){
-							var color = item.color;
-							if ( !color ) {
-								var index = series.indexOf(item)-1;
-								color = colors[index]; //TODO: wrap around if more than 10
-								item.color = color;
-							}
-							
-							return Object.assign(item, {
-								label: item.name, 
-								fill: false,
-								borderColor: item.color,
-								backgroundColor: item.color
-							});
-						})
-					}
+				self.monitoringChartData = {
+					categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					series: series
 				};
-				
-				var ctx = document.getElementById("monitoringChart").getContext("2d");
-				
-				if ( self.monitorChart !== null ) {
-					self.monitorChart.destroy();
-				}
 
-				self.monitorChart = new Chart(ctx, config);
-				/*var monitoringChart = Highcharts.chart("monitoringChart", {
+				//self.monitorChart = new Chart(ctx, config);
+				let monitoringChart = Highcharts.chart("monitoringChart", {
 					title: {
 						text: ""
 					},
@@ -1011,8 +1006,7 @@ report.controller("ReportController",
 						title: {
 							text: "Month"
 						},
-						categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-							"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+						categories:  ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 					},
 					yAxis: {
 						title: {
@@ -1031,9 +1025,9 @@ report.controller("ReportController",
 						borderWidth: 0
 					},
 					series: series
-				});*/
+				});
 
-				//setTimeout(function(){ monitoringChart.reflow(); }, 1000);
+				setTimeout(function(){ monitoringChart.reflow(); }, 1000);
 			}
 
 
@@ -1045,7 +1039,7 @@ report.controller("ReportController",
 				//Get possible targets (denominators) from the selected vaccines
 				self.targets = [];
 				var selected = d2Utils.toArray(angular.copy(self.selectedVaccines));
-				for (var i = 0; i < selected.length; i++) {
+				for (let i = 0; i < selected.length; i++) {
 					self.targets.push({
 						"id": selected[i].denominator,
 						"displayName": d2Map.d2NameFromID(selected[i].denominator)
@@ -1064,7 +1058,7 @@ report.controller("ReportController",
 
 				self.rim = {
 					done: false,
-					activity: i18next.t('Identifying data')
+					activity: i18next.t("Identifying data")
 				};
 				//First get all RIM variables (codes)
 				d2Map.rimCodes().then(function(codes) {
@@ -1094,55 +1088,55 @@ report.controller("ReportController",
 							}
 						}
 						
-									var compt =  self.selectedMonth.id*1;
-									var pad = "00";
-									var str2 ="";
-									var zperiode = '';
-									var si_dernier = false;
-									
-									for (compte2 = compt; compte2 >= 1; compte2--){
-										str2 =pad+compte2;
-										str2 = str2.substring(str2.length-2,str2.length);
-										zperiode+=";"+self.selectedPeriod.id+str2;
-										periode = zperiode.substring(1,zperiode.length);
+						var compt =  self.selectedMonth.id*1;
+						var pad = "00";
+						var str2 ="";
+						var zperiode = "";
+						var si_dernier = false;
+						
+						for (let compte2 = compt; compte2 >= 1; compte2--){
+							str2 =pad+compte2;
+							str2 = str2.substring(str2.length-2,str2.length);
+							zperiode+=";"+self.selectedPeriod.id+str2;
+							let periode = zperiode.substring(1,zperiode.length);
 								
 
-						var rimMeta = d2Map.rimMeta();
-						var pe = self.selectedPeriod.id + str2;
-						var ouLevel = rimMeta.districtLevel;
+							var rimMeta = d2Map.rimMeta();
+							var pe = self.selectedPeriod.id + str2;
+							var ouLevel = rimMeta.districtLevel;
 
-						var completenessIds = [rimMeta.dataSetId + ".EXPECTED_REPORTS", rimMeta.dataSetId + ".ACTUAL_REPORTS",
-							rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME"];
-						d2Data.addRequest(completenessIds, pe, null, ouLevel, null, null);
+							var completenessIds = [rimMeta.dataSetId + ".EXPECTED_REPORTS", rimMeta.dataSetId + ".ACTUAL_REPORTS",
+								rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME"];
+							d2Data.addRequest(completenessIds, pe, null, ouLevel, null, null);
 
-						//Request the data
-						var start = 0, end = 10;
-						if (end > indicatorIds.length) end = indicatorIds.length;
-						while (start < indicatorIds.length && end <= indicatorIds.length) {
-							d2Data.addRequest(indicatorIds.slice(start, end), pe, null,
-								ouLevel, null, null);
-
-							start = end;
-							end += 10;
+							//Request the data
+							var start = 0, end = 10;
 							if (end > indicatorIds.length) end = indicatorIds.length;
-						}
-						self.rim.activity = i18next.t('Downloading data');
-						d2Data.fetch().then(function (meta) {
-							if(str2*1 == 1) si_dernier = true;
-							rimProcessData(meta, indicatorIds, str2);
-						});
+							while (start < indicatorIds.length && end <= indicatorIds.length) {
+								d2Data.addRequest(indicatorIds.slice(start, end), pe, null,
+									ouLevel, null, null);
+
+								start = end;
+								end += 10;
+								if (end > indicatorIds.length) end = indicatorIds.length;
+							}
+							self.rim.activity = i18next.t("Downloading data");
+							d2Data.fetch().then(function (meta) {
+								if(str2*1 == 1) si_dernier = true;
+								rimProcessData(meta, indicatorIds, str2);
+							});
 						
-										}  
-										monhorloge = setInterval(function(){
-											
-											if(compteur_fin_export == self.selectedMonth.id*1){
-												makeExportFile(i_tab, i18next.t("RIM_export"));
-												compteur_fin_export=0;
-												self.rim.done = !0; self.showLeftMenu();
-												clearTimeout(monhorloge);
-												
-											}
-										}, 2000);		
+						}  
+						let monhorloge = setInterval(function(){
+							
+							if(compteur_fin_export == self.selectedMonth.id*1){
+								makeExportFile(i_tab, i18next.t("RIM_export"));
+								compteur_fin_export=0;
+								self.rim.done = !0; self.showLeftMenu();
+								clearTimeout(monhorloge);
+								
+							}
+						}, 2000);		
 						
 					});
 
@@ -1158,9 +1152,9 @@ report.controller("ReportController",
 				return false;
 			}
 
-			 var i_tab = []; 
-			 var compteur_fin_export = 0; 
-			 
+			var i_tab = []; 
+			var compteur_fin_export = 0; 
+
 			function rimProcessData(metaData, indicatorIds, si_derniere_pe) {
 				compteur_fin_export++;
 				
@@ -1184,17 +1178,19 @@ report.controller("ReportController",
 				//Districts to iterate over
 				var districts = metaData.ou;
 
-				var header = ["Country_Code", "Province_Name", "District", "Year", "Month", "TotalNumHF",
-					"NumHFReportsIncluded", "NumHFReportsTimely"];
-				for (var i = 0; i < indicatorIds.length; i++) {
+				var header = ["Country_Code", "Province_Name", "District", "Year", "Month", "TotalNumHF", "NumHFReportsIncluded", "NumHFReportsTimely"];
+				for (let i = 0; i < indicatorIds.length; i++) {
 					header.push(rimCodeFromId(indicatorIds[i]));
 				}
 				
-				if(compteur_fin_export == 1 ) i_tab.push(header);
+				if(compteur_fin_export == 1 ) {
+					i_tab.push(header);
+				}
+
 				var districtId;
-				for (var i = 0; i < districts.length; i++) {
+				for (let i = 0; i < districts.length; i++) {
 					districtId = districts[i];
-					var row = [];
+					let row = [];
 
 					//Add metadata
 					row.push(countryCode);
@@ -1210,7 +1206,7 @@ report.controller("ReportController",
 					row.push(d2Data.value(rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME", pe, districtId, null, null));
 
 					//Iterate over indicators
-					for (var j = 0; j < indicatorIds.length; j++) {
+					for (let j = 0; j < indicatorIds.length; j++) {
 						row.push(d2Data.value(indicatorIds[j], pe, districtId, null, null));
 					}
 
@@ -1370,20 +1366,20 @@ report.controller("ReportController",
 			self.rimImport = function(overwrite) {
 				console.log("Importing RIM indicators");
 
-				var stock = self.rim.stock;
-				var outreach = self.rim.outreach;
-				var aefi = self.rim.aefi;
+				let stock = self.rim.stock;
+				let outreach = self.rim.outreach;
+				let aefi = self.rim.aefi;
 
-				var indicator, indicators = [], skipped = [];
-				for (var i = 0; i < self.rim.indicatorTemplate.length; i++) {
+				let indicator, indicators = [], skipped = [];
+				for (let i = 0; i < self.rim.indicatorTemplate.length; i++) {
 					indicator = self.rim.indicatorTemplate[i];
 
 					var match = false;
-					for (var j = 0; j < self.rim.vaccineCodes.length && !match; j++) {
-						vacc = self.rim.vaccineCodes[j];
+					for (let j = 0; j < self.rim.vaccineCodes.length && !match; j++) {
+						let vacc = self.rim.vaccineCodes[j];
 
 						var stockCode = false;
-						for (var k = 0; k < vacc.codeStock.length && !stockCode; k++) {
+						for (let k = 0; k < vacc.codeStock.length && !stockCode; k++) {
 							if (indicator.code.startsWith(vacc.codeStock[k])) stockCode = true;
 						}
 
@@ -1398,8 +1394,7 @@ report.controller("ReportController",
 						}
 						else if (indicator.code.startsWith(vacc.codeVacc)) {
 							match = true;
-							if (vacc.selected &&
-						!(indicator.code.endsWith("Avail") || indicator.code.endsWith("Used"))) {
+							if (vacc.selected && !(indicator.code.endsWith("Avail") || indicator.code.endsWith("Used"))) {
 								if (outreach && (indicator.code.endsWith("_Static") || indicator.code.endsWith("_Out"))) {
 									indicators.push(indicator);
 								}
@@ -1438,7 +1433,7 @@ report.controller("ReportController",
 				}];
 
 				//Add indicator type and user group to each indicator
-				for (var i = 0; i < indicators.length; i++) {
+				for (let i = 0; i < indicators.length; i++) {
 					indicators[i].indicatorType = {
 						"id": self.rim.indicatorType.id
 					};
@@ -1454,7 +1449,7 @@ report.controller("ReportController",
 				}
 
 				//Make metadata object
-				var metaData = {
+				let metaData = {
 					"userGroups": [self.rim.userGroup],
 					"indicatorGroups": [self.rim.indicatorGroup],
 					"indicators": indicators
@@ -1469,11 +1464,9 @@ report.controller("ReportController",
 				if (self.rim.overwrite) strategy = "CREATE_AND_UPDATE";
 				var ugid = self.rim.userGroup.id;
 				d2Meta.postMetadata(metaData, strategy).then(function(data){
-					d2Map.rimImported(ugid, self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level,
-						self.rim.countryCode);
+					d2Map.rimImported(ugid, self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level, self.rim.countryCode);
 
-					var result = "Import done. Imported " + data.data.stats.created + ", updated " +
-				data.data.stats.updated + ", ignored " + data.data.stats.ignored + " [RIM] indicators.";
+					var result = "Import done. Imported " + data.data.stats.created + ", updated " + data.data.stats.updated + ", ignored " + data.data.stats.ignored + " [RIM] indicators.";
 					alert(result);
 
 					//Temporary sharing workaround
@@ -1506,7 +1499,7 @@ report.controller("ReportController",
 					"type": "userGroup",
 					"sharing": shareObject
 				});
-				for (var i = 0; i < indicators.length; i++) {
+				for (let i = 0; i < indicators.length; i++) {
 					self.shareQueue.push({
 						"id": indicators[i].id,
 						"type": "indicator",
@@ -1531,9 +1524,9 @@ report.controller("ReportController",
 
 			/** COMMON **/
 			function monthsInYear(year) {
-				var periods = [];
-				var months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-				for (var i = 0; i < months.length; i++) {
+				let periods = [];
+				let months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+				for (let i = 0; i < months.length; i++) {
 					periods.push(year + months[i]);
 				}
 				return periods;
@@ -1541,7 +1534,7 @@ report.controller("ReportController",
 
 
 			function timeSeries() {
-				var series = [];
+				let series = [];
 				series.push({
 					"base": true,
 					"year": self.selectedPeriod.id,
@@ -1550,10 +1543,10 @@ report.controller("ReportController",
 
 				if (self.selectedMonitoringReport.id === "allVac") return series;
 
-				var currentYear = parseInt(self.selectedPeriod.id);
-				for (var i = 0; i < self.selectedReferencePeriods; i++) {
+				let currentYear = parseInt(self.selectedPeriod.id);
+				for (let i = 0; i < self.selectedReferencePeriods; i++) {
 					currentYear = currentYear - 1;
-					var periods = monthsInYear(currentYear);
+					let periods = monthsInYear(currentYear);
 					series.push({
 						"base": false,
 						"year": currentYear,
@@ -1566,7 +1559,7 @@ report.controller("ReportController",
 
 
 			function annualized(id) {
-				for (var i = 0; i < self.current.annualizedDenominators.length; i++) {
+				for (let i = 0; i < self.current.annualizedDenominators.length; i++) {
 					if (self.current.annualizedDenominators[i].id === id) return true;
 				}
 				return false;
@@ -1605,18 +1598,18 @@ report.controller("ReportController",
 				//Header
 				var headers = table[0];
 				string = "";
-				for (var i = 0; i < headers.length; i++) {
+				for (let i = 0; i < headers.length; i++) {
 					string += checkExportValue(headers[i]);
 					if (i+1 < headers.length) string += s;
 					else string += "\n";
 				}
 				csvContent += string;
 
-				for (var i = 1; i < table.length; i++) {
+				for (let i = 1; i < table.length; i++) {
 					string = "";
-					var row = table[i];
-					for (var j = 0; j < row.length; j++) {
-						var value = row[j];
+					let row = table[i];
+					for (let j = 0; j < row.length; j++) {
+						let value = row[j];
 						if (isNumeric(value)) {
 							value = fixDecimalsForExport(value);
 						}
@@ -1627,7 +1620,7 @@ report.controller("ReportController",
 					csvContent += string;
 				}
 
-				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+				let blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
 				FileSaver.saveAs(blob, fileName + ".csv");
 			}
 
@@ -1678,7 +1671,7 @@ report.controller("ReportController",
 				self.selectedPeriod = self.periods[0];
 
 
-				self.months = [ {"displayName": i18next.t('January'), "id": "01"}, {"displayName": i18next.t('February'), "id": "02"}, {"displayName": i18next.t('March'), "id": "03"}, {"displayName": i18next.t('April'), "id": "04"}, {"displayName": i18next.t('May'), "id": "05"}, {"displayName": i18next.t('June'), "id": "06"}, {"displayName": i18next.t('July'), "id": "07"}, {"displayName": i18next.t('August'), "id": "08"}, {"displayName": i18next.t('September'), "id": "09"}, {"displayName": i18next.t('October'), "id": "10"}, {"displayName": i18next.t('November'), "id": "11"}, {"displayName": i18next.t('December'), "id": "12"} ];
+				self.months = [ {"displayName": i18next.t("January"), "id": "01"}, {"displayName": i18next.t("February"), "id": "02"}, {"displayName": i18next.t("March"), "id": "03"}, {"displayName": i18next.t("April"), "id": "04"}, {"displayName": i18next.t("May"), "id": "05"}, {"displayName": i18next.t("June"), "id": "06"}, {"displayName": i18next.t("July"), "id": "07"}, {"displayName": i18next.t("August"), "id": "08"}, {"displayName": i18next.t("September"), "id": "09"}, {"displayName": i18next.t("October"), "id": "10"}, {"displayName": i18next.t("November"), "id": "11"}, {"displayName": i18next.t("December"), "id": "12"} ];
 				self.selectedMonth = null;
 
 
@@ -1696,15 +1689,15 @@ report.controller("ReportController",
 				//Report type
 				self.reportTypes = [
 					{
-						"displayName": i18next.t('Vaccines - doses and coverage'),
+						"displayName": i18next.t("Vaccines - doses and coverage"),
 						"id": "vac"
 					},
 					{
-						"displayName": i18next.t('Performance - coverage vs dropout rate'),
+						"displayName": i18next.t("Performance - coverage vs dropout rate"),
 						"id": "perf"
 					},
 					{
-						"displayName": i18next.t('Monitoring chart'),
+						"displayName": i18next.t("Monitoring chart"),
 						"id": "mon"
 					}
 				];
@@ -1714,11 +1707,11 @@ report.controller("ReportController",
 				//Report subtype
 				self.vaccineReportTypes = [
 					{
-						"displayName": i18next.t('Multiple vaccines for one orgunit'),
+						"displayName": i18next.t("Multiple vaccines for one orgunit"),
 						"id": "allVac"
 					},
 					{
-						"displayName": i18next.t('One vaccine for multiple orgunits'),
+						"displayName": i18next.t("One vaccine for multiple orgunits"),
 						"id": "oneVac"
 					}
 				];
@@ -1727,11 +1720,11 @@ report.controller("ReportController",
 				//Report subtype
 				self.monitoringReportTypes = [
 					{
-						"displayName": i18next.t('Multiple vaccines for one year'),
+						"displayName": i18next.t("Multiple vaccines for one year"),
 						"id": "allVac"
 					},
 					{
-						"displayName": i18next.t('One vaccine for multiple years'),
+						"displayName": i18next.t("One vaccine for multiple years"),
 						"id": "oneVac"
 					}
 				];
@@ -1747,7 +1740,7 @@ report.controller("ReportController",
 					if (self.rimAccess) {
 						self.reportTypes.push(
 							{
-								"displayName": i18next.t('RIM Export'),
+								"displayName": i18next.t("RIM Export"),
 								"id": "rim"
 							}
 						);

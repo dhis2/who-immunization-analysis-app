@@ -26,7 +26,7 @@
 		<d2-select
 				options="rCtrl.vaccines"
 				ng-model="rCtrl.selectedVaccines"
-				placeholder="Select vaccines..."
+				placeholder="{{ 'Select vaccines...' | i18next }}" 
 				on-select="rCtrl.monitoringTargetOptions(); rCtrl.selectedTarget = undefined;"
 				multiple="(rCtrl.selectedReport.id === 'vac' && rCtrl.selectedVaccineReport.id === 'allVac') ||
 				(rCtrl.selectedReport.id === 'mon' && rCtrl.selectedMonitoringReport.id === 'allVac')">
@@ -530,10 +530,15 @@
 
 	<!--MONITORING-->
 	<div ng-if="rCtrl.current.type === 'mon'" class="reportContent">
-	<div style="height: 600px;">
-		<canvas id="monitoringChart" style="margin-bottom: 20px"></canvas>
+
+		<div style="margin: 40px 0;">
+			<monitoring-chart monitoring-chart-data="rCtrl.monitoringChartData"></monitoring-chart>
+		</div>
+
+		<div style="height: 600px;">
+			<canvas id="monitoringChart" style="margin-bottom: 20px"></canvas>
+		</div>
 	</div>
-</div>
 
 
 	<!-- RIM -->

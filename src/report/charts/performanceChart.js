@@ -1,6 +1,9 @@
 /**
  * Performance chart directive to be used in the report. It renders a scatter chart for coverage vs dropout rate.
  */
+import Chart from "chart.js";
+import i18next from "i18next";
+
 angular.module("report").directive("performanceChart", function () {
 
 	let chart = null;
@@ -206,7 +209,7 @@ angular.module("report").directive("performanceChart", function () {
 			"performanceChartData": "="
 		},
 		template: "<div style='position: relative;'><canvas height='100' id='performanceChart_chartjs'></canvas></div>",
-		link: function (scope, element, attrs) {
+		link: function (scope) {
 			scope.$watch("performanceChartData", function (newValue, oldValue) {
 				console.log("performanceChartData changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {
