@@ -36,18 +36,19 @@ angular.module("report").directive("monitoringChart", function () {
 			if ( extendedObject.isTargetSeries ) {
 				extendedObject.borderDash = [5, 5];
 				extendedObject.radius = 0;
-				extendedObject.color = "#FFA500";
+				extendedObject.borderColor = "#FFA500";
+				extendedObject.backgroundColor = "#FFA500";
 				extendedObject.lineWidth = 4;
 				extendedObject.marker = {
 					enabled: false
-				}
+				};
 			}
 
 			return extendedObject;
 		});
 
 		var chartJsConfig = {
-			type: "LineWithLine",
+			type: "LineWithLine",	//see src/libs/chartjsLineWithLine extension
 			title: {
 				display: false,
 				text: data.title,
