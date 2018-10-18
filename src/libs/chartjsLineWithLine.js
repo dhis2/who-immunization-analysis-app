@@ -7,11 +7,11 @@ Chart.controllers.LineWithLine = Chart.controllers.line.extend({
 		Chart.controllers.line.prototype.draw.call(this, ease);
 
 		if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
-			let activePoint = this.chart.tooltip._active[0];
-			let ctx = this.chart.ctx;
-			let x = activePoint.tooltipPosition().x;
-			let topY = this.chart.scales["y-axis-0"].top;
-			let bottomY = this.chart.scales["y-axis-0"].bottom;
+			var activePoint = this.chart.tooltip._active[0];
+			var ctx = this.chart.ctx;
+			var x = activePoint.tooltipPosition().x;
+			var topY = this.chart.scales["y-axis-0"].top;
+			var bottomY = this.chart.scales["y-axis-0"].bottom;
 
 
 			//draw line

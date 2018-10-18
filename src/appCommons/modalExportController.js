@@ -40,14 +40,12 @@ angular.module("appCommons").controller("ModalExportController",
 			function makeExportFile() {
 				var string, csvContent = "";
 				var s = self.options.separator;
-				var IDs = self.options.includeIDs;
-				var fileName = self.options.fileName;
 				var headers = self.fileContent.headers;
 				var rows = self.fileContent.rows;
 
 				//Header
 				string = "";
-				for (let i = 0; i < headers.length; i++) {
+				for (var i = 0; i < headers.length; i++) {
 					string += checkExportValue(headers[i]);
 					if (i+1 < headers.length) {
 						string += s;
@@ -57,11 +55,11 @@ angular.module("appCommons").controller("ModalExportController",
 					}
 				}
 				csvContent += string;
-				for (let i = 0; i < rows.length; i++) {
+				for (var i = 0; i < rows.length; i++) {
 					string = "";
-					let row = rows[i];
-					for (let j = 0; j < row.length; j++) {
-						let value = row[j];
+					var row = rows[i];
+					for (var j = 0; j < row.length; j++) {
+						var value = row[j];
 						if (isNumeric(value)) {
 							value = fixDecimalsForExport(value);
 						}
@@ -76,7 +74,7 @@ angular.module("appCommons").controller("ModalExportController",
 					csvContent += string;
 				}
 
-				let blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
 				//saveAs
 				FileSaver.saveAs(blob, self.options.fileName + ".csv");
 			}
@@ -100,12 +98,9 @@ angular.module("appCommons").controller("ModalExportController",
 			}
 
 
-			function checkExportValue(value, separator) {
+			function checkExportValue(value) {
 				var innerValue =	value === null ? "" : value.toString();
 				var result = innerValue.replace(/"/g, "\"\"");
-				if (result.search(/("|separator|\n)/g) >= 0) {
-					result = "\"" + result + "\"";
-				}
 				return result;
 			}
 

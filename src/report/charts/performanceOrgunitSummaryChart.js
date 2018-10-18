@@ -4,7 +4,7 @@
 import Chart from "chart.js";
 import i18next from "i18next";
 
-angular.module("report").directive("performanceChartTimeSummary", function () {
+angular.module("report").directive("performanceOrgunitSummary", function () {
 
 	var chart = null;
 
@@ -20,7 +20,7 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 				responsive: true,
 				title: {
 					display: true,
-					text: i18next.t("Summary by month"),
+					text: chartData.title,
 					fontSize: 18,
 					fontColor: "#000000",
 					fontStyle: "normal",
@@ -90,12 +90,12 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 				}
 			},
 			data: {
-				labels: chartData.months,
+				labels: chartData.categories,
 				datasets: chartData.series.reverse()
 			}
 		};
 
-		var ctx = document.getElementById("performanceChartTimeSummaryData_chartjs").getContext("2d");
+		var ctx = document.getElementById("performanceOrgunitSummaryChartData_chartjs").getContext("2d");
 		chart = new Chart(ctx, chartJsConfig);
 	}
 
@@ -104,7 +104,7 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 		scope: {
 			"data": "="
 		},
-		template: "<div style='position: relative;'><canvas height='100' id='performanceChartTimeSummaryData_chartjs'></canvas></div>",
+		template: "<div style='position: relative;'><canvas height='100' id='performanceOrgunitSummaryChartData_chartjs'></canvas></div>",
 		link: function (scope) {
 			scope.$watch("data", function (newValue, oldValue) {
 				console.log("data changed: " + newValue + " | " + oldValue);

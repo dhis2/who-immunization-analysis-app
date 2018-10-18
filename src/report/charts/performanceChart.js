@@ -6,7 +6,7 @@ import i18next from "i18next";
 
 angular.module("report").directive("performanceChart", function () {
 
-	let chart = null;
+	var chart = null;
 
 	function createChart(data) {
 
@@ -87,8 +87,8 @@ angular.module("report").directive("performanceChart", function () {
 						label: function(tooltipItem, data) {
 							var point = data.datasets[0]["data"][tooltipItem["index"]];
 							return [
-								i18next.t('Coverage') + ": " + point.x + "%", 
-								i18next.t('Dropout rate') + ": " + point.y + "%"
+								i18next.t("Coverage") + ": " + point.x + "%", 
+								i18next.t("Dropout rate") + ": " + point.y + "%"
 							];
 						}
 					},
@@ -198,7 +198,7 @@ angular.module("report").directive("performanceChart", function () {
 			}
 		};
 		//var labels = data.datapoints.map(function(item) { return item.name; });
-		let ctx = document.getElementById("performanceChart_chartjs").getContext("2d");
+		var ctx = document.getElementById("performanceChart_chartjs").getContext("2d");
 		chart = new Chart(ctx, chartJsConfig);
 	}
 
@@ -206,12 +206,12 @@ angular.module("report").directive("performanceChart", function () {
 	return {
 		restrict: "E",
 		scope: {
-			"performanceChartData": "="
+			"data": "="
 		},
 		template: "<div style='position: relative;'><canvas height='100' id='performanceChart_chartjs'></canvas></div>",
 		link: function (scope) {
-			scope.$watch("performanceChartData", function (newValue, oldValue) {
-				console.log("performanceChartData changed: " + newValue + " | " + oldValue);
+			scope.$watch("data", function (newValue, oldValue) {
+				console.log("data changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {
 					chart.destroy();
 				}

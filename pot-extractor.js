@@ -19,9 +19,9 @@ const save = (target) => {
   };
 };
 
-let translations = {};
+var translations = {};
 const addKeysFromFileContent = (fileContent, functionRegex) => {
-  let matches;
+  var matches;
   while (( matches = functionRegex.exec(fileContent))) {
     if (matches[1]) {
       translations[matches[1]] = '';
@@ -30,7 +30,7 @@ const addKeysFromFileContent = (fileContent, functionRegex) => {
 };
 
 recursive('src', function (err, files) {
-  for (let file of files) {
+  for (var file of files) {
     const fileExtension = getFileExtension(file);
     if (fileExtension === 'html') {
       addKeysFromFileContent(readFileSync(file, 'utf-8'), HTML_FUNCTION_REGEX);

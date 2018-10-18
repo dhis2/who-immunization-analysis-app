@@ -417,14 +417,16 @@
 	<div ng-if="rCtrl.current.type === 'perf'"  class="reportContent">
 
 	<div style="margin: 40px 0;">
-		<performance-chart performance-chart-data="rCtrl.performanceChartData"></performance-chart>
+		<performance-chart data="rCtrl.performanceChartData"></performance-chart>
 	</div>
 
 	<div style="margin: 40px 0;">
-		<performance-chart-time-summary performance-chart-time-summary-data="rCtrl.performanceChartTimeSummaryData"></performance-chart-time-summary>
+		<performance-chart-time-summary data="rCtrl.performanceChartTimeSummaryData"></performance-chart-time-summary>
 	</div>
 
-	<div id="performanceChartDataSummary" ng-if="(rCtrl.current.orgunits.level.level - rCtrl.current.orgunits.boundary.level) >= 2" style="height: 400px; margin-bottom: 20px; margin-top: 20px"></div>
+	<div style="margin: 40px 0;" ng-if="(rCtrl.current.orgunits.level.level - rCtrl.current.orgunits.boundary.level) >= 2">
+		<performance-orgunit-summary data="rCtrl.performanceOrgunitSummaryChartData"></monitoring-chart>
+	</div>
 
 	<table id="perfromanceDataTable"
 		   class="table table-bordered dataTable no-footer table-condensed"
@@ -532,12 +534,9 @@
 	<div ng-if="rCtrl.current.type === 'mon'" class="reportContent">
 
 		<div style="margin: 40px 0;">
-			<monitoring-chart monitoring-chart-data="rCtrl.monitoringChartData"></monitoring-chart>
+			<monitoring-chart data="rCtrl.monitoringChartData"></monitoring-chart>
 		</div>
 
-		<div style="height: 600px;">
-			<canvas id="monitoringChart" style="margin-bottom: 20px"></canvas>
-		</div>
 	</div>
 
 

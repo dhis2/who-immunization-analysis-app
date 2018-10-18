@@ -14,8 +14,6 @@ import "angular-ui-bootstrap";
 import "angular-smart-table";
 import "ui-select";
 
-import "highcharts";
-
 import "file-saver";
 import "blob";
 
@@ -44,6 +42,7 @@ import "./appCore/d2.js";
 import "./report/report.js";
 import "./report/charts/monitoringChart.js";
 import "./report/charts/performanceChart.js";
+import "./report/charts/performanceOrgunitSummaryChart.js";
 import "./report/charts/performanceChartTimeSummary.js";
 
 //CSS
@@ -54,14 +53,13 @@ var app = angular.module("epiApp",
 	["smart-table", "ngAnimate", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.select", "angularBootstrapNavTree", "d2",
 		"report", "appService", "appCommons", "jm.i18next"]);
 
-var $q;
 /**Bootstrap*/
 angular.element(document).ready( 
 	function() {
 
 		var initInjector = angular.injector(["ng"]);
 		var $http = initInjector.get("$http");
-		$q = initInjector.get("$q");
+		window.$q = initInjector.get("$q");
 
 		$http.get("manifest.webapp").then(
 			function(response) {
@@ -69,15 +67,11 @@ angular.element(document).ready(
 				window.dhis2.settings = window.dhis2.settings || {};
 				
 				//Not production => rely on webpack-dev-server proxy
-				const baseUrl = process.env.NODE_ENV === "production" ?
-					response.data.activities.dhis.href : "";
+				const baseUrl = process.env.NODE_ENV === "production" ? response.data.activities.dhis.href : "";
 				app.constant("BASE_URL", baseUrl);
 				app.constant("API_VERSION", "27");
 
 				angular.bootstrap(document, ["epiApp"]);
-
-
-
 			}
 		);
 		

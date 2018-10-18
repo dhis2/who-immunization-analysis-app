@@ -133,10 +133,10 @@ report.controller("ReportController",
 				var cumulative = self.current.cumulative;
 
 				var orgunit, indicator, values, row;
-				for (let i = 0; i < orgunits.length; i++) {
+				for (var i = 0; i < orgunits.length; i++) {
 					orgunit = orgunits[i];
 
-					for (let j = 0; j < indicators.length; j++) {
+					for (var j = 0; j < indicators.length; j++) {
 						indicator = indicators[j];
 						values = vaccineReportValue(indicator, periods, orgunit);
 
@@ -158,7 +158,7 @@ report.controller("ReportController",
 							row.parents = parentNames.join(" - ");
 						}
 
-						for (let k = 0; k < periods.length; k++) {
+						for (var k = 0; k < periods.length; k++) {
 							row[periods[k]] = values[k];
 						}
 
@@ -195,7 +195,7 @@ report.controller("ReportController",
 
 
 				var dataColumns = [];
-				for (let i = 0; i < periods.length; i++) {
+				for (var i = 0; i < periods.length; i++) {
 					dataColumns.push({
 						id: periods[i], title: d2Data.name(periods[i]).split(" ")[0]
 					});
@@ -290,11 +290,11 @@ report.controller("ReportController",
 
 
 				var headerRow = [];
-				for (let i = 0; i < self.current.headerColumns.length; i++) {
+				for (var i = 0; i < self.current.headerColumns.length; i++) {
 					headerRow.push(self.current.headerColumns[i].title);
 				}
 				headerRow.push(i18next.t("Data"));
-				for (let i = 0; i < self.current.dataColumns.length; i++) {
+				for (var i = 0; i < self.current.dataColumns.length; i++) {
 					headerRow.push(self.current.dataColumns[i].title);
 					periods.push(self.current.dataColumns[i].id);
 				}
@@ -302,9 +302,9 @@ report.controller("ReportController",
 
 				var dataFields = [{"id": "vaccineAll", "name": i18next.t("all ages")}, {"id": "vaccineTarget", "name": i18next.t("target age")},
 					{"id": "coverage", "name": i18next.t("coverage")}];
-				for (let i = 0; i < self.current.dataTable.length; i++) {
+				for (var i = 0; i < self.current.dataTable.length; i++) {
 
-					for (let j = 0; j < dataFields.length; j++) {
+					for (var j = 0; j < dataFields.length; j++) {
 						var dataField = dataFields[j];
 						var row = [];
 
@@ -619,7 +619,7 @@ report.controller("ReportController",
 				var seriesA = [], seriesB = [],
 					seriesC = [], seriesD = [];
 
-				let j = 0;
+				var j = 0;
 				for (j = 0; j < self.current.periods.length; j++) {
 					for (var i = 0; i < self.current.data.length; i++) {
 						var value = self.current.data[i][self.current.periods[j]];
@@ -640,7 +640,7 @@ report.controller("ReportController",
 					if (self.current.periods[j] === performanceChartPeriod()) break;
 				}
 
-				let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].slice(0, ++j);
+				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].slice(0, ++j);
 
 				//debugger;
 				console.log(seriesA);
@@ -687,9 +687,9 @@ report.controller("ReportController",
 
 				var hierarhcySummary = {};
 				var period = performanceChartPeriod();
-				for (let i = 0; i < self.current.data.length; i++) {
-					let value = self.current.data[i][period];
-					let topParent = self.current.data[i]["parentIds"].split("/")[parentIdIndex];
+				for (var i = 0; i < self.current.data.length; i++) {
+					var value = self.current.data[i][period];
+					var topParent = self.current.data[i]["parentIds"].split("/")[parentIdIndex];
 					if (!hierarhcySummary.hasOwnProperty(topParent)) {
 						hierarhcySummary[topParent] = {
 							"A": 0,
@@ -706,12 +706,12 @@ report.controller("ReportController",
 				}
 
 
-				let seriesA = [];
-				let seriesB = [];
-				let seriesC = [];
-				let seriesD = [];
-				let parents = [];
-				for (let ouId in hierarhcySummary) {
+				var seriesA = [];
+				var seriesB = [];
+				var seriesC = [];
+				var seriesD = [];
+				var parents = [];
+				for (var ouId in hierarhcySummary) {
 					parents.push(d2Data.name(ouId));
 					seriesA.push(hierarhcySummary[ouId]["A"]);
 					seriesB.push(hierarhcySummary[ouId]["B"]);
@@ -721,6 +721,7 @@ report.controller("ReportController",
 
 				self.performanceOrgunitSummaryChartData = {
 					title: i18next.t("Summary by orgunit") + " - " + d2Data.name(period),
+					categories: parents,
 					series: [{
 						label: i18next.t("Category A"),
 						data: seriesA,
@@ -739,56 +740,6 @@ report.controller("ReportController",
 						backgroundColor: "#f2dede"
 					}]
 				};
-
-				Highcharts.chart("performanceChartDataSummary", {
-					chart: {
-						type: "column"
-					},
-					title: {
-						text: i18next.t("Summary by orgunit") + " - " + d2Data.name(period)
-					},
-					xAxis: {
-						categories: parents
-					},
-					yAxis: {
-						min: 0,
-						title: {
-							text: "Orgunits (%)"
-						}
-					},
-					tooltip: {
-						pointFormat: "<span>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>",
-						shared: true
-					},
-					plotOptions: {
-						column: {
-							stacking: "percent"
-						}
-					},
-					series: [{
-						name: i18next.t("Category A"),
-						data: seriesA,
-						color: "#dff0d8"
-					}, {
-						name: i18next.t("Category B"),
-						data: seriesB,
-						color: "#d9edf7"
-					}, {
-						name: i18next.t("Category C"),
-						data: seriesC,
-						color: "#fcf8e3"
-					}, {
-						name: i18next.t("Category D"),
-						data: seriesD,
-						color: "#f2dede"
-					}]
-				});
-
-				/*setTimeout(function () {
-			chart = $('#performanceChartDataSummary[data-highcharts-chart]');
-			chart.highcharts().reflow();
-		}, 1000);*/
-
 			}
 
 
@@ -863,7 +814,7 @@ report.controller("ReportController",
 				promises.push();
 
 				//fetch data - one year at the time
-				for (let i = 0; i < self.current.timeSeries.length; i++) {
+				for (var i = 0; i < self.current.timeSeries.length; i++) {
 					console.log("adding request to promise: " + self.current.timeSeries[i].periods);
 					d2Data.addRequest(dx, self.current.timeSeries[i].periods, self.selectedOrgunit.boundary.id, null, null);
 				}
@@ -887,13 +838,13 @@ report.controller("ReportController",
 				//Iterate over periods / orgunits / data
 				self.current.data = [];
 
-				let ou = self.current.orgunits.boundary.id;
+				var ou = self.current.orgunits.boundary.id;
 
-				let chartSeries = [];
+				var chartSeries = [];
 
 				//multiple vaccines for one year
 				if (self.current.dataType === "allVac") {
-					let periods = self.current.timeSeries[0].periods;
+					var periods = self.current.timeSeries[0].periods;
 
 					chartSeries.push({
 						"name": "Target",
@@ -907,8 +858,8 @@ report.controller("ReportController",
 						"data": monitoringReportValue(periods, ou, self.current.target, true)
 					});
 
-					let indicators = d2Utils.toArray(self.current.indicators);
-					for (let i = 0; i < indicators.length; i++) {
+					var indicators = d2Utils.toArray(self.current.indicators);
+					for (var i = 0; i < indicators.length; i++) {
 						chartSeries.push({
 							"name": indicators[i].displayName,
 							"data": monitoringReportValue(periods, ou, indicators[i].vaccineTarget, false)
@@ -920,7 +871,7 @@ report.controller("ReportController",
 				}
 				//one vaccine for multiple years
 				else {
-					let dataId = self.current.indicators.vaccineTarget;
+					var dataId = self.current.indicators.vaccineTarget;
 
 					chartSeries.push({
 						"name": "Target (" + self.current.timeSeries[0].year + ")",
@@ -935,8 +886,8 @@ report.controller("ReportController",
 					});
 					
 
-					for (let i = 0; i < self.current.timeSeries.length; i++) {
-						let timeSeries = self.current.timeSeries[i];
+					for (var i = 0; i < self.current.timeSeries.length; i++) {
+						var timeSeries = self.current.timeSeries[i];
 						chartSeries.push({
 							"name": timeSeries.year,
 							"data": monitoringReportValue(timeSeries.periods, ou, dataId, false)
@@ -955,9 +906,9 @@ report.controller("ReportController",
 
 			function monitoringReportValue(periods, orgunit, dataId, annualize) {
 
-				let value, cumulatedValue = 0;
-				let dataSeries = [];
-				for (let i = 0; i < periods.length; i++) {
+				var value, cumulatedValue = 0;
+				var dataSeries = [];
+				for (var i = 0; i < periods.length; i++) {
 
 					//Get data for current month
 					value = d2Data.value(dataId, periods[i], orgunit, null, null);
@@ -973,10 +924,10 @@ report.controller("ReportController",
 
 
 			function monitoringReportDataIds() {
-				let dataIds = [];
+				var dataIds = [];
 
-				let indicators = d2Utils.toArray(self.current.indicators);
-				for (let i = 0; i < indicators.length; i++) {
+				var indicators = d2Utils.toArray(self.current.indicators);
+				for (var i = 0; i < indicators.length; i++) {
 					dataIds.push(indicators[i].vaccineTarget);
 				}
 
@@ -997,37 +948,6 @@ report.controller("ReportController",
 					series: series
 				};
 
-				//self.monitorChart = new Chart(ctx, config);
-				let monitoringChart = Highcharts.chart("monitoringChart", {
-					title: {
-						text: ""
-					},
-					xAxis: { 
-						title: {
-							text: "Month"
-						},
-						categories:  ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-					},
-					yAxis: {
-						title: {
-							text: "Doses administered"
-						},
-						plotLines: [{
-							value: 0,
-							width: 1,
-							color: "#808080"
-						}]
-					},
-					legend: {
-						layout: "vertical",
-						align: "right",
-						verticalAlign: "middle",
-						borderWidth: 0
-					},
-					series: series
-				});
-
-				setTimeout(function(){ monitoringChart.reflow(); }, 1000);
 			}
 
 
@@ -1039,7 +959,7 @@ report.controller("ReportController",
 				//Get possible targets (denominators) from the selected vaccines
 				self.targets = [];
 				var selected = d2Utils.toArray(angular.copy(self.selectedVaccines));
-				for (let i = 0; i < selected.length; i++) {
+				for (var i = 0; i < selected.length; i++) {
 					self.targets.push({
 						"id": selected[i].denominator,
 						"displayName": d2Map.d2NameFromID(selected[i].denominator)
@@ -1094,11 +1014,11 @@ report.controller("ReportController",
 						var zperiode = "";
 						var si_dernier = false;
 						
-						for (let compte2 = compt; compte2 >= 1; compte2--){
+						for (var compte2 = compt; compte2 >= 1; compte2--){
 							str2 =pad+compte2;
 							str2 = str2.substring(str2.length-2,str2.length);
 							zperiode+=";"+self.selectedPeriod.id+str2;
-							let periode = zperiode.substring(1,zperiode.length);
+							var periode = zperiode.substring(1,zperiode.length);
 								
 
 							var rimMeta = d2Map.rimMeta();
@@ -1127,7 +1047,7 @@ report.controller("ReportController",
 							});
 						
 						}  
-						let monhorloge = setInterval(function(){
+						var monhorloge = setInterval(function(){
 							
 							if(compteur_fin_export == self.selectedMonth.id*1){
 								makeExportFile(i_tab, i18next.t("RIM_export"));
@@ -1179,7 +1099,7 @@ report.controller("ReportController",
 				var districts = metaData.ou;
 
 				var header = ["Country_Code", "Province_Name", "District", "Year", "Month", "TotalNumHF", "NumHFReportsIncluded", "NumHFReportsTimely"];
-				for (let i = 0; i < indicatorIds.length; i++) {
+				for (var i = 0; i < indicatorIds.length; i++) {
 					header.push(rimCodeFromId(indicatorIds[i]));
 				}
 				
@@ -1188,9 +1108,9 @@ report.controller("ReportController",
 				}
 
 				var districtId;
-				for (let i = 0; i < districts.length; i++) {
+				for (var i = 0; i < districts.length; i++) {
 					districtId = districts[i];
-					let row = [];
+					var row = [];
 
 					//Add metadata
 					row.push(countryCode);
@@ -1206,7 +1126,7 @@ report.controller("ReportController",
 					row.push(d2Data.value(rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME", pe, districtId, null, null));
 
 					//Iterate over indicators
-					for (let j = 0; j < indicatorIds.length; j++) {
+					for (var j = 0; j < indicatorIds.length; j++) {
 						row.push(d2Data.value(indicatorIds[j], pe, districtId, null, null));
 					}
 
@@ -1366,20 +1286,20 @@ report.controller("ReportController",
 			self.rimImport = function(overwrite) {
 				console.log("Importing RIM indicators");
 
-				let stock = self.rim.stock;
-				let outreach = self.rim.outreach;
-				let aefi = self.rim.aefi;
+				var stock = self.rim.stock;
+				var outreach = self.rim.outreach;
+				var aefi = self.rim.aefi;
 
-				let indicator, indicators = [], skipped = [];
-				for (let i = 0; i < self.rim.indicatorTemplate.length; i++) {
+				var indicator, indicators = [], skipped = [];
+				for (var i = 0; i < self.rim.indicatorTemplate.length; i++) {
 					indicator = self.rim.indicatorTemplate[i];
 
 					var match = false;
-					for (let j = 0; j < self.rim.vaccineCodes.length && !match; j++) {
-						let vacc = self.rim.vaccineCodes[j];
+					for (var j = 0; j < self.rim.vaccineCodes.length && !match; j++) {
+						var vacc = self.rim.vaccineCodes[j];
 
 						var stockCode = false;
-						for (let k = 0; k < vacc.codeStock.length && !stockCode; k++) {
+						for (var k = 0; k < vacc.codeStock.length && !stockCode; k++) {
 							if (indicator.code.startsWith(vacc.codeStock[k])) stockCode = true;
 						}
 
@@ -1433,7 +1353,7 @@ report.controller("ReportController",
 				}];
 
 				//Add indicator type and user group to each indicator
-				for (let i = 0; i < indicators.length; i++) {
+				for (var i = 0; i < indicators.length; i++) {
 					indicators[i].indicatorType = {
 						"id": self.rim.indicatorType.id
 					};
@@ -1449,7 +1369,7 @@ report.controller("ReportController",
 				}
 
 				//Make metadata object
-				let metaData = {
+				var metaData = {
 					"userGroups": [self.rim.userGroup],
 					"indicatorGroups": [self.rim.indicatorGroup],
 					"indicators": indicators
@@ -1499,7 +1419,7 @@ report.controller("ReportController",
 					"type": "userGroup",
 					"sharing": shareObject
 				});
-				for (let i = 0; i < indicators.length; i++) {
+				for (var i = 0; i < indicators.length; i++) {
 					self.shareQueue.push({
 						"id": indicators[i].id,
 						"type": "indicator",
@@ -1524,9 +1444,9 @@ report.controller("ReportController",
 
 			/** COMMON **/
 			function monthsInYear(year) {
-				let periods = [];
-				let months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-				for (let i = 0; i < months.length; i++) {
+				var periods = [];
+				var months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+				for (var i = 0; i < months.length; i++) {
 					periods.push(year + months[i]);
 				}
 				return periods;
@@ -1534,7 +1454,7 @@ report.controller("ReportController",
 
 
 			function timeSeries() {
-				let series = [];
+				var series = [];
 				series.push({
 					"base": true,
 					"year": self.selectedPeriod.id,
@@ -1543,10 +1463,10 @@ report.controller("ReportController",
 
 				if (self.selectedMonitoringReport.id === "allVac") return series;
 
-				let currentYear = parseInt(self.selectedPeriod.id);
-				for (let i = 0; i < self.selectedReferencePeriods; i++) {
+				var currentYear = parseInt(self.selectedPeriod.id);
+				for (var i = 0; i < self.selectedReferencePeriods; i++) {
 					currentYear = currentYear - 1;
-					let periods = monthsInYear(currentYear);
+					var periods = monthsInYear(currentYear);
 					series.push({
 						"base": false,
 						"year": currentYear,
@@ -1559,7 +1479,7 @@ report.controller("ReportController",
 
 
 			function annualized(id) {
-				for (let i = 0; i < self.current.annualizedDenominators.length; i++) {
+				for (var i = 0; i < self.current.annualizedDenominators.length; i++) {
 					if (self.current.annualizedDenominators[i].id === id) return true;
 				}
 				return false;
@@ -1598,18 +1518,18 @@ report.controller("ReportController",
 				//Header
 				var headers = table[0];
 				string = "";
-				for (let i = 0; i < headers.length; i++) {
+				for (var i = 0; i < headers.length; i++) {
 					string += checkExportValue(headers[i]);
 					if (i+1 < headers.length) string += s;
 					else string += "\n";
 				}
 				csvContent += string;
 
-				for (let i = 1; i < table.length; i++) {
+				for (var i = 1; i < table.length; i++) {
 					string = "";
-					let row = table[i];
-					for (let j = 0; j < row.length; j++) {
-						let value = row[j];
+					var row = table[i];
+					for (var j = 0; j < row.length; j++) {
+						var value = row[j];
 						if (isNumeric(value)) {
 							value = fixDecimalsForExport(value);
 						}
@@ -1620,7 +1540,7 @@ report.controller("ReportController",
 					csvContent += string;
 				}
 
-				let blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
 				FileSaver.saveAs(blob, fileName + ".csv");
 			}
 
@@ -1644,11 +1564,9 @@ report.controller("ReportController",
 			}
 
 
-			function checkExportValue(value, separator) {
+			function checkExportValue(value) {
 				var innerValue = (value == null || value == undefined) ? "" : value.toString();
 				var result = innerValue.replace(/"/g, "\"\"");
-				if (result.search(/("|separator|\n)/g) >= 0)
-					result = "\"" + result + "\"";
 				return result;
 			}
 
