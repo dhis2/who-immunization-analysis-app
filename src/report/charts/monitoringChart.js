@@ -15,24 +15,35 @@ angular.module("report").directive("monitoringChart", function () {
 			chart.destroy();
 		}
 
-		//use the same colors as highchart does.
+		//use the same dataseries colors as highchart does.
 		var colors = ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
 
 		var datasets = data.series.map(function (item) {
 			var color = item.color;
 			if (!color) {
 				var index = data.series.indexOf(item) - 1;
-				color = colors[(index % (colors.length))]; //wrap around the color definitions if more than 10
+				color = colors[(index % (colors.length))]; //wrap around the color definitions if more than available of colors
 				item.color = color;
 			}
 
-			return Object.assign(item, {
-				label: item.name,
+			var extendedObject = Object.assign(item, {
 				fill: false,
 				borderColor: item.color,
 				backgroundColor: item.color,
 				pointHoverRadius: 5
 			});
+
+			if ( extendedObject.isTargetSeries ) {
+				extendedObject.borderDash = [5, 5];
+				extendedObject.radius = 0;
+				extendedObject.color = "#FFA500";
+				extendedObject.lineWidth = 4;
+				extendedObject.marker = {
+					enabled: false
+				}
+			}
+
+			return extendedObject;
 		});
 
 		var chartJsConfig = {
@@ -44,26 +55,26 @@ angular.module("report").directive("monitoringChart", function () {
 				fontColor: "#000000",
 				fontStyle: "normal",
 				fontFamily: "Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif"
-            },
-            scales: {
-                xAxes: [{
-                    id: "x-axis-0",
-                    gridLines: {
-                        display: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Month"
-                    }
-                }],
-                yAxes: [{
-                    id: "y-axis-0",
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Doses administered"
-                    }
-                }]
-            },
+			},
+			scales: {
+				xAxes: [{
+					id: "x-axis-0",
+					gridLines: {
+						display: false
+					},
+					scaleLabel: {
+						display: true,
+						labelString: data.xAxisLabel
+					}
+				}],
+				yAxes: [{
+					id: "y-axis-0",
+					scaleLabel: {
+						display: true,
+						labelString: data.yAxisLabel
+					}
+				}]
+			},
 			options: {
 				responsive: true,
 				legend: {
@@ -77,7 +88,7 @@ angular.module("report").directive("monitoringChart", function () {
 				}
 			},
 			data: {
-				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				labels: data.categories,
 				datasets: datasets
 			}
 		};

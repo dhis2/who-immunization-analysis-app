@@ -847,22 +847,17 @@ report.controller("ReportController",
 					var periods = self.current.timeSeries[0].periods;
 
 					chartSeries.push({
-						"name": "Target",
-						"borderDash": [5, 5],
-						"radius": 0,
-						"color": "#FFA500",
-						"lineWidth": 4,
-						"marker": {
-							"enabled": false
-						},
-						"data": monitoringReportValue(periods, ou, self.current.target, true)
+						isTargetSeries: true,
+						//TODO: translate target?
+						label: "Target",
+						data: monitoringReportValue(periods, ou, self.current.target, true)
 					});
 
 					var indicators = d2Utils.toArray(self.current.indicators);
 					for (var i = 0; i < indicators.length; i++) {
 						chartSeries.push({
-							"name": indicators[i].displayName,
-							"data": monitoringReportValue(periods, ou, indicators[i].vaccineTarget, false)
+							label: indicators[i].displayName,
+							data: monitoringReportValue(periods, ou, indicators[i].vaccineTarget, false)
 						});
 					}
 					self.current.title = self.current.orgunits.boundary.displayName;
@@ -874,23 +869,18 @@ report.controller("ReportController",
 					var dataId = self.current.indicators.vaccineTarget;
 
 					chartSeries.push({
-						"name": "Target (" + self.current.timeSeries[0].year + ")",
-						"borderDash": [5, 5],
-						"radius": 0,
-						"color": "#FFA500",
-						"lineWidth": 4,
-						"marker": {
-							"enabled": false
-						},
-						"data": monitoringReportValue(self.current.timeSeries[0].periods, ou, self.current.target, true)
+						isTargetSeries: true,
+						//TODO: translate target?
+						label: "Target (" + self.current.timeSeries[0].year + ")",
+						data: monitoringReportValue(self.current.timeSeries[0].periods, ou, self.current.target, true)
 					});
 					
 
 					for (var i = 0; i < self.current.timeSeries.length; i++) {
 						var timeSeries = self.current.timeSeries[i];
 						chartSeries.push({
-							"name": timeSeries.year,
-							"data": monitoringReportValue(timeSeries.periods, ou, dataId, false)
+							label: timeSeries.year,
+							data: monitoringReportValue(timeSeries.periods, ou, dataId, false)
 						});
 					}
 
@@ -913,7 +903,9 @@ report.controller("ReportController",
 					//Get data for current month
 					value = d2Data.value(dataId, periods[i], orgunit, null, null);
 
-					if (annualize && !annualized(dataId)) value = Math.round(value/12);
+					if (annualize && !annualized(dataId)) {
+						value = Math.round(value/12);
+					}
 
 					cumulatedValue += !value ? 0 : value;
 					dataSeries.push(cumulatedValue);
@@ -940,14 +932,15 @@ report.controller("ReportController",
 
 
 			function monitoringChart(series) {
-
 				console.log(series);
 
 				self.monitoringChartData = {
+					//todo: translate categories?
 					categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					xAxisLabel: i18next.t("Month"),
+					yAxisLabel: i18next.t("Doses administered"),
 					series: series
 				};
-
 			}
 
 

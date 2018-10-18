@@ -29,6 +29,9 @@ module.exports = {
 	"globals": {
 		"angular": true,
 		"require": true,
-		"d3": true
+		"d3": true,
+		"__dirname": true,
+		"process": true,
+		"module": true
 	}
 };

@@ -188,16 +188,11 @@ angular.module("report").directive("performanceChart", function () {
 						pointBackgroundColor: "#000000",
 						pointBorderWidth: 0,
 						pointRadius: 5,
-						/*pointHoverRadius: 6,
-						pointHoverBorderWidth: 8,
-						pointHoverBorderColor: "rgba(0,0,0,0.2)",
-						pointHitRadius: 4,*/
 						data: data.datapoints
 					}
 				]
 			}
 		};
-		//var labels = data.datapoints.map(function(item) { return item.name; });
 		var ctx = document.getElementById("performanceChart_chartjs").getContext("2d");
 		chart = new Chart(ctx, chartJsConfig);
 	}
