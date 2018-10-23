@@ -1,0 +1,357 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"POT-Creation-Date: 2018-05-08T08:33:28.209Z\n"
+"PO-Revision-Date: 2018-10-23 16:09+0200\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Language: pt\n"
+
+msgid "Select data element"
+msgstr ""
+
+msgid "Loading"
+msgstr ""
+
+msgid "No data elements in"
+msgstr ""
+
+msgid "All data elements"
+msgstr ""
+
+msgid "Indicator group"
+msgstr ""
+
+msgid "Totals"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Select indicator"
+msgstr ""
+
+msgid "No indicators in"
+msgstr ""
+
+msgid "All indicators"
+msgstr ""
+
+msgid "Boundary"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Disaggregation"
+msgstr ""
+
+msgid "Organisation unit level"
+msgstr ""
+
+msgid "Organisation unit group"
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "Select level"
+msgstr ""
+
+msgid "Select group"
+msgstr ""
+
+msgid "Report type"
+msgstr ""
+
+msgid "Data"
+msgstr ""
+
+msgid "Period"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Cumulative"
+msgstr ""
+
+msgid "Monthly"
+msgstr ""
+
+msgid "Previous years for comparison"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Organisation unit"
+msgstr ""
+
+msgid "Make report"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Vaccine (total)"
+msgstr ""
+
+msgid "Data element"
+msgstr ""
+
+msgid "Indicator"
+msgstr ""
+
+msgid "Vaccine (target age)"
+msgstr ""
+
+msgid "Denominator"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Vaccine from"
+msgstr ""
+
+msgid "Vaccine to"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Indicator (coverage)"
+msgstr ""
+
+msgid "Dropout rate"
+msgstr ""
+
+msgid "RIM export configuration"
+msgstr ""
+
+msgid ""
+"Configuration: used for changing general export parameters (existing "
+"parameters will be overwritten)"
+msgstr ""
+
+msgid "Import: used for the initial import of RIM metadata only."
+msgstr ""
+
+msgid "Configuration"
+msgstr ""
+
+msgid "Organisation unit levels"
+msgstr ""
+
+msgid ""
+"RIM export is done by district (admin 2) level, and also includes the "
+"province (admin 1) level and a country code. Please enter country code and "
+"select province, district levels here"
+msgstr ""
+
+msgid "Country code:"
+msgstr ""
+
+msgid "Completeness"
+msgstr ""
+
+msgid ""
+"Select the EPI data set/reporting form to use for reporting on completeness"
+msgstr ""
+
+msgid "Update configuration"
+msgstr ""
+
+msgid "Import settings"
+msgstr ""
+
+msgid ""
+"RIM export relies on configuration of a set of DHIS 2 indicators. This page "
+"is used for selecting the relevant indicators and importing them into the "
+"DHIS 2. Administrators must then configure the indicator formulas to map "
+"each indicator to the appropriate data elements."
+msgstr ""
+
+msgid ""
+"Indicators will be added to an indicator group called RIM Export, and the "
+"indicators will have [RIM] as prefix."
+msgstr ""
+
+msgid ""
+"A new user group will be imported with the current users as member, and the "
+"RIM indicators will be visible only to user in that group. Only users in "
+"this group can thus configure the RIM indicators, and export data in RIM "
+"format. Additional users can be added to this group in the DHIS 2 user "
+"management app."
+msgstr ""
+
+msgid "Stock"
+msgstr ""
+
+msgid "Is information on stock (doses available and doses used) available?"
+msgstr ""
+
+msgid "AEFI"
+msgstr ""
+
+msgid "Is information on AEFIs by vaccine available?"
+msgstr ""
+
+msgid "Vaccine disaggregation"
+msgstr ""
+
+msgid ""
+"Is vaccination data disaggregated by static/outreach, or static/outreach/"
+"mobile?"
+msgstr ""
+
+msgid "Vaccines"
+msgstr ""
+
+msgid "Overwrite previously imported RIM indicators?"
+msgstr ""
+
+msgid "Import RIM metadata and update configuration"
+msgstr ""
+
+msgid "Download CSV"
+msgstr ""
+
+msgid "All ages"
+msgstr ""
+
+msgid "Target age group"
+msgstr ""
+
+msgid "Coverage"
+msgstr ""
+
+msgid "Category A"
+msgstr ""
+
+msgid "Category B"
+msgstr ""
+
+msgid "Category C"
+msgstr ""
+
+msgid "Category D"
+msgstr ""
+
+msgid "Vaccine"
+msgstr ""
+
+msgid "Hierarchy"
+msgstr ""
+
+msgid "all ages"
+msgstr ""
+
+msgid "target age"
+msgstr ""
+
+msgid "coverage"
+msgstr ""
+
+msgid "Performance report has not been configured, contact the administrators."
+msgstr ""
+
+msgid "DPT 1 coverage"
+msgstr ""
+
+msgid "DPT 1 to 3 dropout rate"
+msgstr ""
+
+msgid "Orgunits"
+msgstr ""
+
+msgid "Summary by month"
+msgstr ""
+
+msgid "Summary by orgunit"
+msgstr ""
+
+msgid "Identifying data"
+msgstr ""
+
+msgid "Downloading data"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Vaccines - doses and coverage"
+msgstr ""
+
+msgid "Performance - coverage vs dropout rate"
+msgstr ""
+
+msgid "Monitoring chart"
+msgstr ""
+
+msgid "Multiple vaccines for one orgunit"
+msgstr ""
+
+msgid "One vaccine for multiple orgunits"
+msgstr ""
+
+msgid "Multiple vaccines for one year"
+msgstr ""
+
+msgid "One vaccine for multiple years"
+msgstr ""
+
+msgid "RIM Export"
+msgstr ""
+
+msgctxt "export"
+msgid "RIM"
+msgstr ""

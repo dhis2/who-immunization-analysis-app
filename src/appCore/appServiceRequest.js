@@ -20,8 +20,6 @@ export default function (BASE_URL, API_VERSION, $http, $q, notificationService) 
 
 	self.getSingle = function(requestURL) {
 
-		requestURL = encodeURI(requestURL);
-
 		//Cache analytics requests
 		var cache = false;
 		//			if (requestURL.indexOf("api/analytics") > -1); cache = true;
@@ -33,8 +31,6 @@ export default function (BASE_URL, API_VERSION, $http, $q, notificationService) 
 
 	self.getSingleData = function(requestURL) {
 		var deferred = $q.defer();
-
-		requestURL = encodeURI(requestURL);
 		
 		//Cache analytics requests
 		var cache = false;

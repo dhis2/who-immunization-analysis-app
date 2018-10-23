@@ -4,6 +4,17 @@
  */
 import Chart from "chart.js";
 
+Chart.pluginService.register({
+	beforeDraw: function (chart, easing) {
+		if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
+			var ctx = chart.chart.ctx;
+			ctx.save();
+			ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+			ctx.fillRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+			ctx.restore();
+		}
+	}
+});
 
 angular.module("report").directive("monitoringChart", function () {
 
@@ -48,6 +59,7 @@ angular.module("report").directive("monitoringChart", function () {
 		});
 
 		var chartJsConfig = {
+
 			type: "LineWithLine",	//see src/libs/chartjsLineWithLine extension
 			title: {
 				display: false,
@@ -77,6 +89,9 @@ angular.module("report").directive("monitoringChart", function () {
 				}]
 			},
 			options: {
+				chartArea: {
+					backgroundColor: "rgb(255,255,255)"
+				},
 				responsive: true,
 				legend: {
 					position: "right",
@@ -94,7 +109,10 @@ angular.module("report").directive("monitoringChart", function () {
 			}
 		};
 
-		var ctx = document.getElementById("monitoringChart_chartjs").getContext("2d");
+		var canvas = document.getElementById("monitoringChart_chartjs");
+		var ctx = canvas.getContext("2d");
+		ctx.fillStyle = "white";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		chart = new Chart(ctx, chartJsConfig);
 	}
 
@@ -103,8 +121,8 @@ angular.module("report").directive("monitoringChart", function () {
 		scope: {
 			"data": "="
 		},
-		template: "<div style='position: relative;'><canvas height='80' id='monitoringChart_chartjs'></canvas></div>",
-		link: function (scope) {
+		template: "<div style='position: relative;'><a href='#' download alt='Download as image'>Save as image</a><canvas height='80' id='monitoringChart_chartjs'></canvas></div>",
+		link: function (scope, element) {
 			scope.$watch("data", function (newValue, oldValue) {
 				console.log("data changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {
@@ -112,8 +130,15 @@ angular.module("report").directive("monitoringChart", function () {
 				}
 				if (newValue !== oldValue) {
 					createChart(newValue);
+
 				}
 			});
+			var el = element[0].querySelectorAll("a")[0];
+			element[0].querySelectorAll("a")[0].onclick = function(){
+				var ctx = document.getElementById("monitoringChart_chartjs");
+				var dataURL = ctx.toDataURL('image/png');
+				el.href = dataURL;
+			}
 		}
 	};
 });

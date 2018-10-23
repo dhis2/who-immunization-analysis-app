@@ -110,5 +110,8 @@ const i18nextResources = {
       "RIM Export": "Exportation RIM",
       "RIM_export": "RIM"
     }
+  },
+  "pt": {
+    "translation": {}
   }
 }; export default i18nextResources;
