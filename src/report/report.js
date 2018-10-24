@@ -887,8 +887,11 @@ report.controller("ReportController",
 					self.current.title = self.current.orgunits.boundary.displayName;
 					self.current.subtitle = d2Data.name(self.current.indicators.vaccineTarget);
 				}
+				
+				monitoringChart(self.current.title + ", " + self.current.subtitle, chartSeries);
 
-				monitoringChart(chartSeries);
+				self.current.title = "";
+				self.current.subtitle = "";
 
 				self.hideLeftMenu();
 			}
@@ -931,11 +934,12 @@ report.controller("ReportController",
 			}
 
 
-			function monitoringChart(series) {
+			function monitoringChart(title, series) {
 				console.log(series);
 
 				self.monitoringChartData = {
 					//todo: translate categories?
+					title: title,
 					categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 					xAxisLabel: i18next.t("Month"),
 					yAxisLabel: i18next.t("Doses administered"),

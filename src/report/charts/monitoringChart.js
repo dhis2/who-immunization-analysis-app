@@ -5,17 +5,7 @@
 import Chart from "chart.js";
 import {addDownloadChartAsImageHandler} from "../../appCommons/chartHelper.js";
 
-Chart.pluginService.register({
-	beforeDraw: function (chart, easing) {
-		if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
-			var ctx = chart.chart.ctx;
-			ctx.save();
-			ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
-			ctx.fillRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
-			ctx.restore();
-		}
-	}
-});
+
 
 angular.module("report").directive("monitoringChart", function () {
 
@@ -62,14 +52,6 @@ angular.module("report").directive("monitoringChart", function () {
 		var chartJsConfig = {
 
 			type: "LineWithLine",	//see src/libs/chartjsLineWithLine extension
-			title: {
-				display: false,
-				text: data.title,
-				fontSize: 18,
-				fontColor: "#000000",
-				fontStyle: "normal",
-				fontFamily: "Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif"
-			},
 			scales: {
 				xAxes: [{
 					id: "x-axis-0",
@@ -90,6 +72,14 @@ angular.module("report").directive("monitoringChart", function () {
 				}]
 			},
 			options: {
+				title: {
+					display: true,
+					text: data.title,
+					fontSize: 18,
+					fontColor: "#000000",
+					fontStyle: "normal",
+					fontFamily: "Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif"
+				},
 				chartArea: {
 					backgroundColor: "rgb(255,255,255)"
 				},
