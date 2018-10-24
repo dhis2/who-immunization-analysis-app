@@ -3,6 +3,7 @@
  * Monitoring chart
  */
 import Chart from "chart.js";
+import {addDownloadChartAsImageHandler} from "../../appCommons/chartHelper.js";
 
 Chart.pluginService.register({
 	beforeDraw: function (chart, easing) {
@@ -121,8 +122,9 @@ angular.module("report").directive("monitoringChart", function () {
 		scope: {
 			"data": "="
 		},
-		template: "<div style='position: relative;'><a href='#' download alt='Download as image'>Save as image</a><canvas height='80' id='monitoringChart_chartjs'></canvas></div>",
+		template: "<div style='position: relative;'><canvas height='80' id='monitoringChart_chartjs'></canvas></div>",
 		link: function (scope, element) {
+			var title = "";
 			scope.$watch("data", function (newValue, oldValue) {
 				console.log("data changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {
@@ -130,15 +132,11 @@ angular.module("report").directive("monitoringChart", function () {
 				}
 				if (newValue !== oldValue) {
 					createChart(newValue);
-
+					title = newValue.title;
 				}
 			});
-			var el = element[0].querySelectorAll("a")[0];
-			element[0].querySelectorAll("a")[0].onclick = function(){
-				var ctx = document.getElementById("monitoringChart_chartjs");
-				var dataURL = ctx.toDataURL('image/png');
-				el.href = dataURL;
-			}
+
+			addDownloadChartAsImageHandler(element[0], "monitoringChart");
 		}
 	};
 });

@@ -3,6 +3,7 @@
  */
 import Chart from "chart.js";
 import i18next from "i18next";
+import {addDownloadChartAsImageHandler} from "../../appCommons/chartHelper.js";
 
 angular.module("report").directive("performanceChart", function () {
 
@@ -16,6 +17,9 @@ angular.module("report").directive("performanceChart", function () {
 
 		var chartJsConfig = {
 			options: {
+				chartArea: {
+					backgroundColor: "rgb(255,255,255)"
+				},
 				responsive: true,
 				title: {
 					display: true,
@@ -204,7 +208,7 @@ angular.module("report").directive("performanceChart", function () {
 			"data": "="
 		},
 		template: "<div style='position: relative;'><canvas height='100' id='performanceChart_chartjs'></canvas></div>",
-		link: function (scope) {
+		link: function (scope, element) {
 			scope.$watch("data", function (newValue, oldValue) {
 				console.log("data changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {
@@ -214,6 +218,7 @@ angular.module("report").directive("performanceChart", function () {
 					createChart(newValue);
 				}
 			});
+			addDownloadChartAsImageHandler(element[0], "performanceChart");
 		}
 	};
 });

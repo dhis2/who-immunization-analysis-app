@@ -31,6 +31,7 @@ import "chart.js";
 import "chartjs-plugin-annotation";
 import "chartjs-plugin-stacked100";
 import "./libs/chartjsLineWithLine.js";
+import "./libs/chartAreaBackgroundColor.js";
 
 //Core services
 import "./appCommons/appCommons.js";
