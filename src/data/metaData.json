@@ -1,0 +1,273 @@
+{
+	"metaDataVersion": 0.1,
+	"indicators": [
+		{
+			"code": "I1",
+			"displayName": "BCG",
+			"vaccineAll": "",
+			"vaccineTarget": "",
+			"denominator": ""
+		},
+		{
+			"code": "I2",
+			"displayName": "DPT-HepB-Hib 1",
+			"vaccineAll": "",
+			"vaccineTarget": "",
+			"denominator": ""
+		},
+		{
+			"code": "I3",
+			"displayName": "DPT-HepB-Hib 2",
+			"vaccineAll": "",
+			"vaccineTarget": "",
+			"denominator": ""
+		},
+		{
+			"code": "I4",
+			"displayName": "DPT-HepB-Hib 3",
+			"vaccineAll": "",
+			"vaccineTarget": "",
+			"denominator": ""
+		},
+		{
+			"code": "I5",
+			"displayName": "MR 1",
+			"vaccineAll": "",
+			"vaccineTarget": "",
+			"denominator": ""
+		},
+		{
+			"code": "I6",
+			"displayName": "MR 2",
+			"vaccineAll": "",
+			"vaccineTarget": "",
+			"denominator": ""
+		},
+		{
+			"code": "I7",
+			"denominator": "",
+			"displayName": "HepB",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I8",
+			"denominator": "",
+			"displayName": "HPV 1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I9",
+			"denominator": "",
+			"displayName": "HPV 2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I10",
+			"denominator": "",
+			"displayName": "HPV 3",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I11",
+			"denominator": "",
+			"displayName": "IPV 1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I12",
+			"denominator": "",
+			"displayName": "IPV 2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I13",
+			"denominator": "",
+			"displayName": "IPV 3",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I14",
+			"denominator": "",
+			"displayName": "Measles 1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I15",
+			"denominator": "",
+			"displayName": "Measles 2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I16",
+			"denominator": "",
+			"displayName": "MenA",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I17",
+			"denominator": "",
+			"displayName": "OPV 1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I18",
+			"denominator": "",
+			"displayName": "OPV 2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I19",
+			"denominator": "",
+			"displayName": "OPV 3",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I20",
+			"denominator": "",
+			"displayName": "OPV 0/Birth dose",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I21",
+			"denominator": "",
+			"displayName": "Pneumo 1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I22",
+			"denominator": "",
+			"displayName": "Pneumo 2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I23",
+			"denominator": "",
+			"displayName": "Pneumo 3",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I24",
+			"denominator": "",
+			"displayName": "Rota 1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I25",
+			"denominator": "",
+			"displayName": "Rota 2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I26",
+			"denominator": "",
+			"displayName": "Rota last",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I27",
+			"denominator": "",
+			"displayName": "Tetanus diphteria (TD)",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I28",
+			"denominator": "",
+			"displayName": "TT1",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I29",
+			"denominator": "",
+			"displayName": "TT2",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I30",
+			"denominator": "",
+			"displayName": "TT3",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I31",
+			"denominator": "",
+			"displayName": "TT4",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I32",
+			"denominator": "",
+			"displayName": "TT5",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		},
+		{
+			"code": "I33",
+			"denominator": "",
+			"displayName": "Yellow fever",
+			"vaccineAll": "",
+			"vaccineTarget": ""
+		}
+	],
+	"dropout": [
+		{
+			"code": "D1",
+			"displayName": "DPT 1 to 3",
+			"vaccineFrom": "I2",
+			"vaccineTo": "I4"
+		},
+		{
+			"code": "D2",
+			"displayName": "BCG to MR 1",
+			"vaccineFrom": "I1",
+			"vaccineTo": "I5"
+		},
+		{
+			"code": "D3",
+			"displayName": "MR 1 to MR 2",
+			"vaccineFrom": "I5",
+			"vaccineTo": "I6"
+		}
+	],
+	"performance": [
+		{
+			"code": "P1",
+			"name": "DPT 1 coverage vs DPT 1-3 dropout rate",
+			"indicator": "I2",
+			"dropout": "D1"
+		}
+	],
+	"rim": {
+		"imported": false,
+		"userGroup": null,
+		"dataSetId": null,
+		"districtLevel": null,
+		"provinceLevel": null,
+		"countryCode": null
+	}
+
+}

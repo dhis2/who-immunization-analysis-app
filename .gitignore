@@ -1,0 +1,6 @@
+.tmp
+compiled
+build
+manifest.webapp
+node_modules
+.vscode

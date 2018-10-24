@@ -1,0 +1,101 @@
+.download-button { 
+	/* no need for printing the download button so hide it by default and show it for screens below */
+	display: none; 
+}
+
+@media screen {
+	.download-button { 
+		display: block; 
+		float: right;
+		margin-bottom: 20px;
+	}
+}
+
+@media screen,print {
+
+	.reportContent {
+		padding-top: 10px;
+	}
+
+
+
+	/* Table */
+	.numeric {
+		text-align: right;
+	}
+
+	.st-sort-ascent:before{
+		content: '\25B2';
+	}
+
+	.st-sort-descent:before{
+		content: '\25BC';
+	}
+
+	.redText {
+		color: red;
+	}
+
+	/* The right side navigation menu */
+	.rightNav {
+		height: 100%;
+		width: 0%;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		right: 0;
+		background-color: #F2F2F2;
+		padding-top: 58px;
+		padding-bottom: 20px;
+		overflow: auto;
+		transition: 0.5s;
+	}
+
+
+	/* The left side navigation menu */
+	.leftNav {
+		height: 100%;
+		width: 350px;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #F2F2F2;
+		padding-top: 58px;
+		padding-bottom: 20px;
+		overflow: auto;
+		transition: 0.2s;
+	}
+
+	.navItem {
+		margin-left: 5px;
+		margin-right: 5px;
+		overflow: visible;
+	}
+
+	.navIcon {
+		top: 55px;
+		text-decoration: none;
+		color: #276696;
+		position: absolute;
+		font-size: 20px;
+	}
+
+	/* GENERAL */
+	.ui-select-multiple.ui-select-bootstrap {
+		min-height: 34px;
+		height: auto;
+		padding: .3em;
+	}
+	.ui-select-toggle { /*Overwrite bootstrap btn alignment*/
+		text-align: left;
+	}
+
+	.minimized {
+		font-size: 90%;
+		width: auto !important;
+	}
+
+
+
+}
