@@ -1,7 +1,7 @@
 {
   "name": "immunization-analysis",
   "description": "Immunization data analysis app for DHIS2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "angular": "^1.5.5",
     "angular-animate": "^1.5.5",
@@ -76,7 +76,8 @@
       "url": "http://?"
     },
     "icons": {
-      "48": "img/icons/export.png"
+      "48": "img/icons/app_logo_48x48.png",
+      "96": "img/icons/app_logo_96x96.png"
     },
     "name": "Immunization analysis"
   }
