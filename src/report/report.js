@@ -1344,7 +1344,10 @@ report.controller("ReportController",
 						}
 					}
 
-					if (!match) indicators.push(indicator);
+					if (!match) {
+						console.log("no match for " + indicator);
+						indicators.push(indicator);
+					}
 
 				}
 
@@ -1353,7 +1356,8 @@ report.controller("ReportController",
 
 				//Add indicator group
 				self.rim.indicatorGroup.userGroupAccesses = [{
-					"id": self.rim.userGroup.id
+					"id": self.rim.userGroup.id,
+					"access": "rw------"
 				}];
 
 				//Add indicator type and user group to each indicator
@@ -1387,6 +1391,7 @@ report.controller("ReportController",
 				var strategy = "CREATE";
 				if (self.rim.overwrite) strategy = "CREATE_AND_UPDATE";
 				var ugid = self.rim.userGroup.id;
+
 				d2Meta.postMetadata(metaData, strategy).then(function(data){
 					d2Map.rimImported(ugid, self.rim.dataset.id, self.rim.districtLevel.level, self.rim.provinceLevel.level, self.rim.countryCode);
 
@@ -1439,9 +1444,13 @@ report.controller("ReportController",
 				var obj = self.shareQueue.pop();
 				if (!obj) return;
 
-				d2Meta.setSharing(obj.id, obj.type, obj.sharing).then(function(data) {
-					shareQueuePop();
-				});
+				d2Meta.setSharing(obj.id, obj.type, obj.sharing)
+					.catch(function(err) {
+						console.log("could not set sharing: ", err);
+					})
+					.then(function(data) {
+						shareQueuePop();
+					});
 			}
 
 
@@ -1654,6 +1663,15 @@ report.controller("ReportController",
 
 			}
 
+			this.allVaccinesManuallyToggled = false;
+			this.allVaccinesToggled = function(){
+				
+			};
+			this.toggleAllVaccines = function() {
+				self.rim.vaccineCodes.forEach(function(vacc){
+					vacc.selected = self.allVaccinesToggled;
+				});
+			};
 
 			function initRim() {
 				d2Map.rimAccess().then(function(rimAccess) {
