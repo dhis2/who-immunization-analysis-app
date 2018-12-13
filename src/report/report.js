@@ -1663,10 +1663,24 @@ report.controller("ReportController",
 
 			}
 
-			this.allVaccinesManuallyToggled = false;
-			this.allVaccinesToggled = function(){
+			this.allVaccinesToggled = false;
+			this.checkAllVaccinesToggled = function(){
+				if ( !self.rim || !self.rim.vaccineCodes ) {
+					return false;
+				}
+				let allSelected = true;
+				for ( let i = 0, n = self.rim.vaccineCodes.length; i<n; ++i ) {
+					if ( !self.rim.vaccineCodes[i].selected ) {
+						allSelected = false;
+						break;
+					}
+				}
 				
+				this.allVaccinesToggled = allSelected;
+				
+				return allSelected;
 			};
+			
 			this.toggleAllVaccines = function() {
 				self.rim.vaccineCodes.forEach(function(vacc){
 					vacc.selected = self.allVaccinesToggled;

@@ -324,7 +324,7 @@
 
 				<br />
 
-				<label style="float: right">{{ 'Toggle all' | i18next }} <input type="checkbox" ng-model="rCtrl.allVaccinesToggled" ng-change="rCtrl.toggleAllVaccines()" /></label>
+				<label style="float: right">{{ 'Toggle all' | i18next }} <input type="checkbox" ng-checked="rCtrl.checkAllVaccinesToggled()" ng-model="rCtrl.allVaccinesToggled" ng-change="rCtrl.toggleAllVaccines()" /></label>
 				<label>{{ 'Vaccines' | i18next }}</label>
 				<table class="table table-bordered"
 					   ng-if="!rCtrl.adm.d"
