@@ -194,11 +194,11 @@ export default function (requestService, d2Meta, d2Utils, $q) {
 
 						//Save template to systemSettings
 						requestService.post("/dataStore/epiApp/settings", angular.toJson(_map)).then(
-							function (data) {
+							function success() {
 								_ready = true;
 								deferred.resolve(true);
 							},
-							function (data) {
+							function fail() {
 								_ready = false;
 								deferred.resolve(false);
 							}
@@ -225,7 +225,10 @@ export default function (requestService, d2Meta, d2Utils, $q) {
 			d2Meta.currentUser().then(function(response) {
 				var groups = response.userGroups;
 				for (var i = 0; i < groups.length; i++) {
-					if (groups[i].id === _map.rim.userGroup) deferred.resolve(true);
+					if (groups[i].id === _map.rim.userGroup) {
+						deferred.resolve(true);
+						return;
+					}
 				}
 				deferred.resolve(false);
 			});

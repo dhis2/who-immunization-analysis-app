@@ -56,6 +56,8 @@ import "./report/charts/performanceChartTimeSummary.js";
 //CSS
 import "./css/style.css";
 
+import initHeaderBar from "./headerbar.jsx";
+
 
 var app = angular.module("epiApp",
 	["smart-table", "ngAnimate", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.select", "angularBootstrapNavTree", "d2",
@@ -64,6 +66,7 @@ var app = angular.module("epiApp",
 /**Bootstrap*/
 angular.element(document).ready( 
 	function() {
+		initHeaderBar("#header");
 
 		var initInjector = angular.injector(["ng"]);
 		var $http = initInjector.get("$http");
@@ -77,7 +80,7 @@ angular.element(document).ready(
 				//Not production => rely on webpack-dev-server proxy
 				const baseUrl = process.env.NODE_ENV === "production" ? response.data.activities.dhis.href : "";
 				app.constant("BASE_URL", baseUrl);
-				app.constant("API_VERSION", "27");
+				app.constant("API_VERSION", "29");
 
 				angular.bootstrap(document, ["epiApp"]);
 			}

@@ -1,4 +1,4 @@
- /**
+/**
  © Copyright 2017 the World Health Organization (WHO).
  This software is distributed under the terms of the GNU General Public License version 3 (GPL Version 3),
  copied verbatim in the file “COPYING”.  In applying this license, WHO does not waive any of the privileges and
@@ -134,7 +134,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 			var boundary = [];
 			var subunits = [];
 
-			var ou, boundary;
+			var ou;
 			for (var i = 0; i < orgunits.length; i++) {
 				ou = orgunits[i];
 				var isBoundary = false;
@@ -205,7 +205,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 		requestService.getSingleData(requestURL).then(
 			function(data) { //success
-				var data = data.organisationUnits;
+				data = data.organisationUnits;
 
 				var minLevel = 100;
 				var lowestOrgunit = null;
@@ -240,8 +240,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 		requestService.getSingleData(requestURL).then(
 			function(data) { //success
-				var data = data.organisationUnits;
-				deferred.resolve(data);
+				deferred.resolve(data.organisationUnits);
 			},
 			function(error) { //error
 				deferred.reject("Error in userOrgunits()");
@@ -268,8 +267,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 		requestService.getSingleData(requestURL).then(
 			function(data) { //success
 
-				var data = data.organisationUnits;
-				deferred.resolve(data);
+				deferred.resolve(data.organisationUnits);
 
 			},
 			function(error) { //error
@@ -296,8 +294,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 		requestService.getSingleData(requestURL).then(
 			function(data) { //success
-				var data = data.organisationUnits;
-				deferred.resolve(data);
+				deferred.resolve(data.organisationUnits);
 			},
 			function(error) { //error
 				deferred.reject("Error in userAnalysisOrgunits()");
@@ -618,13 +615,13 @@ export default function (requestService, periodService, d2Utils, $q) {
 					function(datas) {
 
 						var displayDictionary = {};
-						for (var i = 0; i < datas[0].length; i++) {
+						for (let i = 0; i < datas[0].length; i++) {
 							displayDictionary[datas[0][i].id] = datas[0][i].displayName;
 						}
-						for (var i = 0; i < datas[1].length; i++) {
+						for (let i = 0; i < datas[1].length; i++) {
 							displayDictionary[datas[1][i].id] = datas[1][i].displayName;
 						}
-						for (var i = 0; i < datas[2].length; i++) {
+						for (let i = 0; i < datas[2].length; i++) {
 							displayDictionary[datas[2][i].id] = datas[2][i].value;
 						}
 
@@ -764,6 +761,9 @@ export default function (requestService, periodService, d2Utils, $q) {
 
 		var requestURL = "/metadata";
 		if (strategy) requestURL += "?strategy=" + strategy;
+
+		//console.log(JSON.stringify(payload));
+		
 		requestService.post(requestURL, payload).then(
 			function(data) {
 				deferred.resolve(data);
@@ -790,6 +790,7 @@ export default function (requestService, periodService, d2Utils, $q) {
 			function(error){
 				console.log("d2meta error: postMetadata()");
 				console.log(error);
+				deferred.reject(error);
 			}
 		);
 

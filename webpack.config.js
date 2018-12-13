@@ -67,6 +67,14 @@ const webpackConfig = {
 				loader: "file-loader"
 			},
 			{
+				test: /\.jsx?$/,
+				loader: "babel-loader",
+				exclude: /node_modules/,
+				query: {
+					presets: ["react", "es2015"]
+				}
+			},
+			{
 				test: require.resolve("file-saver"),
 				use:[
 					{
@@ -80,21 +88,6 @@ const webpackConfig = {
 	resolve: {
 		alias: {}
 	},
-	externals: [
-		{
-			react: "var React",
-			"react-dom": "var ReactDOM",
-			"react-addons-transition-group": "var React.addons.TransitionGroup",
-			"react-addons-create-fragment": "var React.addons.createFragment",
-			"react-addons-update": "var React.addons.update",
-			"react-addons-pure-render-mixin": "var React.addons.PureRenderMixin",
-			"react-addons-shallow-compare": "var React.addons.ShallowCompare",
-			rx: "var Rx",
-			lodash: "var _",
-		},
-		/^react-addons/,
-		/^react-dom$/,
-		/^rx$/,],
 	plugins: [
 		new HTMLWebpackPlugin({
 			template: "src/index.ejs",
