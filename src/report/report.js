@@ -1588,8 +1588,17 @@ report.controller("ReportController",
 
 
 				//Period options
-				self.periods = [{"displayName": "2018", "id": "2018"}, {"displayName": "2017", "id": "2017"}, {"displayName": "2016", "id": "2016"},{"displayName": "2015", "id": "2015"},
-					{"displayName": "2014", "id": "2014"},{"displayName": "2013", "id": "2013"}];
+				self.periods = [];
+
+				var currentYear = new Date().getFullYear();
+				//Show years from now, back to 2013
+				while ( currentYear >= 2013 ) {
+					self.periods.push({
+						displayName: currentYear.toString(),
+						id: currentYear.toString()
+					});
+					--currentYear;
+				}
 				self.selectedPeriod = self.periods[0];
 
 

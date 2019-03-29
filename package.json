@@ -1,7 +1,7 @@
 {
   "name": "immunization-analysis",
   "description": "Immunization data analysis app for DHIS2",
-  "version": "1.0.1",
+  "version": "1.0.1a",
   "dependencies": {
     "angular": "^1.5.5",
     "angular-animate": "^1.5.5",
@@ -61,11 +61,10 @@
     "lint-all": "eslint src; exit 0",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "postbuild": "cp -r i18n build/ && npm run manifest",
-    "prebuild": "rm -rf build && npm run validate && npm run lint-all",
+    "prebuild": "rm -rf build && npm run lint-all",
     "refresh-translations-template": "npm run extract-pot -- -o translations.pot && git add ./i18n/translations.pot",
     "start": "d2-manifest package.json manifest.webapp && npm run convert-po && webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "validate": "npm ls --depth 0",
     "zip": "rm -rf compiled && npm run build && rm -f build/*.js.map && mkdir compiled && cd build && zip -r ../compiled/$npm_package_name.zip *"
   },
   "manifest.webapp": {
