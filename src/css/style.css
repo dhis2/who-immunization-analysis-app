@@ -42,10 +42,10 @@
 		width: 0%;
 		position: fixed;
 		z-index: 1;
-		top: 0;
+		top: 48px;
 		right: 0;
 		background-color: #F2F2F2;
-		padding-top: 58px;
+		padding-top: 0px;
 		padding-bottom: 20px;
 		overflow: auto;
 		transition: 0.5s;
@@ -58,11 +58,11 @@
 		width: 350px;
 		position: fixed;
 		z-index: 1;
-		top: 0;
+		top: 48px;
 		left: 0;
 		background-color: #F2F2F2;
-		padding-top: 58px;
-		padding-bottom: 20px;
+		padding-top: 0px;
+		padding-bottom: 60px;
 		overflow: auto;
 		transition: 0.2s;
 	}
@@ -74,12 +74,17 @@
 	}
 
 	.navIcon {
-		top: 55px;
+		top: 58px;
 		text-decoration: none;
 		color: #276696;
 		position: absolute;
 		font-size: 20px;
 	}
+
+	#leftNav .navIcon {
+		margin-top: -46px;
+	}
+
 
 	/* GENERAL */
 	.ui-select-multiple.ui-select-bootstrap {
