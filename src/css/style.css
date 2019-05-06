@@ -45,7 +45,7 @@
 		top: 48px;
 		right: 0;
 		background-color: #F2F2F2;
-		padding-top: 0px;
+		padding-top: 8px;
 		padding-bottom: 20px;
 		overflow: auto;
 		transition: 0.5s;
@@ -81,8 +81,9 @@
 		font-size: 20px;
 	}
 
-	#leftNav .navIcon {
-		margin-top: -46px;
+	#leftNav .navIcon,
+	#rightNav .navIcon {
+		margin-top: -50px;
 	}
 
 
