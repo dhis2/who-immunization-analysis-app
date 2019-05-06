@@ -90,10 +90,7 @@ const webpackConfig = {
 	},
 	plugins: [
 		new HTMLWebpackPlugin({
-			template: "src/index.ejs",
-			vendorScripts: []
-				.map(fileName => `<script src="${scriptPrefix}/dhis-web-core-resource/${fileName}"></script>`)
-				.join("\n")
+			template: "src/index.ejs"
 		}),
 		new CopyWebpackPlugin([
 			{from: "./src/css", to: "css"},
@@ -126,18 +123,6 @@ const webpackConfig = {
 			{
 				path: "/polyfill.min.js",
 				target: `http://localhost:${devServerPort}/node_modules/babel-polyfill/dist`,
-				bypass: log,
-				secure: false
-			},
-			{
-				context: [
-					"/api/**",
-					"/dhis-web-commons/**",
-					"/dhis-web-commons-ajax-json/**",
-					"/icons/**",
-					"/dhis-web-core-resource/**",
-				],
-				target: dhisConfig.baseUrl,
 				bypass: log,
 				secure: false
 			}
