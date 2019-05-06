@@ -118,15 +118,7 @@ const webpackConfig = {
 	devServer: {
 		port: devServerPort,
 		inline: true,
-		compress: true,
-		proxy: [
-			{
-				path: "/polyfill.min.js",
-				target: `http://localhost:${devServerPort}/node_modules/babel-polyfill/dist`,
-				bypass: log,
-				secure: false
-			}
-		]
+		compress: true
 	}
 };
 
