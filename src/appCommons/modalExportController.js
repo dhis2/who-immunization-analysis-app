@@ -7,6 +7,8 @@
 
 import FileSaver from "file-saver";
 
+import getFileNameWithTimeStamp from "../libs/getFileNameWithTimestamp";
+
 /**Controller: Parameters*/
 angular.module("appCommons").controller("ModalExportController",
 	["$uibModalInstance", "fileContent", "fileName",
@@ -82,8 +84,10 @@ angular.module("appCommons").controller("ModalExportController",
 				}
 
 				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
-				//saveAs
-				FileSaver.saveAs(blob, self.options.fileName + ".csv");
+
+				var fileName = self.options.fileName;
+
+				FileSaver.saveAs(blob, getFileNameWithTimeStamp(fileName, "csv"));
 			}
 
 

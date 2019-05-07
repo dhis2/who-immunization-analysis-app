@@ -40,6 +40,7 @@ import "chartjs-plugin-stacked100";
 import "./libs/chartjsLineWithLine.js";
 import "./libs/chartAreaBackgroundColor.js";
 
+
 //Core services
 import "./appCommons/appCommons.js";
 import "./appCore/appService.js";
@@ -55,6 +56,10 @@ import "./report/charts/performanceChartTimeSummary.js";
 
 //CSS
 import "./css/style.css";
+
+import "typeface-roboto";
+import "fontawesome";
+import "material-design-icons";
 
 import initHeaderBar from "./headerbar.jsx";
 
@@ -76,11 +81,12 @@ angular.element(document).ready(
 			function(response) {
 				window.dhis2 = window.dhis2 || {};
 				window.dhis2.settings = window.dhis2.settings || {};
-				
+
 				//Not production => rely on webpack-dev-server proxy
-				const baseUrl = process.env.NODE_ENV === "production" ? response.data.activities.dhis.href : "";
+				const baseUrl = process.env.NODE_ENV === "production" ? response.data.activities.dhis.href : DHIS_CONFIG.baseUrl;
+				console.log("Using baseUrl: " + baseUrl);
 				app.constant("BASE_URL", baseUrl);
-				app.constant("API_VERSION", "29");
+				app.constant("API_VERSION", "30");
 
 				angular.bootstrap(document, ["epiApp"]);
 			}
@@ -116,6 +122,10 @@ app.config(["$routeProvider",
 			});
 	}]
 );
+
+app.config(function ($httpProvider) {
+	$httpProvider.defaults.withCredentials = true;
+});
 
 
 /**Controller: Navigation*/

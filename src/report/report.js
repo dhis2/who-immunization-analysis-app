@@ -8,6 +8,8 @@
 import i18next from "i18next";
 import FileSaver from "file-saver";
 
+import getFileNameWithTimeStamp from "../libs/getFileNameWithTimestamp";
+
 //Define module
 const report = angular.module("report", []);
 
@@ -649,7 +651,6 @@ report.controller("ReportController",
 
 				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].slice(0, ++j);
 
-				//debugger;
 				console.log(seriesA);
 				console.log(seriesB);
 				console.log(seriesC);
@@ -1118,8 +1119,13 @@ report.controller("ReportController",
 
 					//Add metadata
 					row.push(countryCode);
+
+					//Province_Name
 					row.push(metaData.items[metaData.ouHierarchy[districtId].split("/")[rimMeta.provinceLevel-1]].name);
+
+					//District
 					row.push(metaData.items[districtId].name);
+
 					row.push(year);
 					row.push(month);
 
@@ -1554,7 +1560,8 @@ report.controller("ReportController",
 				}
 
 				var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
-				FileSaver.saveAs(blob, fileName + ".csv");
+
+				FileSaver.saveAs(blob, getFileNameWithTimeStamp(fileName, "csv"));
 			}
 
 

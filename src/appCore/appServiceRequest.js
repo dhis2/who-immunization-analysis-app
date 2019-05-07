@@ -103,7 +103,7 @@ export default function (BASE_URL, API_VERSION, $http, $q, notificationService) 
 			else if (status === 302 && typeof(response.data) === "string" && response.data.indexOf("class=\"loginPage\"") >= 0) {
 				console.log("User has been logged out");
 				notificationService.notify("test", "test").then(function() {
-					window.location = BASE_URL + "/dhis-web-dashboard-integration/index.action";
+					window.location = BASE_URL + "/dhis-web-dashboard/index.action";
 				});
 			}
 
@@ -116,7 +116,7 @@ export default function (BASE_URL, API_VERSION, $http, $q, notificationService) 
 		else if (typeof(response.data) === "string" && response.data.indexOf("class=\"loginPage\"") >= 0) {
 			console.log("User has been logged out");
 			notificationService.notify("Logged out", "You are logged out, and will be redirected to the login page.").then(function() {
-				window.location = BASE_URL + "/dhis-web-dashboard-integration/index.action";
+				window.location = BASE_URL + "/dhis-web-dashboard/index.action";
 			});
 			return false;
 		}
