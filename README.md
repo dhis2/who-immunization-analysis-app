@@ -12,21 +12,21 @@ immunities enjoyed by WHO under national or international law or submit to any n
 To install app dependencies:
 
 ```
-npm install
+yarn install
 ```
 
 ### Compile to zip
 To compile the app to a .zip file:
 
 ```
-npm run zip
+yarn run zip
 ```
 
 ### Start dev server
 To start the webpack development server:
 
 ```
-npm start
+yarn start
 ```
 
 By default, webpack will start on port 8081, and assumes DHIS2 is running on 
