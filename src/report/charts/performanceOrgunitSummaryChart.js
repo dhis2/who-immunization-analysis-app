@@ -8,7 +8,6 @@
 /**
  * Performance chart directive to be used in the report. It renders a stacked bar chart for summary by months
  */
-import Chart from "chart.js";
 import i18next from "i18next";
 import {addDownloadChartAsImageHandler} from "../../appCommons/chartHelper.js";
 
@@ -25,9 +24,9 @@ angular.module("report").directive("performanceOrgunitSummary", function () {
 		var chartJsConfig = {
 			type: "bar",
 			options: {
-				chartArea: {
+				/*chartArea: {
 					backgroundColor: "rgb(255,255,255)"
-				},            
+				},*/            
 				responsive: true,
 				title: {
 					display: true,
