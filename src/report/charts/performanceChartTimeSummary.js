@@ -67,10 +67,16 @@ angular.module("report").directive("performanceChartTimeSummary", function () {
 							var label = data.datasets[tooltipItem.datasetIndex].label;
 							var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 
-							//stacked100 plugin creates the calculatedData
-							var percentage = Math.round(data.calculatedData[tooltipItem.datasetIndex][tooltipItem.index]);
+							//stacked100 plugin creates the calculatedData for some cases
+							var percentageStr = "";
+							if ( data.calculatedData ) {
+								var calcData = data.calculatedData[tooltipItem.datasetIndex];
+								var percentage = Math.round(calcData[tooltipItem.index]);
+								percentageStr = ` (${percentage}%)`;
+							}
 
-							return label + ": " + value + " ("+ percentage +"%)";
+
+							return label + ": " + value + percentageStr;
 						}
 					}
 				},
