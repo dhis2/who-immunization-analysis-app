@@ -386,7 +386,7 @@
 			<!--Header-->
 			<td ng-repeat="header in rCtrl.current.headerColumns"
 				ng-if="(rCtrl.current.ouFilter && header.id != 'ou') || (!rCtrl.current.ouFilter && header.id != 'vaccine')"
-				rowspan="3">
+				rowspan="4">
 				{{row[header.id]}}
 			</td>
 
@@ -410,7 +410,14 @@
 				{{row[header.id].coverage}}<span ng-if="row[header.id].coverage">%</span>
 			</td>
 		</tr>
-		</tbody ng-repeat="row in rCtrl.current.dataTable track by $index">
+		<tr>
+			<!--Data-->
+			<td>{{ 'Denominator' | i18next }}</td>
+			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+				{{row[header.id].denominator}}<span ng-if="row[header.id].denominator"></span>
+			</td>
+		</tr>
+		</tbody>
 	</table>
 </div>
 
