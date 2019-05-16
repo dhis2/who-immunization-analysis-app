@@ -360,8 +360,8 @@ msgstr "Décembre"
 msgid "Vaccines - doses and coverage"
 msgstr "Vaccins - doses et couverture"
 
-msgid "Performance - coverage vs dropout rate"
-msgstr "Performance - couverture vs taux d’abandon"
+msgid "Categorization - coverage vs dropout rate"
+msgstr "Catégorisation - couverture vs taux d’abandon"
 
 msgid "Monitoring chart"
 msgstr "Graphique de suivi"
