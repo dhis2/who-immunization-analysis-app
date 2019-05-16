@@ -414,7 +414,7 @@
 			<!--Data-->
 			<td>{{ 'Denominator' | i18next }}</td>
 			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
-				{{row[header.id].denominator}}<span ng-if="row[header.id].denominator"></span>
+				{{row[header.id].denominator | number : 0}}<span ng-if="row[header.id].denominator"></span>
 			</td>
 		</tr>
 		</tbody>
