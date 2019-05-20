@@ -382,41 +382,41 @@
 		</tr>
 		</thead>
 		<tbody ng-repeat="row in rCtrl.current.dataTable track by $index">
-		<tr>
-			<!--Header-->
-			<td ng-repeat="header in rCtrl.current.headerColumns"
-				ng-if="(rCtrl.current.ouFilter && header.id != 'ou') || (!rCtrl.current.ouFilter && header.id != 'vaccine')"
-				rowspan="4">
-				{{row[header.id]}}
-			</td>
+			<tr>
+				<!--Header-->
+				<td ng-repeat="header in rCtrl.current.headerColumns"
+					ng-if="(rCtrl.current.ouFilter && header.id != 'ou') || (!rCtrl.current.ouFilter && header.id != 'vaccine')"
+					rowspan="4">
+					{{row[header.id]}}
+				</td>
 
-			<!--Data-->
-			<td>{{ 'All ages' | i18next }}</td>
-			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
-				{{row[header.id].vaccineAll | number : 0}}
-			</td>
-		</tr>
-		<tr>
-			<!--Data-->
-			<td>{{ 'Target age group' | i18next }}</td>
-			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
-				{{row[header.id].vaccineTarget | number : 0}}
-			</td>
-		</tr>
-		<tr>
-			<!--Data-->
-			<td>{{ 'Coverage' | i18next }}</td>
-			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
-				{{row[header.id].coverage}}<span ng-if="row[header.id].coverage">%</span>
-			</td>
-		</tr>
-		<tr>
-			<!--Data-->
-			<td>{{ 'Denominator' | i18next }}</td>
-			<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
-				{{row[header.id].denominator | number : 0}}<span ng-if="row[header.id].denominator"></span>
-			</td>
-		</tr>
+				<!--Data-->
+				<td>{{ 'All ages' | i18next }}</td>
+				<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+					{{row[header.id].vaccineAll | number : 0}}
+				</td>
+			</tr>
+			<tr>
+				<!--Data-->
+				<td>{{ 'Target age group' | i18next }}</td>
+				<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+					{{row[header.id].vaccineTarget | number : 0}}
+				</td>
+			</tr>
+			<tr>
+				<!--Data-->
+				<td>{{ 'Denominator' | i18next }}</td>
+				<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+					{{row[header.id].denominator | number : 0}}<span ng-if="row[header.id].denominator"></span>
+				</td>
+			</tr>
+			<tr>
+				<!--Data-->
+				<td>{{ 'Coverage' | i18next }}</td>
+				<td ng-repeat="header in rCtrl.current.dataColumns" class="numeric">
+					{{row[header.id].coverage}}<span ng-if="row[header.id].coverage">%</span>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </div>
