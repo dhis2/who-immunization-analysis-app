@@ -1643,7 +1643,7 @@ report.controller("ReportController",
 						"id": "vac"
 					},
 					{
-						"displayName": i18next.t("Performance - coverage vs dropout rate"),
+						"displayName": i18next.t("Categorization - coverage vs dropout rate"),
 						"id": "perf"
 					},
 					{

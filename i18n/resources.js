@@ -101,7 +101,7 @@ const i18nextResources = {
       "November": "Novembre",
       "December": "Décembre",
       "Vaccines - doses and coverage": "Vaccins - doses et couverture",
-      "Performance - coverage vs dropout rate": "Performance - couverture vs taux d’abandon",
+      "Categorization - coverage vs dropout rate": "Catégorisation - couverture vs taux d’abandon",
       "Monitoring chart": "Graphique de suivi",
       "Multiple vaccines for one orgunit": "Plusieurs vaccins pour une orgunit",
       "One vaccine for multiple orgunits": "Un vaccin pour pour plusieurs orgunits",
