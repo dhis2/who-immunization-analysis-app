@@ -24,9 +24,9 @@ angular.module("report").directive("performanceOrgunitSummary", function () {
 		var chartJsConfig = {
 			type: "bar",
 			options: {
-				/*chartArea: {
+				chartArea: {
 					backgroundColor: "rgb(255,255,255)"
-				},*/            
+				},
 				responsive: true,
 				title: {
 					display: true,

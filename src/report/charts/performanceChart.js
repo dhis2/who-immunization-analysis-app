@@ -25,9 +25,9 @@ angular.module("report").directive("performanceChart", function () {
 
 		var chartJsConfig = {
 			options: {
-				/*chartArea: {
+				chartArea: {
 					backgroundColor: "rgb(255,255,255)"
-				},*/
+				},
 				responsive: true,
 				title: {
 					display: true,
