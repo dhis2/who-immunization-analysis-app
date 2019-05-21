@@ -108,11 +108,11 @@
 
 
 /* these should match colors.js */
-.success { /*green*/
-	background-color: rgba(35,255,35,0.3) !important;
+.success { /*dark green*/
+	background-color: rgba(0,120,0,0.3) !important;
 }
-.info { /*blue*/
-	background-color: rgba(150,200,255, 0.6)  !important;
+.info { /*light green*/
+	background-color: rgba(120,255,120,0.3)  !important;
 }
 .warning { /*yellow*/
 	background-color: rgba(255,255,80,0.5)  !important;

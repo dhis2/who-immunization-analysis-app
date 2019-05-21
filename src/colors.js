@@ -2,6 +2,6 @@
 export default {
 	yellow: "rgba(255,255,80,0.5)", 
 	red: "rgba(255,35,35,0.5)",
-	blue: "rgba(150,200,255, 0.6)",
-	green: "rgba(35,255,35,0.3)"
+	green_light: "rgba(120,255,120,0.3)",
+	green_dark: "rgba(0,120,0,0.3)"
 }

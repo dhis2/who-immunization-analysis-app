@@ -109,7 +109,7 @@ angular.module("report").directive("performanceChart", function () {
 					drawTime: "beforeDatasetsDraw",
 					annotations: [
 						{
-							//green box
+							//dark green box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
@@ -117,10 +117,10 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 100,
 							yMin: 0,
 							yMax: 10,
-							backgroundColor: colors.green
+							backgroundColor: colors.green_dark
 						},
 						{
-							//blue box
+							//light green box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
@@ -128,9 +128,10 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 100,
 							yMin: 10,
 							yMax: Math.max(100, data.yMax),
-							backgroundColor: colors.blue
+							backgroundColor: colors.green_light
 						},
 						{
+
 							//yellow box
 							type: "box",
 							xScaleID: "x-axis-0",
