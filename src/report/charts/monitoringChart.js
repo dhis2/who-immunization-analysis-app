@@ -8,7 +8,6 @@
 /**
  * Monitoring chart
  */
-import Chart from "chart.js";
 import {addDownloadChartAsImageHandler} from "../../appCommons/chartHelper.js";
 
 

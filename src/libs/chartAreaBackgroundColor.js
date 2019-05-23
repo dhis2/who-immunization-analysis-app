@@ -1,4 +1,4 @@
-import Chart from "chart.js";
+
 
 Chart.pluginService.register({
 	beforeDraw: function (chart, easing) {

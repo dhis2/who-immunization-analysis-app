@@ -8,9 +8,10 @@
 /**
  * Performance chart directive to be used in the report. It renders a scatter chart for coverage vs dropout rate.
  */
-import Chart from "chart.js";
 import i18next from "i18next";
 import {addDownloadChartAsImageHandler} from "../../appCommons/chartHelper.js";
+
+import colors from "../../colors.js";
 
 angular.module("report").directive("performanceChart", function () {
 
@@ -108,7 +109,7 @@ angular.module("report").directive("performanceChart", function () {
 					drawTime: "beforeDatasetsDraw",
 					annotations: [
 						{
-							//green box
+							//dark green box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
@@ -116,10 +117,10 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 100,
 							yMin: 0,
 							yMax: 10,
-							backgroundColor: "rgba(35,255,35,0.2)"
+							backgroundColor: colors.green_dark
 						},
 						{
-							//blue box
+							//light green box
 							type: "box",
 							xScaleID: "x-axis-0",
 							yScaleID: "y-axis-0",
@@ -127,9 +128,10 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 100,
 							yMin: 10,
 							yMax: Math.max(100, data.yMax),
-							backgroundColor: "rgba(190,230,255, 0.5)"
+							backgroundColor: colors.green_light
 						},
 						{
+
 							//yellow box
 							type: "box",
 							xScaleID: "x-axis-0",
@@ -138,7 +140,7 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 90,
 							yMin: 0,
 							yMax: 10,
-							backgroundColor: "rgba(255,255,80,0.2)"
+							backgroundColor: colors.yellow
 						},
 						{
 							//red box
@@ -149,7 +151,7 @@ angular.module("report").directive("performanceChart", function () {
 							xMax: 90,
 							yMin: 10,
 							yMax: Math.max(100, data.yMax),
-							backgroundColor: "rgba(255,35,35,0.2)"
+							backgroundColor: colors.red 
 						},
 						{
 							type: "line",

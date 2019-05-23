@@ -1,4 +1,4 @@
-import Chart from "chart.js";
+
 
 
 Chart.defaults.LineWithLine = Chart.defaults.line;

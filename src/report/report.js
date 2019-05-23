@@ -10,6 +10,8 @@ import FileSaver from "file-saver";
 
 import getFileNameWithTimeStamp from "../libs/getFileNameWithTimestamp";
 
+import colors from "../colors";
+
 //Define module
 const report = angular.module("report", []);
 
@@ -661,19 +663,19 @@ report.controller("ReportController",
 					series: [{
 						label: i18next.t("Category A"),
 						data: seriesA,
-						backgroundColor: "#dff0d8"
+						backgroundColor: colors.green
 					}, {
 						label: i18next.t("Category B"),
 						data: seriesB,
-						backgroundColor: "#d9edf7"
+						backgroundColor: colors.blue
 					}, {
 						label: i18next.t("Category C"),
 						data: seriesC,
-						backgroundColor: "#fcf8e3"
+						backgroundColor: colors.yellow
 					}, {
 						label: i18next.t("Category D"),
 						data: seriesD,
-						backgroundColor: "#f2dede"
+						backgroundColor: colors.red
 					}]
 				};
 			}
@@ -733,19 +735,19 @@ report.controller("ReportController",
 					series: [{
 						label: i18next.t("Category A"),
 						data: seriesA,
-						backgroundColor: "#dff0d8"
+						backgroundColor: colors.green
 					}, {
 						label: i18next.t("Category B"),
 						data: seriesB,
-						backgroundColor: "#d9edf7"
+						backgroundColor: colors.blue
 					}, {
 						label: i18next.t("Category C"),
 						data: seriesC,
-						backgroundColor: "#fcf8e3"
+						backgroundColor: colors.yellow
 					}, {
 						label: i18next.t("Category D"),
 						data: seriesD,
-						backgroundColor: "#f2dede"
+						backgroundColor: colors.red
 					}]
 				};
 			}
