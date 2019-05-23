@@ -613,8 +613,20 @@ report.controller("ReportController",
 				if (yMin < -50) yMin = -50;
 				if (xMax > 200) xMax = 200;
 
+				var title = "";
+				var titlePrefix = "";
+				//debugger;
+				if ( period.substr(4,2) !== "12" ) {
+					//not a complete year, so set "By [month] [year]" as the title.
+					titlePrefix = i18next.t("By") + " ";
+					title = d2Data.name(period);
+				} else {
+					//show only year
+					title = period.substr(0,4);
+				}
+				
 				self.performanceChartData = {
-					title: d2Data.name(period),
+					title: titlePrefix + title,
 					xMin: 0,
 					xMax: xMax,
 					yMin: yMin,
@@ -652,11 +664,6 @@ report.controller("ReportController",
 				}
 
 				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].slice(0, ++j);
-
-				console.log(seriesA);
-				console.log(seriesB);
-				console.log(seriesC);
-				console.log(seriesD);
 
 				self.performanceChartTimeSummaryData = {
 					months: months,
