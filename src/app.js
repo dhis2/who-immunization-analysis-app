@@ -123,9 +123,11 @@ app.config(["$routeProvider",
 	}]
 );
 
-app.config(function ($httpProvider) {
-	$httpProvider.defaults.withCredentials = true;
-});
+app.config(["$httpProvider", 
+	function ($httpProvider) {
+		$httpProvider.defaults.withCredentials = true;
+	}]
+);
 
 
 /**Controller: Navigation*/
@@ -141,7 +143,7 @@ app.controller("NavigationController",
 
 
 app.run(["BASE_URL", "$http", function(BASE_URL, $http) {
-	$http.get( BASE_URL + "/api/me/profile.json").then(function (response) {
+	$http.get( BASE_URL + "/api/me/?fields=settings").then(function (response) {
 		if (response.data && response.data.settings && response.data.settings.keyUiLocale) {
 			i18next.changeLanguage(response.data.settings.keyUiLocale);
 		}
