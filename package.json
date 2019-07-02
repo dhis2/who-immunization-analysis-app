@@ -1,15 +1,15 @@
 {
   "name": "immunization-analysis",
   "description": "Immunization data analysis app for DHIS2",
-  "version": "1.0.3",
+  "version": "1.0.4-beta",
   "dependencies": {
-    "angular": "^1.5.5",
-    "angular-animate": "^1.5.5",
+    "angular": "1.6.10",
+    "angular-animate": "1.6.10",
     "angular-bootstrap-nav-tree": "^0.2.1",
-    "angular-route": "^1.5.5",
-    "angular-sanitize": "^1.5.5",
-    "angular-smart-table": "^2.1.8",
-    "angular-ui-bootstrap": "^2.5.6",
+    "angular-route": "1.6.10",
+    "angular-sanitize": "1.6.10",
+    "angular-smart-table": "2.1.11",
+    "angular-ui-bootstrap": "2.5.6",
     "blob": "0.0.4",
     "bootstrap": "3.4.1",
     "chart.js": "2.7.3",
@@ -77,7 +77,7 @@
     "start": "d2-manifest package.json manifest.webapp && npm run convert-po && webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "validate": "npm ls --depth 0",
-    "zip": "rm -rf compiled && npm run build && rm -f build/*.js.map && mkdir compiled && cd build && zip -r ../compiled/$npm_package_name.zip *"
+    "zip": "rm -rf compiled && npm run build && mkdir compiled && cd build && zip -r ../compiled/$npm_package_name.zip *"
   },
   "manifest.webapp": {
     "developer": {
