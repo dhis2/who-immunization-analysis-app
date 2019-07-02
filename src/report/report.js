@@ -670,11 +670,11 @@ report.controller("ReportController",
 					series: [{
 						label: i18next.t("Category A"),
 						data: seriesA,
-						backgroundColor: colors.green
+						backgroundColor: colors.green_dark
 					}, {
 						label: i18next.t("Category B"),
 						data: seriesB,
-						backgroundColor: colors.blue
+						backgroundColor: colors.green_light
 					}, {
 						label: i18next.t("Category C"),
 						data: seriesC,
