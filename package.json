@@ -1,7 +1,7 @@
 {
   "name": "immunization-analysis",
   "description": "Immunization data analysis app for DHIS2",
-  "version": "1.0.4-beta",
+  "version": "1.0.4",
   "dependencies": {
     "angular": "1.6.10",
     "angular-animate": "1.6.10",
