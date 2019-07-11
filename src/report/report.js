@@ -311,20 +311,38 @@ report.controller("ReportController",
 				}
 				table.push(headerRow);
 
-				var dataFields = [{"id": "vaccineAll", "name": i18next.t("all ages")}, {"id": "vaccineTarget", "name": i18next.t("target age")},
-					{"id": "coverage", "name": i18next.t("coverage")}];
+				var roundingFormatter = function (val) { 
+					return Math.round(+val); 
+				}
+
+				var dataFields = [
+					{"id": "vaccineAll", "name": i18next.t("all ages"), formatter: roundingFormatter}, 
+					{"id": "vaccineTarget", "name": i18next.t("target age"), formatter: roundingFormatter},
+					{"id": "denominator", "name": i18next.t("denominator"), formatter: roundingFormatter  },
+					{"id": "coverage", "name": i18next.t("coverage")},
+				];
+
 				for (var i = 0; i < self.current.dataTable.length; i++) {
 
 					for (var j = 0; j < dataFields.length; j++) {
 						var dataField = dataFields[j];
 						var row = [];
 
-						if (self.current.dataTable[i].parents) row.push(self.current.dataTable[i].parents);
+						if (self.current.dataTable[i].parents) {
+							row.push(self.current.dataTable[i].parents);
+						}
+						
 						row.push(self.current.dataTable[i].ou, self.current.dataTable[i].vaccine, dataField.name);
 
 						//Row for all ages
 						for (var k = 0; k < periods.length; k++) {
-							row.push(self.current.dataTable[i][periods[k]][dataField.id]);
+							var value = self.current.dataTable[i][periods[k]][dataField.id];
+							
+							if ( typeof dataField.formatter === "function" ) {
+								value = dataField.formatter(value);
+							}
+
+							row.push(value);
 						}
 
 						table.push(row);
@@ -670,11 +688,11 @@ report.controller("ReportController",
 					series: [{
 						label: i18next.t("Category A"),
 						data: seriesA,
-						backgroundColor: colors.green
+						backgroundColor: colors.green_dark
 					}, {
 						label: i18next.t("Category B"),
 						data: seriesB,
-						backgroundColor: colors.blue
+						backgroundColor: colors.green_light
 					}, {
 						label: i18next.t("Category C"),
 						data: seriesC,

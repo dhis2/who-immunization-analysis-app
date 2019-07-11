@@ -17,11 +17,14 @@ angular.module("report").directive("performanceChart", function () {
 
 	var chart = null;
 
-	function createChart(data) {
+	function createChart(opts) {
 
 		if ( chart !== null ) {
 			chart.destroy();
 		}
+
+		var data = opts.data;
+		var showLegend = opts.showLegend;
 
 		var chartJsConfig = {
 			options: {
@@ -40,7 +43,8 @@ angular.module("report").directive("performanceChart", function () {
 				legend: {
 					position: "bottom",
 					align: "center",
-					usePointStyle: false
+					usePointStyle: false,
+					display: showLegend
 				},
 				scales: {
 					xAxes: [{
@@ -214,17 +218,22 @@ angular.module("report").directive("performanceChart", function () {
 	return {
 		restrict: "E",
 		scope: {
-			"data": "="
+			"data": "=",
+			"showLegend": "="
 		},
 		template: "<div style='position: relative;'><canvas height='100' id='performanceChart_chartjs'></canvas></div>",
 		link: function (scope, element) {
 			scope.$watch("data", function (newValue, oldValue) {
+
+				//default showLegend to true
+				var showLegend = typeof scope.showLegend === "undefined" ? true : scope.showLegend;
+
 				console.log("data changed: " + newValue + " | " + oldValue);
 				if (chart !== null) {
 					chart.destroy();
 				}
 				if (newValue !== oldValue) {
-					createChart(newValue);
+					createChart({data: newValue, showLegend: showLegend});
 				}
 			});
 			addDownloadChartAsImageHandler(element[0], "performanceChart");
