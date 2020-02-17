@@ -12,6 +12,8 @@ import getFileNameWithTimeStamp from "../libs/getFileNameWithTimestamp";
 
 import colors from "../colors";
 
+import flattenDeep from 'lodash/flattenDeep'
+
 const debug = require('debug')('who:report')
 
 //Define module
@@ -1106,24 +1108,30 @@ report.controller("ReportController",
 
 							if ( monthlyRequests[i].length ) {
 
-								const requestPromises = monthlyRequests[i].map(requestUrl => {
-									let aggregationType = false;
-									if (requestUrl.match("aggregationType=COUNT")) {
-										aggregationType = "COUNT";
-									}
-									let deferred = $q.defer();
-									requestService
-										.getSingleData(requestUrl)
-										.then((data) => {
-											if ( aggregationType ) {
-												d2Data.addAggregationInfo(data, aggregationType);
-											}
-											deferred.resolve(data);
-										})
-									return deferred;
+								const requestPromises = monthlyRequests[i].map(requestUrls => {
+
+									return requestUrls.map(requestUrl => {
+										let aggregationType = false;
+										if (requestUrl.match("aggregationType=COUNT")) {
+											aggregationType = "COUNT";
+										}
+										let deferred = $q.defer();
+										requestService
+											.getSingleData(requestUrl)
+											.then((data) => {
+												if ( aggregationType ) {
+													d2Data.addAggregationInfo(data, aggregationType);
+												}
+												deferred.resolve(data);
+											})
+										return deferred.promise;
+									})
+
 								})
 
-								$q.all(requestPromises).then(results => {
+								const flatRequestPromises = flattenDeep(requestPromises)
+
+								$q.all(flatRequestPromises).then(results => {
 									
 									d2Data.mergeBatchMetaData(results);
 									d2Data.mergeAnalyticsResults(results);
