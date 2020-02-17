@@ -10,10 +10,16 @@ export default function (requestService, d2Utils, $q) {
 	//Define factory API
 	var service = {
 		addRequest: addRequest,
+		createRequest: createRequest,
+		mergeBatchMetaData: mergeBatchMetaData,
+		mergeAnalyticsResults: mergeAnalyticsResults,
 		fetch: fetch,
 		value: dataValue,
 		values: dataValues,
-		name: name
+		name: name,
+		getCurrentBatchMeta: () => _currentBatchMeta,
+		resetBatchMeta: () => { _currentBatchMeta = null },
+		addAggregationInfo: addAggregationInfo
 	};
 
 	//Private variables
@@ -29,20 +35,20 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/**
-				 * === === === === === ===
-				 * PUBLIC FUNCTIONS
-				 * === === === === === ===
-				 */
+	 * === === === === === ===
+	 * PUBLIC FUNCTIONS
+	 * === === === === === ===
+	 */
 
 	/**
-				 * Add request for data to be fetched
-				 *
-				 * @param dx			(Array of) data IDs - data element, indicator, data element operand, dataset
-				 * @param pe			(Array of) periods in ISO format
-				 * @param ouBoundary	(Array of) boundary orgunit IDs
-				 * @param ouLevel		Optional - level (int) for orgunit disaggregation.
-				 * @param ouGroup		Optional - group (id) for orgunit disaggregation
-				 */
+	 * Add request for data to be fetched
+	 *
+	 * @param dx			(Array of) data IDs - data element, indicator, data element operand, dataset
+	 * @param pe			(Array of) periods in ISO format
+	 * @param ouBoundary	(Array of) boundary orgunit IDs
+	 * @param ouLevel		Optional - level (int) for orgunit disaggregation.
+	 * @param ouGroup		Optional - group (id) for orgunit disaggregation
+	 */
 	function addRequest(dx, pe, ouBoundary, ouLevel, ouGroup, aggregationType) {
 
 		_newRequests = d2Utils.arrayMerge(_newRequests,
@@ -57,12 +63,32 @@ export default function (requestService, d2Utils, $q) {
 
 	}
 
+	/**
+	 * Creates a request for data to be fetched. Same functionality as addRequest except it returns the request separately instead
+	 *
+	 * @param dx			(Array of) data IDs - data element, indicator, data element operand, dataset
+	 * @param pe			(Array of) periods in ISO format
+	 * @param ouBoundary	(Array of) boundary orgunit IDs
+	 * @param ouLevel		Optional - level (int) for orgunit disaggregation.
+	 * @param ouGroup		Optional - group (id) for orgunit disaggregation
+	 */
+	function createRequest(dx, pe, ouBoundary, ouLevel, ouGroup, aggregationType) {
+		return makeRequestURLs(
+			d2Utils.toArray(dx),
+			d2Utils.toArray(pe),
+			d2Utils.toArray(ouBoundary),
+			ouLevel,
+			ouGroup,
+			aggregationType
+		);
+	}
+
 
 	/**
-				 * Fetch data, based on requests that have already been added
-				 *
-				 * @returns {* promise}
-				 */
+	 * Fetch data, based on requests that have already been added
+	 *
+	 * @returns {* promise}
+	 */
 	function fetch() {
 
 		var newBatch = new Batch(_newRequests);
@@ -76,12 +102,12 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/**
-				 * Look up individual data values from the current result.
-				 *
-				 * @param de, pe, ou, co	IDs
-				 * @param aggregationType
-				 * @returns float of datavalue, or null if not found
-				 */
+	 * Look up individual data values from the current result.
+	 *
+	 * @param de, pe, ou, co	IDs
+	 * @param aggregationType
+	 * @returns float of datavalue, or null if not found
+	 */
 	function dataValue(de, pe, ou, co, at) {
 		if (co === undefined) co = null;
 		if (at === undefined) at = null;
@@ -123,11 +149,11 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/**
-				 * Look up data values from the current result.
-				 *
-				 * @param de, pe, ou, co	IDs
-				 * @returns float of datavalue, or null if not found
-				 */
+	 * Look up data values from the current result.
+	 *
+	 * @param de, pe, ou, co	IDs
+	 * @returns float of datavalue, or null if not found
+	 */
 	function dataValues(de, pe, ou, co) {
 		var value, values = [];
 
@@ -164,14 +190,13 @@ export default function (requestService, d2Utils, $q) {
 	}
 
 
-
-
 	/**
-				 * Look up names based on ID.
-				 */
+	 * Look up names based on ID.
+	 */
 	function name(id) {
 		var items = mergedData.metaData.items;
 		var name;
+
 		//data element operand
 		if (id.length === 23) {
 			name = items[id.substr(0,11)].name + " " + items[id.substr(12,11)].name;
@@ -179,35 +204,36 @@ export default function (requestService, d2Utils, $q) {
 		else {
 			name = items[id].name;
 		}
+
 		return name;
 	}
 
 
 
 	/**
-				 * === === === === === ===
-				 * PRIVATE FUNCTIONS
-				 * === === === === === ===
-				 */
+	 * === === === === === ===
+	 * PRIVATE FUNCTIONS
+	 * === === === === === ===
+	 */
 
 	/**
-				 * Makes DHIS 2 analytics request based on the given parameters.
-				 *
-				 * @param dxAll			Array of data IDs
-				 * @param pe			Array of ISO periods
-				 * @param ouBoundary	Array of boundary orgunit IDs
-				 * @param ouLevel		Orgunit level for disaggregation
-				 * @param ouGroup		Orgunit group for disaggregation
-				 * @param aggregationType Aggregation type for the request. Null = default
-				 * @returns {Array}		Array of requests
-				 */
+	 * Makes DHIS 2 analytics request based on the given parameters.
+	 *
+	 * @param dxAll			Array of data IDs
+	 * @param pe			Array of ISO periods
+	 * @param ouBoundary	Array of boundary orgunit IDs
+	 * @param ouLevel		Orgunit level for disaggregation
+	 * @param ouGroup		Orgunit group for disaggregation
+	 * @param aggregationType Aggregation type for the request. Null = default
+	 * @returns {Array}		Array of requests
+	 */
 	function makeRequestURLs(dxAll, pe, ouBoundary, ouLevel, ouGroup, aggregationType) {
 
-		var dx = [];
-		var dxCo = [];
-		for (var i = 0; i < dxAll.length; i++) {
+		const dx = [];
+		const dxCo = [];
+		for (let i = 0; i < dxAll.length; i++) {
 
-			var dataID = dxAll[i];
+			const dataID = dxAll[i];
 			if (!dataID) {
 				continue;
 			}
@@ -219,11 +245,16 @@ export default function (requestService, d2Utils, $q) {
 			}
 		}
 
-		var ouDisaggregation = "";
-		if (ouLevel) ouDisaggregation += ";LEVEL-" + ouLevel;
-		else if (ouGroup) ouDisaggregation += ";OU_GROUP-" + ouGroup;
+		let ouDisaggregation = "";
+		if (ouLevel) {
+			ouDisaggregation += ";LEVEL-" + ouLevel;
+		}
+		else if (ouGroup) {
+			ouDisaggregation += ";OU_GROUP-" + ouGroup;
+		}
 
-		var requestURL, requestURLs = [];
+		let requestURL;
+		let requestURLs = [];
 		if (dx.length > 0) {
 
 			requestURL = "/analytics.json";
@@ -259,8 +290,8 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/**
-				 * Fetch next request from the queue of requests.
-				 */
+	 * Fetch next request from the queue of requests.
+	 */
 	function fetchNextRequest() {
 
 
@@ -274,17 +305,9 @@ export default function (requestService, d2Utils, $q) {
 		var request = _currentBatch.request();
 		if (!request) return;
 
-		//TODO: temporary fix
-		if (request.match("aggregationType=COUNT")) {
-			_aggregationType = "COUNT";
-		}
-		else {
-			_aggregationType = false;
-		}
+		fixAggregationType(request);
+
 		requestService.getSingleData(request).then( function(data) {
-
-
-
 			if (data) {
 				if (_aggregationType) {
 					data = addAggregationInfo(data, _aggregationType);
@@ -292,11 +315,10 @@ export default function (requestService, d2Utils, $q) {
 				receivedData.push(data);
 			}
 
-
 			//Current batch is done - merge the data we have so far, and fulfill the promise
 			if (_currentBatch.done()) {
-				mergeBatchMetaData();
-				mergeAnalyticsResults();
+				mergeBatchMetaData(receivedData);
+				mergeAnalyticsResults(receivedData);
 				resolveCurrentBatch();
 			}
 			//We are not done, so fetch the next
@@ -307,11 +329,20 @@ export default function (requestService, d2Utils, $q) {
 		});
 	}
 
+	function fixAggregationType(request) {
+		//TODO: temporary fix
+		if (request.match("aggregationType=COUNT")) {
+			_aggregationType = "COUNT";
+		}
+		else {
+			_aggregationType = false;
+		}
+	}
+
 
 	/**
-				 * Add info about aggregationtype to result
-				 */
-
+	 * Add info about aggregationtype to result
+	 */
 	function addAggregationInfo(data, aggregationType) {
 		data.headers.push({"name": "at"});
 		for (var i = 0; i < data.rows.length; i++) {
@@ -323,9 +354,9 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/**
-				 * Merges the metadata from one or more request results into one result set.
-				 */
-	function mergeBatchMetaData() {
+	 * Merges the metadata from one or more request results into one result set.
+	 */
+	function mergeBatchMetaData(newData) {
 		//Create "skeleton" if it does not exist
 		var meta = {
 			co: [],
@@ -336,8 +367,8 @@ export default function (requestService, d2Utils, $q) {
 			pe: []
 		};
 
-		for (var i = 0; i < receivedData.length; i++) {
-			var metaData = receivedData[i].metaData;
+		for (var i = 0; i < newData.length; i++) {
+			var metaData = newData[i].metaData;
 
 			//Transfer metadata
 			meta.co.push.apply(meta.co, metaData.dimensions.co);
@@ -367,17 +398,18 @@ export default function (requestService, d2Utils, $q) {
 		//Clear the data we have now merged
 		_currentBatchMeta = meta;
 	}
+	
 
 
 
 	/**
-				 * Merges the data from the one or more request results into one global result set, which will be used
-				 * for any subsequent requests for additional data.
-				 *
-				 * In cases where the format is different (e.g. one request is disaggergated and the other not),
-				 * the "maximum" will be used and the missing fields will be empty.
-				 */
-	function mergeAnalyticsResults() {
+	 * Merges the data from the one or more request results into one global result set, which will be used
+	 * for any subsequent requests for additional data.
+	 *
+	 * In cases where the format is different (e.g. one request is disaggergated and the other not),
+	 * the "maximum" will be used and the missing fields will be empty.
+	 */
+	function mergeAnalyticsResults(dataToMerge) {
 
 		//Create "skeleton" if it does not exist
 		if (!mergedData) {
@@ -402,10 +434,10 @@ export default function (requestService, d2Utils, $q) {
 			};
 		}
 
-		for (var i = 0; i < receivedData.length; i++) {
-			var header = receivedData[i].headers;
-			var metaData = receivedData[i].metaData;
-			var rows = receivedData[i].rows;
+		for (var i = 0; i < dataToMerge.length; i++) {
+			var header = dataToMerge[i].headers;
+			var metaData = dataToMerge[i].metaData;
+			var rows = dataToMerge[i].rows;
 
 			var dxi = null, pei = null, oui = null, coi = null, vali = null, ati = null;
 			for (var j = 0; j < header.length; j++) {
@@ -455,15 +487,13 @@ export default function (requestService, d2Utils, $q) {
 		mergedData.metaData.ou = d2Utils.arrayRemoveDuplicates(mergedData.metaData.ou);
 		mergedData.metaData.pe = d2Utils.arrayRemoveDuplicates(mergedData.metaData.pe);
 
-		//Clear the data we have now merged
-		receivedData = [];
 	}
 
 
 	/**
-				 * Call when data for the current batch has been fetched and merged.
-				 * Resolves the data promise, clears the current batch, and calls for more data
-				 */
+	 * Call when data for the current batch has been fetched and merged.
+	 * Resolves the data promise, clears the current batch, and calls for more data
+	 */
 	function resolveCurrentBatch() {
 		_currentBatch.resolve(_currentBatchMeta);
 		_currentBatch = null;
@@ -473,13 +503,17 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/** === BATCH CLASS ===
-				 * Class used to store "batches" of requests. Has an array of requests and a promise, with methods
-				 * to query and access these.
-				 */
+	 * Class used to store "batches" of requests. Has an array of requests and a promise, with methods
+	 * to query and access these.
+	 */
 
 	function Batch(requests) {
 		this._requests = requests;
 		this._deferred = $q.defer();
+
+		this._receivedData = [];
+		this._started = false;
+		this._batchMeta = null;
 	}
 
 	Batch.prototype.promise = function() {

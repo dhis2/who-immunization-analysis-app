@@ -12,13 +12,15 @@ import getFileNameWithTimeStamp from "../libs/getFileNameWithTimestamp";
 
 import colors from "../colors";
 
+const debug = require('debug')('who:report')
+
 //Define module
 const report = angular.module("report", []);
 
 //Define DashboardController
 report.controller("ReportController",
-	["d2Map", "d2Meta", "d2Data", "d2Utils", "$q",
-		function(d2Map, d2Meta, d2Data, d2Utils, $q) {
+	["d2Map", "d2Meta", "d2Data", "d2Utils", "$q", "requestService",
+		function(d2Map, d2Meta, d2Data, d2Utils, $q, requestService) {
 
 			var self = this;
 
@@ -1002,10 +1004,45 @@ report.controller("ReportController",
 
 			};
 
+			function getRimCodes() {
+				return d2Map.rimCodes();
+			}
+
+			function createRimExportIndicatorRequests(codes) {
+				const indicatorRequests = []
+
+				//Query for these codes in DHIS
+
+				//Split by making requests by a maximum of 50 indicators per request
+				var start = 0, end = 50, filter = "";
+				while (start < codes.length && end <= codes.length) {
+					filter = "code:in:[" + codes.slice(start, end).join(",") + "]";
+					indicatorRequests.push(d2Meta.objects("indicators", null, "id,numerator,code", filter, false));
+					debug(`createRimExportIndicatorRequests: Adding request with filter ${filter}`);
+					start = end;
+					end += 50;
+					if (end > codes.length) end = codes.length;
+				}
+
+				return indicatorRequests;
+			}
+
+			function extractIndicators(data) {
+				const indicators = [];
+				for (var i = 0; i < data.length; i++) {
+					for (var j = 0; j < data[i].length; j++) {
+						if (data[i][j].numerator != "") {
+							indicators.push(data[i][j]);
+						}
+					}
+				}
+				return indicators;
+			}
 
 			/** RIM EXPORT **/
-			var chaine_cumule = [];
 			function rimExport() {
+
+				
 				self.hideLeftMenu();
 
 				self.rim = {
@@ -1013,79 +1050,98 @@ report.controller("ReportController",
 					activity: i18next.t("Identifying data")
 				};
 				//First get all RIM variables (codes)
-				d2Map.rimCodes().then(function(codes) {
+				getRimCodes().then(function(codes) {
 
-					var promises = [];
-
-					//Query for these codes in DHIS
-					var start = 0, end = 50, filter = "";
-					while (start < codes.length && end <= codes.length) {
-						filter = "code:in:[" + codes.slice(start, end).join(",") + "]";
-						promises.push(d2Meta.objects("indicators", null, "id,numerator,code", filter, false));
-						start = end;
-						end += 50;
-						if (end > codes.length) end = codes.length;
-					}
+					const indicatorRequests = createRimExportIndicatorRequests(codes);
 
 					//Save the ones that are in DHIS, and have been configured
-					$q.all(promises).then(function(datas) {
-						var indicatorIds = [];
-						self.rim.indicators = [];
-						for (var i = 0; i < datas.length; i++) {
-							for (var j = 0; j < datas[i].length; j++) {
-								if (datas[i][j].numerator != "") {
-									indicatorIds.push(datas[i][j].id);
-									self.rim.indicators.push(datas[i][j]);
-								}
-							}
-						}
-						
-						var compt =  self.selectedMonth.id*1;
-						var pad = "00";
-						var str2 ="";
-						var zperiode = "";
-						var si_dernier = false;
-						
-						for (var compte2 = compt; compte2 >= 1; compte2--){
-							str2 =pad+compte2;
-							str2 = str2.substring(str2.length-2,str2.length);
-							zperiode+=";"+self.selectedPeriod.id+str2;
-							var periode = zperiode.substring(1,zperiode.length);
-								
+					$q.all(indicatorRequests).then(function(datas) {
+						//When all indicators have loaded
 
-							var rimMeta = d2Map.rimMeta();
-							var pe = self.selectedPeriod.id + str2;
-							var ouLevel = rimMeta.districtLevel;
+						self.rim.indicators = extractIndicators(datas);
+						const indicatorIds = self.rim.indicators.map(indicator => indicator.id);
+						
+						var selectedMonthId =  +self.selectedMonth.id;
+						
+						const monthlyRequests = [];
 
-							var completenessIds = [rimMeta.dataSetId + ".EXPECTED_REPORTS", rimMeta.dataSetId + ".ACTUAL_REPORTS",
-								rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME"];
-							d2Data.addRequest(completenessIds, pe, null, ouLevel, null, null);
+						for (let i = 1; i <= selectedMonthId; ++i){
+
+							const monthRequests = [];
+
+							let zeroPaddedMonth = i < 10 ? `0${i}` : i;
+						
+							const rimMeta = d2Map.rimMeta();
+							const pe = self.selectedPeriod.id + zeroPaddedMonth;
+							const ouLevel = rimMeta.districtLevel;
+
+							const completenessIds = [
+								rimMeta.dataSetId + ".EXPECTED_REPORTS", 
+								rimMeta.dataSetId + ".ACTUAL_REPORTS",
+								rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME"
+							];
+							monthRequests.push(d2Data.createRequest(completenessIds, pe, null, ouLevel, null, null));
 
 							//Request the data
-							var start = 0, end = 10;
-							if (end > indicatorIds.length) end = indicatorIds.length;
+							const stepsize = 30;
+							let start = 0;
+							let end = Math.min(stepsize, indicatorIds.length);
+
 							while (start < indicatorIds.length && end <= indicatorIds.length) {
-								d2Data.addRequest(indicatorIds.slice(start, end), pe, null,
-									ouLevel, null, null);
+								const dx = indicatorIds.slice(start, end);
+
+								monthRequests.push(d2Data.createRequest(dx, pe, null, ouLevel, null, null));
 
 								start = end;
-								end += 10;
-								if (end > indicatorIds.length) end = indicatorIds.length;
+								end = (end + stepsize > indicatorIds.length) ? indicatorIds.length : end + stepsize;
 							}
-							self.rim.activity = i18next.t("Downloading data");
-							d2Data.fetch().then(function (meta) {
-								if(str2*1 == 1) si_dernier = true;
-								rimProcessData(meta, indicatorIds, str2);
-							});
-						
+
+							monthlyRequests[i] = monthRequests;
 						}  
-						var monhorloge = setInterval(function(){
+
+						self.rim.activity = i18next.t("Downloading data");
+
+						for (let i = 1; i <= selectedMonthId; ++i){
+							debug(`Processing requests in RIM Export for month: ${i} (${monthlyRequests[i].length} requests)`)
+
+							if ( monthlyRequests[i].length ) {
+
+								const requestPromises = monthlyRequests[i].map(requestUrl => {
+									let aggregationType = false;
+									if (requestUrl.match("aggregationType=COUNT")) {
+										aggregationType = "COUNT";
+									}
+									let deferred = $q.defer();
+									requestService
+										.getSingleData(requestUrl)
+										.then((data) => {
+											if ( aggregationType ) {
+												d2Data.addAggregationInfo(data, aggregationType);
+											}
+											deferred.resolve(data);
+										})
+									return deferred;
+								})
+
+								$q.all(requestPromises).then(results => {
+									
+									d2Data.mergeBatchMetaData(results);
+									d2Data.mergeAnalyticsResults(results);
+									
+									rimProcessData(d2Data.getCurrentBatchMeta(), indicatorIds);
+									d2Data.resetBatchMeta();
+								});
+							}
+
+						}
+
+						var timer = setInterval(function(){
 							
-							if(compteur_fin_export == self.selectedMonth.id*1){
+							if(compteur_fin_export === +self.selectedMonth.id) {
 								makeExportFile(i_tab, i18next.t("RIM_export"));
 								compteur_fin_export=0;
 								self.rim.done = !0; self.showLeftMenu();
-								clearTimeout(monhorloge);
+								clearTimeout(timer);
 								
 							}
 						}, 2000);		
@@ -1107,7 +1163,7 @@ report.controller("ReportController",
 			var i_tab = []; 
 			var compteur_fin_export = 0; 
 
-			function rimProcessData(metaData, indicatorIds, si_derniere_pe) {
+			function rimProcessData(metaData, indicatorIds) {
 				compteur_fin_export++;
 				
 				//Store data in array of arrays, which we can covert to CSV
@@ -1170,7 +1226,9 @@ report.controller("ReportController",
 					i_tab.push(row);
 				}
 				
-				if(compteur_fin_export == self.selectedMonth.id*1) self.rim.done = !0; 
+				if(compteur_fin_export === +self.selectedMonth.id) {
+					self.rim.done = true;
+				}
 			}
 
 
