@@ -1044,7 +1044,9 @@ report.controller("ReportController",
 
 			/** RIM EXPORT **/
 			function rimExport() {
-
+				if ( console && console.time ) {
+					console.time('rimExport')
+				}
 				
 				self.hideLeftMenu();
 
@@ -1138,6 +1140,10 @@ report.controller("ReportController",
 							const data = rimProcessData(results, indicatorIds);
 
 							makeExportFile(data, i18next.t("RIM_export"));
+
+							if ( console && console.time ) {
+								console.timeEnd('rimExport')
+							}
 
 							self.rim.done = true;
 							self.showLeftMenu();
