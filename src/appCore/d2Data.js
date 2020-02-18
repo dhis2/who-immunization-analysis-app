@@ -5,21 +5,19 @@
  immunities enjoyed by WHO under national or international law or submit to any national court jurisdiction.
  */
 
+ import d2DataHelper from './d2DataHelper'
+
 export default function (requestService, d2Utils, $q) {
 
 	//Define factory API
 	var service = {
 		addRequest: addRequest,
 		createRequest: createRequest,
-		mergeBatchMetaData: mergeBatchMetaData,
-		mergeAnalyticsResults: mergeAnalyticsResults,
 		fetch: fetch,
 		value: dataValue,
+		valueFromSource: dataValueFromSource,
 		values: dataValues,
 		name: name,
-		getCurrentBatchMeta: () => _currentBatchMeta,
-		resetBatchMeta: () => { _currentBatchMeta = null },
-		addAggregationInfo: addAggregationInfo
 	};
 
 	//Private variables
@@ -108,7 +106,7 @@ export default function (requestService, d2Utils, $q) {
 	 * @param aggregationType
 	 * @returns float of datavalue, or null if not found
 	 */
-	function dataValue(de, pe, ou, co, at) {
+	function dataValueFromSource(de, pe, ou, co, at, dataSource) {
 		if (co === undefined) co = null;
 		if (at === undefined) at = null;
 
@@ -118,8 +116,8 @@ export default function (requestService, d2Utils, $q) {
 			de = de.substr(0,11);
 		}
 
-		var header = mergedData.headers;
-		var dataValues = mergedData.rows;
+		var header = dataSource.headers;
+		var dataValues = dataSource.rows;
 
 		var dxi, pei, oui, coi, vali, ati;
 		for (var i = 0; i < header.length; i++) {
@@ -145,6 +143,10 @@ export default function (requestService, d2Utils, $q) {
 		}
 
 		return null;
+	}
+
+	function dataValue(de, pe, ou, co, at) {
+		return dataValueFromSource(de, pe, ou, co, at, mergedData);
 	}
 
 
@@ -317,8 +319,8 @@ export default function (requestService, d2Utils, $q) {
 
 			//Current batch is done - merge the data we have so far, and fulfill the promise
 			if (_currentBatch.done()) {
-				mergeBatchMetaData(receivedData);
-				mergeAnalyticsResults(receivedData);
+				_currentBatchMeta = d2DataHelper.mergeMetaData(receivedData);
+				mergedData = d2DataHelper.mergeAnalyticsResults(mergedData, receivedData);
 				resolveCurrentBatch();
 			}
 			//We are not done, so fetch the next
@@ -354,143 +356,6 @@ export default function (requestService, d2Utils, $q) {
 
 
 	/**
-	 * Merges the metadata from one or more request results into one result set.
-	 */
-	function mergeBatchMetaData(newData) {
-		//Create "skeleton" if it does not exist
-		var meta = {
-			co: [],
-			dx: [],
-			items: {},
-			ouHierarchy: {},
-			ou: [],
-			pe: []
-		};
-
-		for (var i = 0; i < newData.length; i++) {
-			var metaData = newData[i].metaData;
-
-			//Transfer metadata
-			meta.co.push.apply(meta.co, metaData.dimensions.co);
-			meta.dx.push.apply(meta.dx, metaData.dimensions.dx);
-			meta.ou.push.apply(meta.ou, metaData.dimensions.ou);
-			meta.pe.push.apply(meta.pe, metaData.dimensions.pe);
-
-			for (key in metaData.ouHierarchy) {
-				if (metaData.ouHierarchy.hasOwnProperty(key)) {
-					meta.ouHierarchy[key] = metaData.ouHierarchy[key];
-				}
-			}		
-			
-			for (var key in metaData.items) {
-				if (metaData.items.hasOwnProperty(key)) {
-					meta.items[key] = metaData.items[key];
-				}
-			}
-		}
-
-		//Remove duplicates in metaData
-		meta.co = d2Utils.arrayRemoveDuplicates(meta.co);
-		meta.dx = d2Utils.arrayRemoveDuplicates(meta.dx);
-		meta.ou = d2Utils.arrayRemoveDuplicates(meta.ou);
-		meta.pe = d2Utils.arrayRemoveDuplicates(meta.pe);
-
-		//Clear the data we have now merged
-		_currentBatchMeta = meta;
-	}
-	
-
-
-
-	/**
-	 * Merges the data from the one or more request results into one global result set, which will be used
-	 * for any subsequent requests for additional data.
-	 *
-	 * In cases where the format is different (e.g. one request is disaggergated and the other not),
-	 * the "maximum" will be used and the missing fields will be empty.
-	 */
-	function mergeAnalyticsResults(dataToMerge) {
-
-		//Create "skeleton" if it does not exist
-		if (!mergedData) {
-			mergedData = {
-				headers: [
-					{name: "dx"},
-					{name: "co"},
-					{name: "ou"},
-					{name: "pe"},
-					{name: "value"},
-					{name: "at"}
-				],
-				metaData: {
-					co: [],
-					dx: [],
-					items: {},
-					ouHierarchy: {},
-					ou: [],
-					pe: []
-				},
-				rows: []
-			};
-		}
-
-		for (var i = 0; i < dataToMerge.length; i++) {
-			var header = dataToMerge[i].headers;
-			var metaData = dataToMerge[i].metaData;
-			var rows = dataToMerge[i].rows;
-
-			var dxi = null, pei = null, oui = null, coi = null, vali = null, ati = null;
-			for (var j = 0; j < header.length; j++) {
-				if (header[j].name === "dx" && !header[j].hidden) dxi = j;
-				if (header[j].name === "ou" && !header[j].hidden) oui = j;
-				if (header[j].name === "pe" && !header[j].hidden) pei = j;
-				if (header[j].name === "co" && !header[j].hidden) coi = j;
-				if (header[j].name === "value" && !header[j].hidden) vali = j;
-				if (header[j].name === "at") ati = j;
-			}
-
-			//Transfer data to result object
-			var transVal;
-			for (var j = 0; j < rows.length; j++) {
-				transVal = [];
-				transVal[0] = rows[j][dxi];
-				coi ? transVal[1] = rows[j][coi] : transVal[1] = null;
-				ati ? transVal[5] = rows[j][ati] : transVal[5] = null;
-				transVal[2] = rows[j][oui];
-				transVal[3] = rows[j][pei];
-				transVal[4] = rows[j][vali];
-
-				mergedData.rows.push(transVal);
-			}
-
-			//Transfer metadata
-			mergedData.metaData.co.push.apply(mergedData.metaData.co, metaData.dimensions.co);
-			mergedData.metaData.dx.push.apply(mergedData.metaData.dx, metaData.dimensions.dx);
-			mergedData.metaData.ou.push.apply(mergedData.metaData.ou, metaData.dimensions.ou);
-			mergedData.metaData.pe.push.apply(mergedData.metaData.pe, metaData.dimensions.pe);
-
-			for (key in metaData.ouHierarchy) {
-				if (metaData.ouHierarchy.hasOwnProperty(key)) {
-					mergedData.metaData.ouHierarchy[key] = metaData.ouHierarchy[key];
-				}
-			}
-			for (var key in metaData.items) {
-				if (metaData.items.hasOwnProperty(key)) {
-					mergedData.metaData.items[key] = metaData.items[key];
-				}
-			}
-		}
-
-		//Remove duplicates in metaData
-		mergedData.metaData.co = d2Utils.arrayRemoveDuplicates(mergedData.metaData.co);
-		mergedData.metaData.dx = d2Utils.arrayRemoveDuplicates(mergedData.metaData.dx);
-		mergedData.metaData.ou = d2Utils.arrayRemoveDuplicates(mergedData.metaData.ou);
-		mergedData.metaData.pe = d2Utils.arrayRemoveDuplicates(mergedData.metaData.pe);
-
-	}
-
-
-	/**
 	 * Call when data for the current batch has been fetched and merged.
 	 * Resolves the data promise, clears the current batch, and calls for more data
 	 */
@@ -499,7 +364,6 @@ export default function (requestService, d2Utils, $q) {
 		_currentBatch = null;
 		fetchNextRequest();
 	}
-
 
 
 	/** === BATCH CLASS ===

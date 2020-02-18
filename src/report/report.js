@@ -13,6 +13,7 @@ import getFileNameWithTimeStamp from "../libs/getFileNameWithTimestamp";
 import colors from "../colors";
 
 import flattenDeep from 'lodash/flattenDeep'
+import d2DataHelper from "../appCore/d2DataHelper";
 
 const debug = require('debug')('who:report')
 
@@ -1054,7 +1055,13 @@ report.controller("ReportController",
 				//First get all RIM variables (codes)
 				getRimCodes().then(function(codes) {
 
+
 					const indicatorRequests = createRimExportIndicatorRequests(codes);
+
+					const allRequests = [];
+
+					//Selected month is "up to" the month we want to fetch data, I.E. if selecting 2017 + June we want to get data for 2017 January, Feb, Mar, Apr, May AND June inclusive.
+					var selectedMonthId =  +self.selectedMonth.id;
 
 					//Save the ones that are in DHIS, and have been configured
 					$q.all(indicatorRequests).then(function(datas) {
@@ -1063,15 +1070,10 @@ report.controller("ReportController",
 						self.rim.indicators = extractIndicators(datas);
 						const indicatorIds = self.rim.indicators.map(indicator => indicator.id);
 						
-						var selectedMonthId =  +self.selectedMonth.id;
-						
-						const monthlyRequests = [];
-
-						for (let i = 1; i <= selectedMonthId; ++i){
+						for (let currentMonth = 1; currentMonth <= selectedMonthId; ++currentMonth){
 
 							const monthRequests = [];
-
-							let zeroPaddedMonth = i < 10 ? `0${i}` : i;
+							const zeroPaddedMonth = currentMonth < 10 ? `0${currentMonth}` : currentMonth;
 						
 							const rimMeta = d2Map.rimMeta();
 							const pe = self.selectedPeriod.id + zeroPaddedMonth;
@@ -1096,68 +1098,52 @@ report.controller("ReportController",
 
 								start = end;
 								end = (end + stepsize > indicatorIds.length) ? indicatorIds.length : end + stepsize;
-							}
+							}							
 
-							monthlyRequests[i] = monthRequests;
-						}  
+
+							const requestPromises = monthRequests.map(requestUrls => {
+								return requestUrls.map(requestUrl => {
+									let deferred = $q.defer();
+									let aggregationType = false;
+
+									if (requestUrl.match("aggregationType=COUNT")) {
+										aggregationType = "COUNT";
+										debugger;
+									}
+
+									requestService
+										.getSingleData(requestUrl)
+										.then((data) => {
+											if ( aggregationType ) {
+												d2Data.addAggregationInfo(data, aggregationType);
+											}
+											deferred.resolve(data);
+										})
+
+									return deferred.promise;
+								})
+							})
+
+							debug(`Created ${requestPromises.length} requests for month ${currentMonth}`)
+
+							Array.prototype.push.apply(allRequests, flattenDeep(requestPromises))
+
+							debug(`allRequests now contain ${allRequests.length} requests`)
+ 						}
 
 						self.rim.activity = i18next.t("Downloading data");
 
-						for (let i = 1; i <= selectedMonthId; ++i){
-							debug(`Processing requests in RIM Export for month: ${i} (${monthlyRequests[i].length} requests)`)
+						$q.all(allRequests).then(results => {
 
-							if ( monthlyRequests[i].length ) {
+							const data = rimProcessData(results, indicatorIds);
 
-								const requestPromises = monthlyRequests[i].map(requestUrls => {
+							makeExportFile(data, i18next.t("RIM_export"));
 
-									return requestUrls.map(requestUrl => {
-										let aggregationType = false;
-										if (requestUrl.match("aggregationType=COUNT")) {
-											aggregationType = "COUNT";
-										}
-										let deferred = $q.defer();
-										requestService
-											.getSingleData(requestUrl)
-											.then((data) => {
-												if ( aggregationType ) {
-													d2Data.addAggregationInfo(data, aggregationType);
-												}
-												deferred.resolve(data);
-											})
-										return deferred.promise;
-									})
-
-								})
-
-								const flatRequestPromises = flattenDeep(requestPromises)
-
-								$q.all(flatRequestPromises).then(results => {
-									
-									d2Data.mergeBatchMetaData(results);
-									d2Data.mergeAnalyticsResults(results);
-									
-									rimProcessData(d2Data.getCurrentBatchMeta(), indicatorIds);
-									d2Data.resetBatchMeta();
-								});
-							}
-
-						}
-
-						var timer = setInterval(function(){
-							
-							if(compteur_fin_export === +self.selectedMonth.id) {
-								makeExportFile(i_tab, i18next.t("RIM_export"));
-								compteur_fin_export=0;
-								self.rim.done = !0; self.showLeftMenu();
-								clearTimeout(timer);
-								
-							}
-						}, 2000);		
-						
+							self.rim.done = true;
+							self.showLeftMenu();
+						});
 					});
-
 				});
-
 			}
 
 
@@ -1167,76 +1153,111 @@ report.controller("ReportController",
 				}
 				return false;
 			}
-
-			var i_tab = []; 
-			var compteur_fin_export = 0; 
-
-			function rimProcessData(metaData, indicatorIds) {
-				compteur_fin_export++;
+			
+			function rimProcessData(metaDataResults, indicatorIds) {
 				
-				//Store data in array of arrays, which we can covert to CSV
+				const processedData = []; 
 				
 				//Rim metadata
-				var rimMeta = d2Map.rimMeta();
-
-				//Period (ISO)
-				var pe = metaData.pe[0];
-
-				//Year
-				var year = pe.substr(0,4);
-
-				//Month
-				var month = pe.substr(4,2);
+				const rimMeta = d2Map.rimMeta();
 
 				//Country_Code
-				var countryCode = d2Map.rimMeta().countryCode;
+				const countryCode = d2Map.rimMeta().countryCode;
 
-				//Districts to iterate over
-				var districts = metaData.ou;
-
-				var header = ["Country_Code", "Province_Name", "District", "Year", "Month", "TotalNumHF", "NumHFReportsIncluded", "NumHFReportsTimely"];
-				for (var i = 0; i < indicatorIds.length; i++) {
-					header.push(rimCodeFromId(indicatorIds[i]));
+				const rimExportHeaders = ["Country_Code", "Province_Name", "District", "Year", "Month", "TotalNumHF", "NumHFReportsIncluded", "NumHFReportsTimely"];
+				for (let i = 0; i < indicatorIds.length; i++) {
+					rimExportHeaders.push(rimCodeFromId(indicatorIds[i]));
 				}
-				
-				if(compteur_fin_export == 1 ) {
-					i_tab.push(header);
+				processedData.push(rimExportHeaders);
+
+				const sortedByPeriod = {}
+				for ( let i = 0; i < metaDataResults.length; ++i ) {
+					const resultRow = metaDataResults[i];
+					const metaData = resultRow.metaData;
+					const pe = metaData.dimensions.pe[0];
+
+					if ( !sortedByPeriod[pe] ) {
+						sortedByPeriod[pe] = [];
+					}					
+					sortedByPeriod[pe].push(resultRow);
 				}
 
-				var districtId;
-				for (var i = 0; i < districts.length; i++) {
-					districtId = districts[i];
-					var row = [];
+				const mergedMetaDataByPeriod = {};
+				const periods = Object.keys(sortedByPeriod);
+				let mergedAnalyticsDataByPeriod = {};
+				periods.map(period => {
+					const periodResults = sortedByPeriod[period];
+					
+					//Store merged data per period
+					mergedMetaDataByPeriod[period] = d2DataHelper.mergeMetaData(periodResults);
 
-					//Add metadata
-					row.push(countryCode);
+					//This contains all periods, all data, merged into one large object
+					mergedAnalyticsDataByPeriod[period] = d2DataHelper.mergeAnalyticsResults(null, periodResults);
+				})
 
-					//Province_Name
-					row.push(metaData.items[metaData.ouHierarchy[districtId].split("/")[rimMeta.provinceLevel-1]].name);
+				//This is basically where the old rimProcessData function started
+				for ( let i = 0; i < periods.length; ++i ) {
+					debug('----- New period -----')
+					const metaData = mergedMetaDataByPeriod[periods[i]];
+					const analyticsData = mergedAnalyticsDataByPeriod[periods[i]];
 
-					//District
-					row.push(metaData.items[districtId].name);
+					//Period (ISO)
+					const pe = metaData.pe[0];
 
-					row.push(year);
-					row.push(month);
+					//Year
+					var year = pe.substr(0,4);
+					
+					//Month
+					var month = pe.substr(4,2);
 
+					//Districts to iterate over
+					var districts = metaData.ou;
 
-					//Add completeness
-					row.push(d2Data.value(rimMeta.dataSetId + ".EXPECTED_REPORTS", pe, districtId, null, null));
-					row.push(d2Data.value(rimMeta.dataSetId + ".ACTUAL_REPORTS", pe, districtId, null, null));
-					row.push(d2Data.value(rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME", pe, districtId, null, null));
+					for (var j = 0; j < districts.length; j++) {
+						
+						const districtId = districts[j];
+						debug(`New district. districtId: ${districtId}`)
 
-					//Iterate over indicators
-					for (var j = 0; j < indicatorIds.length; j++) {
-						row.push(d2Data.value(indicatorIds[j], pe, districtId, null, null));
+						var row = [];
+	
+						//Add metadata
+						row.push(countryCode);
+	
+						//Province_Name
+						const provinceName = metaData.items[metaData.ouHierarchy[districtId].split("/")[rimMeta.provinceLevel-1]].name;
+						row.push(provinceName);
+						debug(`provinceName: ${provinceName}`);
+	
+						//District
+						row.push(metaData.items[districtId].name);
+						debug(`districtName: ${metaData.items[districtId].name}`);
+	
+						row.push(year);
+						row.push(month);
+	
+						debug(`year-month: ${year}-${month}`);
+	
+						//Add completeness
+						const expectedReport = d2Data.valueFromSource(rimMeta.dataSetId + ".EXPECTED_REPORTS", pe, districtId, null, null, analyticsData);
+						const actualReport = d2Data.valueFromSource(rimMeta.dataSetId + ".ACTUAL_REPORTS", pe, districtId, null, null, analyticsData);
+						const actualReportOnTime = d2Data.valueFromSource(rimMeta.dataSetId + ".ACTUAL_REPORTS_ON_TIME", pe, districtId, null, null, analyticsData);
+
+						row.push(expectedReport);
+						row.push(actualReport);
+						row.push(actualReportOnTime);
+	
+						//Iterate over indicators
+						for (let k = 0; k < indicatorIds.length; k++) {
+							row.push(d2Data.valueFromSource(indicatorIds[k], pe, districtId, null, null, analyticsData));
+						}
+
+	
+						processedData.push(row);
 					}
 
-					i_tab.push(row);
 				}
-				
-				if(compteur_fin_export === +self.selectedMonth.id) {
-					self.rim.done = true;
-				}
+
+				return processedData;
 			}
 
 
