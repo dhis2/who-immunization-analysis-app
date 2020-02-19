@@ -6,17 +6,17 @@
  */
 
 angular.module("appCommons").controller("ModalNotificationController",
-	["$uibModalInstance", "title", "message",
-		function($uibModalInstance, title, message) {
+    ["$uibModalInstance", "title", "message",
+        function($uibModalInstance, title, message) {
 
-			var self = this;
+            var self = this;
 
-			self.title = title;
-			self.message = message;
+            self.title = title;
+            self.message = message;
 
-			self.close = function () {
-				$uibModalInstance.close(true);
-			};
+            self.close = function () {
+                $uibModalInstance.close(true);
+            };
 
-			return self;
-		}]);
+            return self;
+        }]);

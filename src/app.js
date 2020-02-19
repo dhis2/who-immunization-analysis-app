@@ -65,87 +65,75 @@ import initHeaderBar from "./headerbar.jsx";
 
 
 var app = angular.module("epiApp",
-	["smart-table", "ngAnimate", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.select", "angularBootstrapNavTree", "d2",
-		"report", "appService", "appCommons", "jm.i18next"]);
+    ["smart-table", "ngAnimate", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.select", "angularBootstrapNavTree", "d2",
+        "report", "appService", "appCommons", "jm.i18next"]);
 
 /**Bootstrap*/
 angular.element(document).ready( 
-	function() {
-		initHeaderBar("#header");
+    function() {
+        initHeaderBar("#header");
 
-		var initInjector = angular.injector(["ng"]);
-		var $http = initInjector.get("$http");
-		window.$q = initInjector.get("$q");
+        var initInjector = angular.injector(["ng"]);
+        var $http = initInjector.get("$http");
+        window.$q = initInjector.get("$q");
 
-		$http.get("manifest.webapp").then(
-			function(response) {
-				window.dhis2 = window.dhis2 || {};
-				window.dhis2.settings = window.dhis2.settings || {};
+        $http.get("manifest.webapp").then(
+            function(response) {
+                window.dhis2 = window.dhis2 || {};
+                window.dhis2.settings = window.dhis2.settings || {};
 
-				//Not production => rely on webpack-dev-server proxy
-				const baseUrl = process.env.NODE_ENV === "production" ? response.data.activities.dhis.href : DHIS_CONFIG.baseUrl;
-				console.log("Using baseUrl: " + baseUrl);
-				app.constant("BASE_URL", baseUrl);
-				app.constant("API_VERSION", "29");
+                //Not production => rely on webpack-dev-server proxy
+                const baseUrl = process.env.NODE_ENV === "production" ? response.data.activities.dhis.href : DHIS_CONFIG.baseUrl;
+                console.log("Using baseUrl: " + baseUrl);
+                app.constant("BASE_URL", baseUrl);
+                app.constant("API_VERSION", "29");
 
-				angular.bootstrap(document, ["epiApp"]);
-			}
-		);
+                angular.bootstrap(document, ["epiApp"]);
+            }
+        );
 		
-		i18next
-			.init({
-				returnEmptyString: false,
-				fallbackLng: false,
-				keySeparator: "|",
-				resources: i18nextResources
-			});
-		window.i18next = i18next;
-	}
+        i18next
+            .init({
+                returnEmptyString: false,
+                fallbackLng: false,
+                keySeparator: "|",
+                resources: i18nextResources
+            });
+        window.i18next = i18next;
+    }
 );
 
 /**Config*/
 app.config(["uiSelectConfig", function(uiSelectConfig) {
-	uiSelectConfig.theme = "bootstrap";
-	uiSelectConfig.resetSearchInput = true;
+    uiSelectConfig.theme = "bootstrap";
+    uiSelectConfig.resetSearchInput = true;
 }]);
 
 app.config(["$routeProvider",
-	function($routeProvider) {
-		$routeProvider.
-			when("/report", {
-				template: require("./report/report.html"),
-				controller: "ReportController",
-				controllerAs: "rCtrl"
-			}).
-			otherwise({
-				redirectTo: "/report"
-			});
-	}]
+    function($routeProvider) {
+        $routeProvider.
+            when("/report", {
+                template: require("./report/report.html"),
+                controller: "ReportController",
+                controllerAs: "rCtrl"
+            }).
+            otherwise({
+                redirectTo: "/report"
+            });
+    }]
 );
 
 app.config(["$httpProvider", 
-	function ($httpProvider) {
-		$httpProvider.defaults.withCredentials = true;
-	}]
+    function ($httpProvider) {
+        $httpProvider.defaults.withCredentials = true;
+    }]
 );
 
 
-/**Controller: Navigation*/
-app.controller("NavigationController",
-	["BASE_URL", "$location", "$window", "notificationService",
-		function(BASE_URL, $location, $window, notificationService) {
-			var self = this;
-
-
-
-			return self;
-		}]);
-
-
 app.run(["BASE_URL", "$http", function(BASE_URL, $http) {
-	$http.get( BASE_URL + "/api/me/?fields=settings").then(function (response) {
-		if (response.data && response.data.settings && response.data.settings.keyUiLocale) {
-			i18next.changeLanguage(response.data.settings.keyUiLocale);
-		}
-	});
+    $http.get( BASE_URL + "/api/me/?fields=settings").then(function (response) {
+        if (response.data && response.data.settings && response.data.settings.keyUiLocale) {
+            i18next.changeLanguage(response.data.settings.keyUiLocale);
+        }
+    });
 }]);
