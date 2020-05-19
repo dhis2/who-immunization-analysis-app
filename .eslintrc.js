@@ -10,11 +10,7 @@ module.exports = {
     "rules": {
 		"indent": [
 			"error",
-			"tab"
-		],
-		"linebreak-style": [
-			"error",
-			"unix"
+			4
 		],
 		"quotes": [
 			"error",
@@ -32,6 +28,8 @@ module.exports = {
 		"d3": true,
 		"__dirname": true,
 		"process": true,
-		"module": true
+		"module": true,
+		"i18next": true,
+		"DHIS_CONFIG": true
 	}
 };

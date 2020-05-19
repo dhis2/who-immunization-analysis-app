@@ -7,123 +7,123 @@
 
 export default function (BASE_URL, API_VERSION, $http, $q, notificationService) {
 
-	var self = this;
+    var self = this;
 
-	self.getMultiple = function(requestURLs) {
+    self.getMultiple = function(requestURLs) {
 
-		var promises = requestURLs.map(function(request) {
+        var promises = requestURLs.map(function(request) {
 
-			//Cache analytics requests
-			var cache = false;
-			//				if (request.indexOf("api/analytics") > -1); cache = true;
+            //Cache analytics requests
+            var cache = false;
+            //				if (request.indexOf("api/analytics") > -1); cache = true;
 
-			var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + request);
-			return $http.get(fullURL, {"cache": cache});
-		});
+            var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + request);
+            return $http.get(fullURL, {"cache": cache});
+        });
 
-		return $q.all(promises);
-	};
+        return $q.all(promises);
+    };
 
-	self.getSingle = function(requestURL) {
+    self.getSingle = function(requestURL) {
 
-		//Cache analytics requests
-		var cache = false;
-		//			if (requestURL.indexOf("api/analytics") > -1); cache = true;
+        //Cache analytics requests
+        var cache = false;
+        //			if (requestURL.indexOf("api/analytics") > -1); cache = true;
 
-		var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + requestURL);
-		return $http.get(fullURL, {"cache": cache});
-	};
+        var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + requestURL);
+        return $http.get(fullURL, {"cache": cache});
+    };
 
 
-	self.getSingleData = function(requestURL) {
-		var deferred = $q.defer();
+    self.getSingleData = function(requestURL) {
+        var deferred = $q.defer();
 		
-		//Cache analytics requests
-		var cache = false;
-		//if (requestURL.indexOf("api/analytics") > -1); cache = true;
+        //Cache analytics requests
+        var cache = false;
+        //if (requestURL.indexOf("api/analytics") > -1); cache = true;
 
-		var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + requestURL);
-		$http.get(fullURL, {"cache": cache}).then(function(response) {
-			if (self.validResponse(response)) {
-				deferred.resolve(response.data);
-			}
-			else {
-				deferred.resolve(null);
-			}
-		},
-		function(error) {
-			deferred.reject(error);
-		});
+        var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + requestURL);
+        $http.get(fullURL, {"cache": cache}).then(function(response) {
+            if (self.validResponse(response)) {
+                deferred.resolve(response.data);
+            }
+            else {
+                deferred.resolve(null);
+            }
+        },
+        function(error) {
+            deferred.reject(error);
+        });
 
-		return deferred.promise;
-	};
-
-
-
-	self.getSingleLocal = function(requestURL) {
-		return $http.get(encodeURI(requestURL));
-	};
+        return deferred.promise;
+    };
 
 
-	self.post = function(postURL, data) {
-		var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + postURL);
 
-		return $http.post(fullURL, data);
-	};
-
-	self.put = function(postURL, data) {
-		var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + postURL);
-
-		return $http.put(fullURL, data);
-	};
-
-	self.validResponse = function(response) {
-		//TODO - need to decide how to handle this better in general
-		if (Object.prototype.toString.call(response) === "[object Array]") return true;
+    self.getSingleLocal = function(requestURL) {
+        return $http.get(encodeURI(requestURL));
+    };
 
 
-		var data = response.data;
-		var status = response.status;
-		if (status != 200) {
-			//TODO: Should split it instead
-			if (status === 409 && (data.indexOf("Table exceeds") > -1)) {
-				console.log("Query result too big");
-			}
+    self.post = function(postURL, data) {
+        var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + postURL);
 
-			//No children for this boundary ou - no worries..
-			else if (status === 409 && (data.indexOf("Dimension ou is present") > -1)) {
-				console.log("Requested child data for a unit without children");
-			}
+        return $http.post(fullURL, data);
+    };
 
-			//Probably time out - try again
-			else if (status === 0) {
-				console.log("Timout - retrying");
-			}
+    self.put = function(postURL, data) {
+        var fullURL = encodeURI(BASE_URL + "/api/" + API_VERSION + postURL);
 
-			else if (status === 302 && typeof(response.data) === "string" && response.data.indexOf("class=\"loginPage\"") >= 0) {
-				console.log("User has been logged out");
-				notificationService.notify("test", "test").then(function() {
-					window.location = BASE_URL + "/dhis-web-dashboard/index.action";
-				});
-			}
+        return $http.put(fullURL, data);
+    };
 
-			//Unknown error
-			else {
-				console.log("Unknown error while fetching data: " + response.statusText);
-			}
-			return false;
-		}
-		else if (typeof(response.data) === "string" && response.data.indexOf("class=\"loginPage\"") >= 0) {
-			console.log("User has been logged out");
-			notificationService.notify("Logged out", "You are logged out, and will be redirected to the login page.").then(function() {
-				window.location = BASE_URL + "/dhis-web-dashboard/index.action";
-			});
-			return false;
-		}
-		return true;
-	};
+    self.validResponse = function(response) {
+        //TODO - need to decide how to handle this better in general
+        if (Object.prototype.toString.call(response) === "[object Array]") return true;
 
 
-	return self;
+        var data = response.data;
+        var status = response.status;
+        if (status != 200) {
+            //TODO: Should split it instead
+            if (status === 409 && (data.indexOf("Table exceeds") > -1)) {
+                console.log("Query result too big");
+            }
+
+            //No children for this boundary ou - no worries..
+            else if (status === 409 && (data.indexOf("Dimension ou is present") > -1)) {
+                console.log("Requested child data for a unit without children");
+            }
+
+            //Probably time out - try again
+            else if (status === 0) {
+                console.log("Timout - retrying");
+            }
+
+            else if (status === 302 && typeof(response.data) === "string" && response.data.indexOf("class=\"loginPage\"") >= 0) {
+                console.log("User has been logged out");
+                notificationService.notify("test", "test").then(function() {
+                    window.location = BASE_URL + "/dhis-web-dashboard/index.action";
+                });
+            }
+
+            //Unknown error
+            else {
+                console.log("Unknown error while fetching data: " + response.statusText);
+            }
+            return false;
+        }
+        else if (typeof(response.data) === "string" && response.data.indexOf("class=\"loginPage\"") >= 0) {
+            console.log("User has been logged out");
+            notificationService.notify("Logged out", "You are logged out, and will be redirected to the login page.").then(function() {
+                window.location = BASE_URL + "/dhis-web-dashboard/index.action";
+            });
+            return false;
+        }
+        return true;
+    };
+
+
+    return self;
 
 }
