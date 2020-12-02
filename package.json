@@ -63,10 +63,6 @@
   "pre-commit": [
     "refresh-translations-template"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://olavpo@bitbucket.org/olavpo/epiapp.git"
-  },
   "scripts": {
     "build": "npm run convert-po && webpack -p --progress",
     "convert-po": "node po-converter.js",
