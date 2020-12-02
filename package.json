@@ -3,7 +3,7 @@
   "description": "Immunization data analysis app for DHIS2",
   "version": "1.0.5",
   "dependencies": {
-    "angular": "^1.7.9",
+    "angular": "^1.8.0",
     "angular-animate": "^1.7.9",
     "angular-bootstrap-nav-tree": "^0.2.1",
     "angular-route": "^1.7.9",
