@@ -75,7 +75,7 @@
     "lint": "eslint src",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "postbuild": "cp -r i18n build/ && npm run manifest",
-    "prebuild": "rm -rf build && npm run lint-all",
+    "prebuild": "rm -rf build && npm run lint",
     "refresh-translations-template": "npm run extract-pot -- -o translations.pot && git add ./i18n/translations.pot",
     "start": "d2-manifest package.json manifest.webapp && npm run convert-po && webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 0",
