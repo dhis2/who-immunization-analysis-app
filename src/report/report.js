@@ -422,7 +422,7 @@ report.controller("ReportController",
                 //Iterate over periods / orgunits / data
                 self.current.data = [];
 
-                var periods = self.current.d2meta.pe;
+                var periods = self.current.periods;
                 var orgunits = self.current.d2meta.ou;
                 var hieararchy = self.current.d2meta.ouHierarchy;
 
