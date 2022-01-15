@@ -127,6 +127,7 @@ report.controller("ReportController",
                 promises.push(d2Meta.objects("indicators", self.current.denominatorIds, "id,annualized", "annualized:eq:true", false));
 
                 //data
+                d2Data.reset();
                 d2Data.addRequest(dx, pe, self.selectedOrgunit.boundary.id, level, null);
                 promises.push(d2Data.fetch());
 
