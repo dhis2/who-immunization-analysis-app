@@ -18,6 +18,7 @@ export default function (requestService, d2Utils, $q) {
         valueFromSource: dataValueFromSource,
         values: dataValues,
         name: name,
+        reset: reset
     };
 
     //Private variables
@@ -210,6 +211,13 @@ export default function (requestService, d2Utils, $q) {
         return name;
     }
 
+    /**
+	 * Look up names based on ID.
+	 */
+    function reset() {
+        mergedData = null;
+        receivedData = [];
+    }
 
 
     /**

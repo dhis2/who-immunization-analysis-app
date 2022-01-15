@@ -405,6 +405,7 @@ report.controller("ReportController",
                 promises.push(d2Meta.objects("indicators", self.current.denominatorIds, "id,annualized", "annualized:eq:true", false));
 
                 //data
+                d2Data.reset();
                 d2Data.addRequest(dx, pe, self.selectedOrgunit.boundary.id, level, null);
                 promises.push(d2Data.fetch());
 
@@ -422,7 +423,7 @@ report.controller("ReportController",
                 //Iterate over periods / orgunits / data
                 self.current.data = [];
 
-                var periods = self.current.periods;
+                var periods = self.current.d2meta.pe;
                 var orgunits = self.current.d2meta.ou;
                 var hieararchy = self.current.d2meta.ouHierarchy;
 
@@ -782,7 +783,6 @@ report.controller("ReportController",
 
 
             function performanceChartPeriod() {
-                console.log("test");
                 if (self.current.year === new Date().getFullYear().toString()) {
                     //First week/7 days into new month, show reporting period two months back
                     var p = self.current.year;
