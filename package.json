@@ -1,7 +1,7 @@
 {
   "name": "who-immunization-analysis-app",
   "description": "Immunization data analysis app for DHIS2",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "dependencies": {
     "angular": "^1.7.9",
     "angular-animate": "^1.7.9",
@@ -52,7 +52,6 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "recursive-readdir": "^2.2.1",
-    "require": "^2.4.20",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
     "webpack": "^4.41.6",
