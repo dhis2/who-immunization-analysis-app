@@ -79,15 +79,15 @@
   },
   "manifest.webapp": {
     "developer": {
-      "company": "?",
+      "company": "UiO",
       "email": "olavpo@ifi.uio.no",
-      "name": "?",
-      "url": "http://?"
+      "name": "HISP UiO",
+      "url": "https://github.com/dhis2/who-immunization-analysis-app"
     },
     "icons": {
       "48": "img/icons/app_logo_48x48.png",
       "96": "img/icons/app_logo_96x96.png"
     },
-    "name": "Immunization analysis"
+    "name": "WHO Immunization analysis"
   }
 }
