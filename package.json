@@ -10,7 +10,7 @@
     "angular-sanitize": "^1.7.9",
     "angular-smart-table": "2.1.11",
     "angular-ui-bootstrap": "2.5.6",
-    "blob": "0.0.4",
+    "blob": "0.1.0",
     "bootstrap": "3.4.1",
     "chart.js": "2.7.3",
     "chartjs-plugin-annotation": "^0.5.7",
