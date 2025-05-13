@@ -1,7 +1,7 @@
 {
   "name": "who-immunization-analysis-app",
   "description": "Immunization data analysis app for DHIS2",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "dependencies": {
     "angular": "^1.7.9",
     "angular-animate": "^1.7.9",
