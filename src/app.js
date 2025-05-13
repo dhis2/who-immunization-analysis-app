@@ -40,6 +40,8 @@ import "chartjs-plugin-stacked100";
 import "./libs/chartjsLineWithLine.js";
 import "./libs/chartAreaBackgroundColor.js";
 
+// Detect Global Shell
+import "./libs/detectGlobalShell.js";
 
 //Core services
 import "./appCommons/appCommons.js";

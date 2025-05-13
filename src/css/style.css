@@ -1,91 +1,130 @@
 .download-button { 
-	/* no need for printing the download button so hide it by default and show it for screens below */
-	display: none; 
+    /* no need for printing the download button so hide it by default and show it for screens below */
+    display: none; 
 }
 
 @media screen {
-	.download-button { 
-		display: block; 
-		float: right;
-		margin-bottom: 20px;
-	}
+    .download-button { 
+        display: block; 
+        float: right;
+        margin-bottom: 20px;
+    }
 }
 
 @media screen,print {
+    .reportContent {
+        padding-top: 10px;
+    }
 
-	.reportContent {
-		padding-top: 10px;
-	}
+    /* Table */
+    .numeric {
+        text-align: right;
+    }
 
+    .st-sort-ascent:before{
+        content: '\25B2';
+    }
 
+    .st-sort-descent:before{
+        content: '\25BC';
+    }
 
-	/* Table */
-	.numeric {
-		text-align: right;
-	}
+    .redText {
+        color: red;
+    }
 
-	.st-sort-ascent:before{
-		content: '\25B2';
-	}
+    /* Navigation Layout */
+    .rightNav {
+        height: 100%;
+        width: 0%;
+        position: fixed;
+        z-index: 1;
+        right: 0;
+        background-color: #F2F2F2;
+        padding-top: 8px;
+        padding-bottom: 20px;
+        overflow: auto;
+        transition: 0.5s;
+        top: 0px;
+    }
 
-	.st-sort-descent:before{
-		content: '\25BC';
-	}
+    .leftNav {
+        height: 100%;
+        width: 350px;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        background-color: #F2F2F2;
+        padding-top: 0px;
+        padding-bottom: 60px;
+        overflow: auto;
+        transition: 0.2s;
+        top: 0px;
+    }
 
-	.redText {
-		color: red;
-	}
+    .navItem {
+        margin-left: 5px;
+        margin-right: 5px;
+        overflow: visible;
+    }
 
-	/* The right side navigation menu */
-	.rightNav {
-		height: 100%;
-		width: 0%;
-		position: fixed;
-		z-index: 1;
-		top: 48px;
-		right: 0;
-		background-color: #F2F2F2;
-		padding-top: 8px;
-		padding-bottom: 20px;
-		overflow: auto;
-		transition: 0.5s;
-	}
+    .navIcon {
+        text-decoration: none;
+        color: #276696;
+        position: absolute;
+        font-size: 20px;
+        top: 10px;
+    }
+    
+    /* Layout for global shell mode */
+    body:not(.standalone) #header {
+        display: none !important;
+    }
+    
+    .ng-scope #content {
+        margin: 42px 10px 10px 360px !important;
+    } 
+    
+    .mainView {
+        margin-top: 0;
+    }
+    
+    #leftNav .navIcon,
+    #rightNav .navIcon {
+        margin-top: 0px;
+    }
 
+	/* Remove any margin from ng-view itself */
+    .mainView > [ng-view] {
+        margin-top: 0px;
+    }
+    
+    /* layout for standalone mode */
+    .standalone .leftNav, 
+    .standalone .rightNav {
+        top: 48px;
+    }
+    
+    .standalone .navIcon {
+        top: 58px;
+    }
+    
+    .standalone .ng-scope #content {
+        margin: 90px 10px 10px 360px !important;
+    }
+    
+    .standalone .mainView {
+        margin-top: 48px;
+    }
+    
+    .standalone #leftNav .navIcon,
+    .standalone #rightNav .navIcon {
+        margin-top: -50px;
+    }
 
-	/* The left side navigation menu */
-	.leftNav {
-		height: 100%;
-		width: 350px;
-		position: fixed;
-		z-index: 1;
-		top: 48px;
-		left: 0;
-		background-color: #F2F2F2;
-		padding-top: 0px;
-		padding-bottom: 60px;
-		overflow: auto;
-		transition: 0.2s;
-	}
-
-	.navItem {
-		margin-left: 5px;
-		margin-right: 5px;
-		overflow: visible;
-	}
-
-	.navIcon {
-		top: 58px;
-		text-decoration: none;
-		color: #276696;
-		position: absolute;
-		font-size: 20px;
-	}
-
-	#leftNav .navIcon,
-	#rightNav .navIcon {
-		margin-top: -50px;
-	}
-
+    .standalone .mainView > [ng-view] {
+        margin-top: 48px;
+    }
 
 	/* GENERAL */
 	.ui-select-multiple.ui-select-bootstrap {
