@@ -45,6 +45,7 @@
         padding-bottom: 20px;
         overflow: auto;
         transition: 0.5s;
+        top: 0px;
     }
 
     .leftNav {
@@ -58,6 +59,7 @@
         padding-bottom: 60px;
         overflow: auto;
         transition: 0.2s;
+        top: 0px;
     }
 
     .navItem {
@@ -71,21 +73,12 @@
         color: #276696;
         position: absolute;
         font-size: 20px;
+        top: 10px;
     }
     
     /* Layout for global shell mode */
-
     body:not(.standalone) #header {
         display: none !important;
-    }
-
-    .leftNav, 
-    .rightNav {
-        top: 0px;
-    }
-    
-    .navIcon {
-        top: 10px;
     }
     
     .ng-scope #content {
